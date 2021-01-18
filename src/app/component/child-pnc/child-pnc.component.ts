@@ -12,11 +12,7 @@ import { BackendAPIService } from '../service/backend-api.service';
   styleUrls: ['./child-pnc.component.css']
 })
 export class ChildPncComponent implements OnInit {
-<<<<<<< HEAD
 //comment from home
-=======
-    //dsfdssd
->>>>>>> 75b7b6beee53872de9be40cda7397dab67c77d57
 
   selectedInfantDangerSign = [];
   selectedInfantDeathReason=[];
