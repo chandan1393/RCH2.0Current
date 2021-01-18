@@ -457,7 +457,7 @@ deliveryDate={year :2015, month:1, day:17}
       ashaId:new FormControl('',Validators.required),
       pncType:new FormControl('',Validators.required),
       pncDate:new FormControl('',Validators.required),
-      infantWeight:new FormControl('',[Validators.required, Validators.pattern("^[0-9]{1,2}[.][0-9]{1}$"), this.infantWeightValidation()] ),
+      infantWeight:new FormControl('',[Validators.required, Validators.pattern("^[0-9 \.]+$"), this.infantWeightValidation()] ),
       infantDeathReason:new FormControl(''),
       infantDeathReasonOther:new FormControl('', Validators.pattern("^[A-Z, a-z ]{0,50}$")),
       placeOfDeath:new FormControl(''),
