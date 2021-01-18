@@ -1,0 +1,17 @@
+table, th, td {
+    border: 1px solid #232323;
+    border-collapse: collapse;
+  
+  }
+  
+  .trow
+  {
+     transition: transform 1s; 
+  }
+  
+  .trow:hover {
+     cursor:pointer; 
+     transform: scale(1);
+     background:rgb(207, 207, 207);
+     color:rgb(0, 0, 0);
+  }

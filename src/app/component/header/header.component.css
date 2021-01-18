@@ -1,0 +1,67 @@
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  margin-top: 25px;
+}
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    float: none;
+    color: black; 
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+   
+  }
+
+  .drop-log {
+    width: 126px;
+    text-align: right;
+  }
+  /* Add a grey background color to dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color :white;
+  }
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+/* Tab highlight */
+#menu ul li.selected {
+  background:#12489c;
+  border-radius: 6px;
+}
+#menu ul {
+  list-style: none;
+  line-height: normal;
+}
+#menu li {
+  display: block;
+  float: left;
+  color: white; 
+}
+#menu a {
+color: white;
+  display: block;
+  float: left;
+  text-decoration: none;
+ 
+}
+#menu a:hover {
+  background:#12489c;
+  border-radius: 6px;
+}
+
+#menu a.selected {
+background:#12489c;
+border-radius: 6px;
+}
+#menu a:active {
+  background:#12489c;
+  border-radius: 6px;
+}
