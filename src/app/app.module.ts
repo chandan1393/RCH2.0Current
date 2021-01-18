@@ -51,7 +51,6 @@ import { ToastrModule } from 'ngx-toastr';
 
 import { SidebarModule } from 'ng-sidebar';
 import {SharedserviceService} from "./component/service/sharedservice.service";
-import { NgxBootstrapModalComponent } from './ngx-bootstrap-modal/ngx-bootstrap-modal.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { ChildPncComponent } from './component/child-pnc/child-pnc.component';
 import { InnerfooterComponent } from './component/innerfooter/innerfooter.component'; 
@@ -100,7 +99,6 @@ import { DeliveryComponent } from './component/delivery/delivery.component';
     BlockCopyPasteDirective,
     MustchangepasswordComponent,
     SearchComponent,
-    NgxBootstrapModalComponent,
     ChildPncComponent,
     InnerfooterComponent,
     ECCountReportComponent,

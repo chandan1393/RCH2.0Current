@@ -26,7 +26,6 @@ import { AssignroleComponent } from './component/assignrole/assignrole.component
 import { ComingSoonComponent } from './component/coming-soon/coming-soon.component';
 import { AutheticationGuard } from './authetication.guard';
 import { MustchangepasswordComponent } from './component/mustchangepassword/mustchangepassword.component';
-import { NgxBootstrapModalComponent } from './ngx-bootstrap-modal/ngx-bootstrap-modal.component';
 import { ChildPncComponent } from './component/child-pnc/child-pnc.component'; 
 import { ECCountReportComponent } from './component/eccount-report/eccount-report.component';
 import{PwregistrationComponent} from './component/pwregistration/pwregistration.component';
@@ -162,11 +161,7 @@ const routes: Routes =
   ]
 },
 
-{
-  path:'popup',
-  component:NgxBootstrapModalComponent,
-  pathMatch:'full'
-},
+
 
 
 {
