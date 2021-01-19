@@ -23,7 +23,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Infant RCH
               ID No. : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName='rchid' readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="infantRegistrationNo" readonly />
           </div>
 
         </div>
@@ -33,7 +33,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label">Infant Name
               : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="infantName" readonly />
           </div>
 
         </div>
@@ -45,7 +45,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Date of
               Birth : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="infantDOB"readonly />
           </div>
 
         </div>
@@ -55,7 +55,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Mobile no.
               : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="mobileNo"readonly />
           </div>
 
         </div>
@@ -71,7 +71,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Mother RCH
               ID : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="motherRegistrationNo" readonly />
           </div>
 
         </div>
@@ -81,7 +81,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Mother
               Name : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="motherName" readonly />
           </div>
 
         </div>
@@ -91,7 +91,7 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Mother Age
               : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="motherAge" readonly />
           </div>
 
         </div>
@@ -101,55 +101,50 @@
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label class="text-label"> Father
               Name : <span> *</span> </label> </div>
 
-          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" readonly />
+          <div class="col-sm-6 float-left text-12"> <input class="form-control input-new ml-0" type="text" formControlName="FatherName" readonly />
           </div>
 
         </div>
-
-
-
       </div>
 
     </div>
 
     <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12" >
 
-      <div class="col-md-4 float-left" >
+      <div class="col-md-12 float-left pl-0 pr-0" >
 
-        <div class="col-sm-6 mt-2 text-right float-left "> <label class="text-label"> Infant Registration No :<span> *
-            </span> </label> </div>
+        <div class="col-sm-2 mt-2 text-right float-left "> <label class="text-label"> Infant Registration <br> No :<span> *
+            </span> </label> 
+          </div>
+ <div class="col-md-10 float-left pl-0 pr-0" >         
+ <div class="col-md-2 float-left pl-0 pr-0">
+        <div class=" mt-2 float-left"><input type="radio" name="optradio" [checked]="checkedFirst" class="float-left" (click)="clickFistRadioButton($event.target.value)" > </div>
+        <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo1" readonly/> </div> 
+</div>
+<div class="col-md-2 float-left pl-0 pr-0"  *ngIf="showSecondRadioButton">
+  <div class=" mt-2 float-left"><input type="radio" name="optradio"  class="float-left" (click)="clickSecondRadioButton($event.target.value)" > </div>
+  <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo2" readonly/> </div> 
+</div>
+<div class="col-md-2 float-left pl-0 pr-0"  *ngIf="showThirdRadioButton">
+  <div class=" mt-2 float-left"><input type="radio" name="optradio"  class="float-left" (click)="clickThirdRadioButton($event.target.value)" > </div>
+  <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo3" readonly/> </div> 
+</div>
+<div class="col-md-2 float-left pl-0 pr-0"  *ngIf="showFourthRadioButton">
+  <div class=" mt-2 float-left"><input type="radio" name="optradio"  class="float-left" (click)="clickFourthRadioButton($event.target.value)" > </div>
+  <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo4" readonly/> </div> 
+</div>
+<div class="col-md-2 float-left pl-0 pr-0"  *ngIf="showFifthRadioButton">
+  <div class=" mt-2 float-left"><input type="radio" name="optradio"  class="float-left" (click)="clickFifthRadioButton($event.target.value)" > </div>
+  <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo5" readonly/> </div> 
+</div>
+<div class="col-md-2 float-left pl-0 pr-0"  *ngIf="showSixthRadioButton">
+  <div class=" mt-2 float-left"><input type="radio" name="optradio"  class="float-left" (click)="clickSixthRadioButton($event.target.value)" > </div>
+  <div class="col-sm-10 float-left pr-0 "> <input class="form-control input-new ml-0 float-left text-10" type="text"  formControlName="infantRegistrationNo6" readonly/> </div> 
+</div>
 
-        <div class=" ml-2 mt-2 float-left"><input type="radio" name="optradio" [checked]="checkedFirst" class="float-left" (click)="clickFistRadioButton($event.target.value)" > </div>
-
-        <div class="col-sm-4 float-left"> <input class="form-control input-new ml-0 float-left" type="text"  formControlName="registrationNo1"/> </div>
-
-      </div>
-
-      <div class="col-md-4 float-left" >
-
-        <div class="col-sm-6 mt-2 text-right float-left "> <label class="text-label"> Infant Registration No :<span> *
-            </span> </label> </div>
-
-        <div class=" ml-2 mt-2 float-left"><input type="radio" name="optradio" class="float-left"  (click)="clickSecondRadioButton($event.target.value)" > </div>
-
-        <div class="col-sm-4 float-left"> <input class="form-control input-new ml-0 float-left" type="text"  formControlName="registrationNo2"/> </div>
-
-      </div>
-
-      <div class="col-md-4 float-left" >
-
-        <div class="col-sm-6 mt-2 text-right float-left "> <label class="text-label"> Infant Registration No :<span> *
-            </span> </label> </div>
-
-        <div class=" ml-2 mt-2 float-left"><input type="radio" name="optradio"   class="float-left" (click)="clickThirdRadioButton($event.target.value)"> </div>
-
-        <div class="col-sm-4 float-left"> <input class="form-control input-new ml-0 float-left" type="text"  formControlName="registrationNo3"/> </div>
-
-      </div>
-
-
-
-    </div>
+</div>
+ </div>
+</div>
 
 
     <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">

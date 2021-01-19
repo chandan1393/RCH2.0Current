@@ -21,36 +21,201 @@ export class ChildPncComponent implements OnInit {
   sno=0;
   caseno;
   pncNo;
-  registrationNo;
+  infantRegistration=204000002191;
   findByIndex;
   totalInfant=2;
   checkedFirst:boolean=true
-  
+  registrationNo=104000001887;
+  //showFirstRadioButton:boolean=false
+  showSecondRadioButton:boolean=false
+  showThirdRadioButton:boolean=false
+  showFourthRadioButton:boolean=false
+  showFifthRadioButton:boolean=false
+  showSixthRadioButton:boolean=false
 
+  dob:any;
+
+  
+//************************************************************************************************************************ */
+
+  ngOnInit(): void {
+    this.createForm();
+
+    this.getInfantDangerSign()
+    this.getInfantDeathReason()
+    this.getFacilityType();
+    this.getPNCPeriod();
+   this.setInfantRegistrationNo(3)
+    this.getInfantPNC(104000001887,1)
+    this.registrationNo=this.childPNCForm.value.registrationNo1
+    this.setMotherDisplay();
+    this.dateCaluculation();
+    
+  }
+  dateMinimum: Date;
+  dateMaximum: Date;
+   y:any
+  dateCaluculation(){
+    debugger
+    let bsLMPDate:any
+    let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
+    this.dateMinimum = new Date(x);
+  this.y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 20 );
+  console.log(this.y)
+  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+  console.log("minimum date----------------------------------")
+  console.log(this.minDate)
+  }
+//***************************************************Display mother Details Hidden***************************************** */
+setMotherDisplay(){
+
+  this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo1)
+   this.childPNCForm.controls['infantName'].setValue("rajiv")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
+  this.childPNCForm.controls['mobileNo'].setValue(8968124244)
+  this.childPNCForm.controls['motherRegistrationNo'].setValue(104000001887)
+  this.childPNCForm.controls['motherName'].setValue("PRIYANKA")
+  this.childPNCForm.controls['motherAge'].setValue(23)
+  this.childPNCForm.controls['FatherName'].setValue("PARMINDER  SINGH")
+
+}
+
+
+
+
+//**********************************************Method to Set Infant Registration acc to array**********************************/
+
+setInfantRegistrationNo(length:any){
+
+if(length==1){
+  this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+  }
+
+ else if(length==2){
+  this.showSecondRadioButton=true
+    this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+    this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+    }
+
+  else if(length==3){
+          this.showSecondRadioButton=true
+          this.showThirdRadioButton=true
+       this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+      this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+      this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
+      }
+
+    else  if(length==4){
+          this.showSecondRadioButton=true
+          this.showThirdRadioButton=true
+          this.showFourthRadioButton=true
+        this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+        this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+        this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
+        this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
+        }
+
+       else if(length==5){
+        this.showSecondRadioButton=true
+        this.showThirdRadioButton=true
+        this.showFourthRadioButton=true
+        this.showFifthRadioButton=true
+          this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+          this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+          this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
+          this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
+          this.childPNCForm.controls['infantRegistrationNo5'].setValue(204000001891)
+          }
+
+        else  if(length==6){
+          this.showSecondRadioButton=true
+          this.showThirdRadioButton=true
+          this.showFourthRadioButton=true
+          this.showFifthRadioButton=true
+          this.showSixthRadioButton=true
+            this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+            this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+            this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
+            this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
+            this.childPNCForm.controls['infantRegistrationNo5'].setValue(204000001891)
+            this.childPNCForm.controls['infantRegistrationNo6'].setValue(204000001892)
+            }
+
+}
+
+
+
+  
+//***********************************Start of Radio Button Function************************************************************** */
 
   clickFistRadioButton(e){
     alert("click radio button")
     alert(e)
-   alert(this.childPNCForm.value.registrationNo1)
-   this.getInfantPNC(this.childPNCForm.value.registrationNo1,1)
-   this.registrationNo=this.childPNCForm.value.registrationNo1;
+   alert(this.childPNCForm.value.infantRegistrationNo1)
+   this.getInfantPNC(104000001887,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo1;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo1)
+   this.childPNCForm.controls['infantName'].setValue("rajiv")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
+   
   }
 
   clickSecondRadioButton(e){
     alert("click radio button")
     alert(e)
-   alert(this.childPNCForm.value.registrationNo2)
-   this.getInfantPNC(this.childPNCForm.value.registrationNo2,1)
-   this.registrationNo=this.childPNCForm.value.registrationNo2;
+   alert(this.childPNCForm.value.infantRegistrationNo2)
+   this.getInfantPNC(this.childPNCForm.value.infantRegistrationNo2,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo2;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo2)
+   this.childPNCForm.controls['infantName'].setValue("raja")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
   }
 
   clickThirdRadioButton(e){
     alert("click radio button")
     alert(e)
-   alert(this.childPNCForm.value.registrationNo3)
-   this.getInfantPNC(this.childPNCForm.value.registrationNo3,1)
-   this.registrationNo=this.childPNCForm.value.registrationNo3;
+   alert(this.childPNCForm.value.infantRegistrationNo3)
+   this.getInfantPNC(this.childPNCForm.value.infantRegistrationNo3,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo3;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo3)
+   this.childPNCForm.controls['infantName'].setValue("ranjit")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
   }
+
+  clickFourthRadioButton(e){
+    alert("click radio button")
+    alert(e)
+   alert(this.childPNCForm.value.infantRegistrationNo4)
+   this.getInfantPNC(this.childPNCForm.value.infantRegistrationNo4,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo4;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo1)
+   this.childPNCForm.controls['infantName'].setValue("rama")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
+  }
+
+  clickFifthRadioButton(e){
+    alert("click radio button")
+    alert(e)
+   alert(this.childPNCForm.value.infantRegistrationNo5)
+   this.getInfantPNC(this.childPNCForm.value.infantRegistrationNo5,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo5;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo5)
+   this.childPNCForm.controls['infantName'].setValue("raaabaaa")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
+  }
+
+  clickSixthRadioButton(e){
+    alert("click radio button")
+    alert(e)
+   alert(this.childPNCForm.value.infantRegistrationNo6)
+   this.getInfantPNC(this.childPNCForm.value.infantRegistrationNo6,1)
+   this.infantRegistration=this.childPNCForm.value.infantRegistrationNo6;
+   this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo6)
+   this.childPNCForm.controls['infantName'].setValue("rohan")
+   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
+  }
+
+  //**********************************End of Radio Button Function**************************************************************** */
 
   constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, private tokenservice: TokenStorageService, public datepipe: DatePipe) { }
   healthProviderANM:Array<any>;
@@ -82,207 +247,8 @@ showInfantDangerSignOther: boolean = false;
 showInfantDeathReason: boolean = false;
 
 
-//****************************************Infant Danger Sign MultipleSelection************************************** */
-settingsInfantDangerSign = {
-  text: "Select",
-  selectAllText: 'Select All',
-  unSelectAllText: 'UnSelect All',
-  classes: "multidropdown",
-enableCheckAll:false,
-clearAll:false,
-autoUnselect:true,
-limitSelection:100,
-    };
 
-
-    onItemSelectInfantDangerSign(item: any) { 
-      debugger
-	
-      // alert(item.id);
-         console.log(item);
-         console.log(this.selectedInfantDangerSign);
-         console.log(this.selectedInfantDangerSign.length)
-         
-       
-
-        
-         
-     if(item.id=='Z')
-     {
-       
-     this.showInfantDangerSignOther= true;
-     
-     this.childPNCForm.get('dangerSignInfantOther').setValidators([Validators.required,Validators.pattern('^[A-Za-z ]{0,50}$')]); 
-         this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();      
-         
-     }
-     else if(item.id=='Y')
-     {
-       this.childPNCForm.get('dangerSignInfantOther').clearValidators(); // or clearValidators()
-         this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();
-       this.showInfantDangerSignOther= false;
-       this.selectedInfantDangerSign = [{"id":"Y","itemName":"None"}];
-     
-     
-     this.settingsInfantDangerSign = {
-             text: "Select",
-             selectAllText: 'Select All',
-             unSelectAllText: 'UnSelect All',
-             classes: "myclass custom-class",
-       enableCheckAll:false,
-       clearAll:false,
-       autoUnselect:true,
-       limitSelection:1,
-               };
-       
-     }
-     
-     
-     }
-
-     
-    OnItemDeSelectInfantDangerSign(item: any) {
-      console.log(item);
-      console.log(this.selectedInfantDangerSign);
-      debugger
-  
-  if(item.id=="Z")
-  {
-    this.childPNCForm.get('dangerSignInfantOther').reset();
-    this.childPNCForm.get('dangerSignInfantOther').clearValidators(); // or clearValidators()
-      this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();
-  this.showInfantDangerSignOther= false; 
-  this.settingsInfantDangerSign = {
-          text: "Select",
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          classes: "myclass custom-class",
-    enableCheckAll:false,
-    clearAll:false,
-    autoUnselect:true,
-    limitSelection:100,
-            };
-      
-  }
-  else if(item.id=='Y')
-  {
-    this.settingsInfantDangerSign = {
-          text: "Select",
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          classes: "myclass custom-class",
-    enableCheckAll:false,
-    clearAll:false,
-    autoUnselect:true,
-    limitSelection:100,
-            };
-    
-  }
-  
-  
-  }
-   
-//****************************************Infant death Reason MultipleSelection************************************** */
-settingsInfantDeathReason = {
-  text: "Select",
-  selectAllText: 'Select All',
-  unSelectAllText: 'UnSelect All',
-  classes: "multidropdown",
-enableCheckAll:false,
-clearAll:false,
-autoUnselect:true,
-limitSelection:100,
-disabled: false
-    };
-
-
-    onItemSelectInfantDeathReason(item: any) { 
-	
-      // alert(item.id);
-         console.log(item);
-         console.log(this.selectedInfantDangerSign);
-
-        
-
-         
-
-     if(item.id=='Z')
-     {
-       
-     this.showInfantDeathReason= true;
-     
-     this.childPNCForm.get('infantDeathReasonOther').setValidators([Validators.required,Validators.pattern('^[A-Za-z ]{0,50}$')]); 
-         this.childPNCForm.get('infantDeathReasonOther').updateValueAndValidity();      
-         
-     } 
-
-     else
-     {
-       this.settingsInfantDeathReason = {
-             text: "Select",
-             selectAllText: 'Select All',
-             unSelectAllText: 'UnSelect All',
-             classes: "myclass custom-class",
-       enableCheckAll:false,
-       clearAll:false,
-       autoUnselect:true,
-       limitSelection:100,
-       disabled: false
-               };
-       
-     }
-    
-     }
-
-
-     onSelectAll(items: any){
-      console.log(items);
-      console.log("all select --------------")
-      console.log(this.selectedInfantDangerSign);
-  }
-
-     
-     OnItemDeSelectInfantDeathReason(item: any) {
-      console.log(item);
-      console.log(this.selectedInfantDangerSign);
-  
-  if(item.id=="Z")
-  {
-    this.childPNCForm.get('infantDeathReasonOther').reset();
-    this.childPNCForm.get('infantDeathReasonOther').clearValidators(); // or clearValidators()
-      this.childPNCForm.get('infantDeathReasonOther').updateValueAndValidity();
-  this.showInfantDeathReason= false; 
-  this.settingsInfantDeathReason = {
-          text: "Select",
-          selectAllText: 'Select All',
-          unSelectAllText: 'UnSelect All',
-          classes: "myclass custom-class",
-    enableCheckAll:false,
-    clearAll:false,
-    autoUnselect:true,
-    limitSelection:100,
-    disabled: false
-            };
-      
-  }
-  
-  
-  }
-//****************************************Infant death Reason MultipleSelection************************************** */
-
-  ngOnInit(): void {
-    this.createForm();
-
-    this.getInfantDangerSign()
-    this.getInfantDeathReason()
-    this.getFacilityType();
-    this.getPNCPeriod();
-    this.childPNCForm.controls['registrationNo1'].setValue(104000001887)
-    this.childPNCForm.controls['registrationNo2'].setValue(104000001888)
-    this.childPNCForm.controls['registrationNo3'].setValue(104000001889)
-    this.getInfantPNC(this.childPNCForm.value.registrationNo1,1)
-    this.registrationNo=this.childPNCForm.value.registrationNo1
-  }
+ 
   hierarchyMobj = new HierarchyModel();
   selectedVillage;
   selectedSubCentre;
@@ -398,37 +364,65 @@ disabled: false
 
   changepncDateCalender(e){
     debugger
-    console.log(e)
+    let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
+  
+    let y:any
+    let z:any
+  
     if(e=="1"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+1}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+1}
+      this.dateMinimum = new Date(x);
+      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 1 );
+  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+  this.maxDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
       
     }
     else if(e=="2"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+3}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+3}
+      this.dateMinimum = new Date(x);
+      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 3 );
+  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 3), day: (this.dateMinimum.getUTCDate()) }
+  this.maxDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 3), day: (this.dateMinimum.getUTCDate()) }
       
     }
     else if(e=="3"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+4}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+10}
+      this.dateMinimum = new Date(x);
+     this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
+     
+      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
+      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+
     }
     else  if(e=="4"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+11}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+17}
+      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+11}
+      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+17}
+
+      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
+      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
+      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
     }
     else  if(e=="5"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+18}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+24}
+      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+18}
+      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+24}
+
+      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
+      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
+      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
     }
     else  if(e=="6"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+25}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+31}
+      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+25}
+      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+31}
+
+      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
+      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
+      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
     }
     else 
      if(e=="7"){
-      this.minDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+39}
-      this.maxDate={year:this.deliveryDate.year,month:this.deliveryDate.month,day:(this.deliveryDate.day)+45}
+      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+39}
+      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+45}
+
+      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
+      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
+      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
     }
 
 
@@ -444,7 +438,8 @@ disabled: false
     })
   }
 
-deliveryDate={year :2015, month:1, day:17}
+  doB;
+  dateOfBirth:Date;
 
   minDate = { year: 2011, month: 4, day: 1 };
   maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
@@ -470,12 +465,23 @@ deliveryDate={year :2015, month:1, day:17}
       dangerSignInfant:new FormControl('',Validators.required),
       dangerSignInfantOther:new FormControl('', Validators.pattern("^[A-Z, a-z ]{0,50}$")),
       preReferralDose:new FormControl(''),
-      registrationNo3:new FormControl(''),
-      registrationNo1:new FormControl(''),
-      registrationNo2:new FormControl(''),
+      infantRegistrationNo1:new FormControl(''),
+      infantRegistrationNo2:new FormControl(''),
+      infantRegistrationNo3:new FormControl(''),
+      infantRegistrationNo4:new FormControl(''),
+      infantRegistrationNo5:new FormControl(''),
+      infantRegistrationNo6:new FormControl(''),
       referralFacilityInfant: new FormControl('',Validators.required),
       referralFacilityIdInfant: new FormControl('',Validators.required),
       referralLoationOtherInfant:new FormControl(''),
+      infantName:new FormControl(''),
+      infantDOB:new FormControl(''),
+      mobileNo:new FormControl('8968124244'),
+      motherRegistrationNo:new FormControl('104000001887'),
+      motherName:new FormControl('PRIYANKA'),
+      motherAge:new FormControl(' 23'),
+      FatherName:new FormControl('PARMINDER  SINGH'),
+      infantRegistrationNo:new FormControl('')
      
 
 
@@ -615,9 +621,9 @@ if( childPNCForm.value.infantDeath=="0"){ //  when death is no------------------
       "villageCode":  Number(this.selectedVillage),
       "financialYr": this.selectedFinencialYear,
       "financialYear": Number(this.selectedYear),
-      "registrationNo": 104000001887,//Number(childPNCForm.value.registrationNo),
+      "registrationNo":this.registrationNo,
       "idNo": "",
-      "infantRegistration": 204000002191,
+      "infantRegistration":this.infantRegistration,
       "pncNo": null,
       "pncType": Number(childPNCForm.value.pncType),
       "pncDate":pncDate,//childPNCForm.value.pncDate,
@@ -771,16 +777,17 @@ this.submitted=false;
           };
 
 
+
+
+
+
           this.childPNCForm.get('infantDeathReason').clearValidators(); 
           this.childPNCForm.get('infantDeathReason').updateValueAndValidity(); 
 
 
       this.childPNCForm.controls['infantDeathReason'].reset();
-
       this.childPNCForm.controls['infantDeathReason'].disable(); 
 
-     /*  this.childPNCForm.controls['infantDeathReasonOther'].reset();
-      this.childPNCForm.controls['infantDeathReasonOther'].disable(); */
 
       this.childPNCForm.controls['infantDeathDate'].reset();
       this.childPNCForm.controls['infantDeathDate'].disable();
@@ -811,6 +818,32 @@ this.submitted=false;
       limitSelection:100,
       disabled: false
           };
+
+          
+          this.childPNCForm.controls['pncType'].reset();
+          this.childPNCForm.controls['pncType'].disable();
+          this.childPNCForm.get('pncType').clearValidators(); 
+          this.childPNCForm.get('pncType').updateValueAndValidity();  
+
+          this.childPNCForm.controls['pncDate'].reset();
+      this.childPNCForm.controls['pncDate'].disable(); 
+      this.childPNCForm.get('pncDate').clearValidators(); 
+          this.childPNCForm.get('pncDate').updateValueAndValidity(); 
+
+      this.childPNCForm.controls['infantWeight'].reset();
+      this.childPNCForm.controls['infantWeight'].disable(); 
+      this.childPNCForm.get('infantWeight').clearValidators(); 
+          this.childPNCForm.get('infantWeight').updateValueAndValidity(); 
+
+      this.childPNCForm.controls['referralFacilityInfant'].reset();
+      this.childPNCForm.controls['referralFacilityInfant'].disable(); 
+      this.childPNCForm.get('referralFacilityInfant').clearValidators(); 
+          this.childPNCForm.get('referralFacilityInfant').updateValueAndValidity(); 
+
+      this.childPNCForm.controls['referralFacilityIdInfant'].reset();
+      this.childPNCForm.controls['referralFacilityIdInfant'].disable(); 
+      this.childPNCForm.get('referralFacilityIdInfant').clearValidators(); 
+          this.childPNCForm.get('referralFacilityIdInfant').updateValueAndValidity(); 
       
       this.childPNCForm.controls['infantDeathReason'].enable();
       this.childPNCForm.controls['infantDeathReasonOther'].enable();
@@ -889,6 +922,7 @@ console.log(this.infantDeathReason[0])
   getInfantPNC(id:number,caseno:number){
 this.backendApiService.getChildPNC(id,caseno).subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
+      console.log("response of get infant pnc")
       console.log(response);
      this.infantPNC = response;
       
@@ -1038,20 +1072,15 @@ else{
   this.childPNCForm.controls['placeOfDeath'].setValue(this.infantPNC[index].placeOfDeath)
 
   let deathDateArray:Array<any>
-
-  deathDateArray=(this.datepipe.transform((this.infantPNC[index].infantDeathDate), 'yyyy-MM-dd')).split("-")
+deathDateArray=(this.datepipe.transform((this.infantPNC[index].infantDeathDate), 'yyyy-MM-dd')).split("-")
  this.childPNCForm.controls['infantDeathDate'].setValue({year: Number(deathDateArray[0]), month: Number(deathDateArray[1]), day: Number(deathDateArray[2])});
-
-  this.childPNCForm.controls['remarks'].setValue(this.infantPNC[index].remarks),
+ this.childPNCForm.controls['remarks'].setValue(this.infantPNC[index].remarks),
   this.childPNCForm.controls['fbirByAnm'].setValue(this.infantPNC[index].fbirByAnm),
   this.childPNCForm.controls['notificationByAsha'].setValue(this.infantPNC[index].notificationByAsha)
   }
-  
-  
-
   this.childPNCForm.controls['temperatureChecked'].setValue(this.infantPNC[index].temperatureChecked)
 
-   //*************************************** set infant danger sign******************************************************/
+// set infant danger sign
    let v:Array<any>
 v= (this.infantPNC[index].dangerSignInfant).split('')
 console.log("charecter array----------------------"+v)
@@ -1104,6 +1133,196 @@ else{
 
 
 }
+
+
+//****************************************Infant Danger Sign MultipleSelection************************************** */
+settingsInfantDangerSign = {
+  text: "Select",
+  selectAllText: 'Select All',
+  unSelectAllText: 'UnSelect All',
+  classes: "multidropdown",
+enableCheckAll:false,
+clearAll:false,
+autoUnselect:true,
+limitSelection:100,
+    };
+
+
+    onItemSelectInfantDangerSign(item: any) { 
+      debugger
+	
+      // alert(item.id);
+         console.log(item);
+         console.log(this.selectedInfantDangerSign);
+         console.log(this.selectedInfantDangerSign.length)
+         
+       
+
+        
+         
+     if(item.id=='Z')
+     {
+       
+     this.showInfantDangerSignOther= true;
+     
+     this.childPNCForm.get('dangerSignInfantOther').setValidators([Validators.required,Validators.pattern('^[A-Za-z ]{0,50}$')]); 
+         this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();      
+         
+     }
+     else if(item.id=='Y')
+     {
+       this.childPNCForm.get('dangerSignInfantOther').clearValidators(); // or clearValidators()
+         this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();
+       this.showInfantDangerSignOther= false;
+       this.selectedInfantDangerSign = [{"id":"Y","itemName":"None"}];
+     
+     
+     this.settingsInfantDangerSign = {
+             text: "Select",
+             selectAllText: 'Select All',
+             unSelectAllText: 'UnSelect All',
+             classes: "myclass custom-class",
+       enableCheckAll:false,
+       clearAll:false,
+       autoUnselect:true,
+       limitSelection:1,
+
+               };
+       
+     }
+     
+     
+     }
+
+     
+    OnItemDeSelectInfantDangerSign(item: any) {
+      console.log(item);
+      console.log(this.selectedInfantDangerSign);
+      debugger
+  
+  if(item.id=="Z")
+  {
+    this.childPNCForm.get('dangerSignInfantOther').reset();
+    this.childPNCForm.get('dangerSignInfantOther').clearValidators(); // or clearValidators()
+      this.childPNCForm.get('dangerSignInfantOther').updateValueAndValidity();
+  this.showInfantDangerSignOther= false; 
+  this.settingsInfantDangerSign = {
+          text: "Select",
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          classes: "myclass custom-class",
+    enableCheckAll:false,
+    clearAll:false,
+    autoUnselect:true,
+    limitSelection:100,
+            };
+      
+  }
+  else if(item.id=='Y')
+  {
+    this.settingsInfantDangerSign = {
+          text: "Select",
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          classes: "myclass custom-class",
+    enableCheckAll:false,
+    clearAll:false,
+    autoUnselect:true,
+    limitSelection:100,
+            };
+    
+  }
+  
+  
+  }
+   
+//****************************************Infant death Reason MultipleSelection************************************** */
+settingsInfantDeathReason = {
+  text: "Select",
+  selectAllText: 'Select All',
+  unSelectAllText: 'UnSelect All',
+  classes: "multidropdown",
+enableCheckAll:false,
+clearAll:false,
+autoUnselect:true,
+limitSelection:100,
+disabled: false
+    };
+
+
+    onItemSelectInfantDeathReason(item: any) { 
+	
+      // alert(item.id);
+         console.log(item);
+         console.log(this.selectedInfantDangerSign);
+
+        
+
+         
+
+     if(item.id=='Z')
+     {
+       
+     this.showInfantDeathReason= true;
+     
+     this.childPNCForm.get('infantDeathReasonOther').setValidators([Validators.required,Validators.pattern('^[A-Za-z ]{0,50}$')]); 
+         this.childPNCForm.get('infantDeathReasonOther').updateValueAndValidity();      
+         
+     } 
+
+     else
+     {
+       this.settingsInfantDeathReason = {
+             text: "Select",
+             selectAllText: 'Select All',
+             unSelectAllText: 'UnSelect All',
+             classes: "myclass custom-class",
+       enableCheckAll:false,
+       clearAll:false,
+       autoUnselect:true,
+       limitSelection:100,
+       disabled: false
+               };
+       
+     }
+    
+     }
+
+
+     onSelectAll(items: any){
+      console.log(items);
+      console.log("all select --------------")
+      console.log(this.selectedInfantDangerSign);
+  }
+
+     
+     OnItemDeSelectInfantDeathReason(item: any) {
+      console.log(item);
+      console.log(this.selectedInfantDangerSign);
+  
+  if(item.id=="Z")
+  {
+    this.childPNCForm.get('infantDeathReasonOther').reset();
+    this.childPNCForm.get('infantDeathReasonOther').clearValidators(); // or clearValidators()
+      this.childPNCForm.get('infantDeathReasonOther').updateValueAndValidity();
+  this.showInfantDeathReason= false; 
+  this.settingsInfantDeathReason = {
+          text: "Select",
+          selectAllText: 'Select All',
+          unSelectAllText: 'UnSelect All',
+          classes: "myclass custom-class",
+    enableCheckAll:false,
+    clearAll:false,
+    autoUnselect:true,
+    limitSelection:100,
+    disabled: false
+            };
+      
+  }
+  
+  
+  }
+//****************************************Infant death Reason MultipleSelection************************************** */
 
 
 }                             
