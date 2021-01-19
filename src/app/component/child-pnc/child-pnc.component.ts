@@ -49,23 +49,10 @@ export class ChildPncComponent implements OnInit {
     this.getInfantPNC(104000001887,1)
     this.registrationNo=this.childPNCForm.value.registrationNo1
     this.setMotherDisplay();
-    this.dateCaluculation();
     
   }
-  dateMinimum: Date;
-  dateMaximum: Date;
-   y:any
-  dateCaluculation(){
-    debugger
-    let bsLMPDate:any
-    let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
-    this.dateMinimum = new Date(x);
-  this.y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 20 );
-  console.log(this.y)
-  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
-  console.log("minimum date----------------------------------")
-  console.log(this.minDate)
-  }
+ 
+  
 //***************************************************Display mother Details Hidden***************************************** */
 setMotherDisplay(){
 
@@ -365,64 +352,64 @@ showInfantDeathReason: boolean = false;
   changepncDateCalender(e){
     debugger
     let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
-  
-    let y:any
-    let z:any
-  
+    let dateMinimum: Date;
+    let dateMaximum: Date;
+    
     if(e=="1"){
-      this.dateMinimum = new Date(x);
-      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 1 );
-  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
-  this.maxDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 1 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
       
     }
     else if(e=="2"){
-      this.dateMinimum = new Date(x);
-      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 3 );
-  this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 3), day: (this.dateMinimum.getUTCDate()) }
-  this.maxDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 3), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 3 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 3), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 3), day: (dateMinimum.getUTCDate()) }
       
     }
     else if(e=="3"){
-      this.dateMinimum = new Date(x);
-     this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
-     
-      this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
-      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMaximum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 4 );
+      dateMaximum.setDate((dateMaximum.getDate()) + 10 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
 
     }
     else  if(e=="4"){
-      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+11}
-      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+17}
-
-      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
-      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
-      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMaximum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 11 );
+      dateMaximum.setDate((dateMaximum.getDate()) + 17 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
     }
     else  if(e=="5"){
-      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+18}
-      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+24}
-
-      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
-      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
-      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMaximum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 18 );
+      dateMaximum.setDate((dateMaximum.getDate()) + 24 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
     }
     else  if(e=="6"){
-      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+25}
-      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+31}
-
-      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
-      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
-      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMaximum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 25 );
+      dateMaximum.setDate((dateMaximum.getDate()) + 31 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
     }
     else 
      if(e=="7"){
-      this.minDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+39}
-      this.maxDate={year:this.doB.year,month:this.doB.month,day:(this.doB.day)+45}
-
-      y=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 4 );
-      z=this.dateMinimum.setDate((this.dateMinimum.getDate()) + 10 );
-      this.minDate={ year: this.dateMinimum.getUTCFullYear(), month: (this.dateMinimum.getMonth() + 1), day: (this.dateMinimum.getUTCDate()) }
+      dateMinimum = new Date(x);
+      dateMaximum = new Date(x);
+      dateMinimum.setDate((dateMinimum.getDate()) + 39 );
+      dateMaximum.setDate((dateMaximum.getDate()) + 45 );
+      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
     }
 
 
@@ -437,9 +424,6 @@ showInfantDeathReason: boolean = false;
       
     })
   }
-
-  doB;
-  dateOfBirth:Date;
 
   minDate = { year: 2011, month: 4, day: 1 };
   maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
@@ -476,11 +460,11 @@ showInfantDeathReason: boolean = false;
       referralLoationOtherInfant:new FormControl(''),
       infantName:new FormControl(''),
       infantDOB:new FormControl(''),
-      mobileNo:new FormControl('8968124244'),
-      motherRegistrationNo:new FormControl('104000001887'),
-      motherName:new FormControl('PRIYANKA'),
-      motherAge:new FormControl(' 23'),
-      FatherName:new FormControl('PARMINDER  SINGH'),
+      mobileNo:new FormControl(''),
+      motherRegistrationNo:new FormControl(''),
+      motherName:new FormControl(''),
+      motherAge:new FormControl(' '),
+      FatherName:new FormControl(''),
       infantRegistrationNo:new FormControl('')
      
 
