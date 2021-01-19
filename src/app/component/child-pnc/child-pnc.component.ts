@@ -45,7 +45,7 @@ export class ChildPncComponent implements OnInit {
     this.getInfantDeathReason()
     this.getFacilityType();
     this.getPNCPeriod();
-   this.setInfantRegistrationNo(3)
+   this.setInfantRegistrationNo(6)
     this.getInfantPNC(104000001887,1)
     this.registrationNo=this.childPNCForm.value.registrationNo1
     this.setMotherDisplay();
