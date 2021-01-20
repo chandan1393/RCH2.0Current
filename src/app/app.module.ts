@@ -61,6 +61,7 @@ import { PwregistrationComponent } from './component/pwregistration/pwregistrati
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MotherpncComponent } from './component/motherpnc/motherpnc.component';
 import { DeliveryComponent } from './component/delivery/delivery.component';
+import { ChildRegistrationComponent } from './component/child-registration/child-registration.component';
 
 
 
@@ -106,6 +107,7 @@ import { DeliveryComponent } from './component/delivery/delivery.component';
     PwregistrationComponent,
 	MotherpncComponent,
 	DeliveryComponent,
+	ChildRegistrationComponent,
     
 
 

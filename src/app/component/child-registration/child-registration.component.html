@@ -1,0 +1,514 @@
+<app-hierarchy (usehierarchy)="usehierarchyHandler($event)"></app-hierarchy>
+<div class="col-md-12 mt-2 pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left">  Child Registration
+</div>
+<div class="col-md-12 float-left mt-2 pl-0 pr-0 text-12">  
+ 
+  <nav aria-label="breadcrumb " >
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="#"  class="text-13">Registration Location </a></li>
+      <li class="breadcrumb-item text-dark"><a href="#" class="text-dark"> <span class="text-bold"> District :</span> District Name </a></li>
+      <li class="breadcrumb-item text-dark"><a href="#" class="text-dark"> Dummy text </a></li>
+    </ol>
+  </nav>
+</div> 
+<div class="border bg-white mt-1 col-md-12 float-left pl-0 pr-0">
+  <form class="text-13"  [formGroup]="childRegistrationForm" (ngSubmit)="submitForm(childRegistrationForm)">
+   
+<div class="oppacity col-md-12 float-left pb-3 pt-1 mt-2">
+ 
+ 
+    <div class="col-md-12 pr-0 pl-0  mt-1 float-left ">
+ 
+        <div class="col-md-3 float-left pl-0 pr-0 ">
+             <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Child RCH ID No. :  <span> *</span> </label>  </div>
+            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label">Mother Name : <span> *</span>   </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>      
+ 
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Father Name :  <span> *</span>  </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Date of Registration :  <span> *</span>  </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>
+    </div>  
+  <!-- <div class="col-md-12 pr-0 pl-0   float-left border-bottom border-grey">
+      <div class="col-md-2  float-left  text-12  mt-2"> Mother </div>
+      </div>--> 
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left ">
+ 
+        <div class="col-md-3 float-left pl-0 pr-0 ">
+             <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Mother : &nbsp; &nbsp; &nbsp; &nbsp;  Age :  <span> *</span> </label>  </div>
+            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Mobile Number : <span> *</span>   </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>      
+ 
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> LMP Date :  <span> *</span>  </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>
+        <div class="col-md-3 float-left pl-0 pr-0">
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Delivery Date :  <span> *</span>  </label>  </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+        </div>    
+    </div>  
+  </div>        
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+        <div class="col-md-4 float-left">
+             <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Health Provider <br> Name : <span> * </span>  </label>  </div>
+             <div class="col-sm-6 float-left"> <select id="anmid" 
+                name="anmid" class="form-control" formControlName="anmId" [ngClass]="{'is-invalid': submitted && f.anmId.errors}"
+               >
+                <option value="" hidden>Select</option>
+                <option *ngFor="let a of healthProviderANM" [value]="a.id">{{a.name}}</option>
+      
+              </select>
+              <div *ngIf="submitted && f.anmId.errors"  class="text-danger float-left" >
+                <div class="error_msg1" *ngIf="f.anmId.errors.required">
+                  <p class="error_msg">***************************</p>
+                </div>
+              </div></div>
+        </div>
+        <div class="col-md-4 float-left ">
+            <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> ASHA Name :  <span> * </span>  </label>  </div>
+            <div class="col-sm-6 float-left"> <select id="ashaId" 
+                name="anmid" class="form-control" formControlName="ashaId" [ngClass]="{'is-invalid': submitted && f.ashaId.errors}"
+               >
+                <option value="" hidden>Select</option>
+                <option *ngFor="let a of healthProviderASHA" [value]="a.id">{{a.name}}</option>
+      
+              </select>
+              <div *ngIf="submitted && f.ashaId.errors"  class="text-danger">
+                <div class="error_msg1" *ngIf="f.ashaId.errors.required">
+                  <p class="error_msg">***************************</p>
+                </div>
+              </div>
+            </div>
+        </div> 
+        <div class="col-md-4 float-left ">
+          <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> MPW Name :   </label>  </div>
+          <div class="col-sm-6 float-left"> <select id="mpwId" 
+            name="mpwId" class="form-control" formControlName="mpwId" [ngClass]="{'is-invalid': submitted && f.mpwId.errors}"
+           >
+            <option value="" hidden>Select</option>
+            <option *ngFor="let a of healthProviderMPW" [value]="a.id">{{a.name}}</option>
+  
+          </select>
+          <div *ngIf="submitted && f.mpwId.errors"  class="text-danger">
+            <div class="error_msg1" *ngIf="f.mpwId.errors.required">
+              <p class="error_msg">***************************</p>
+            </div>
+          </div>
+          </div>
+      </div>               
+    </div>      
+    <div class="col-md-12 pr-0 pl-0  mt-1 float-left text-12">
+ 
+        <div class="col-md-4 float-left">
+             <div class="col-sm-6 mt-2 text-right float-left"> <label  class="text-label"> Date of Registration :  <span> *</span> </label>  </div>
+            <div class="col-sm-6 float-left"> <input class="form-control  bg-white text-right pr-4 input-textsize" id="dateOfRegistration" type="text" 
+                formControlName="dateOfRegistration" [ngClass]="{'is-invalid': submitted && f.dateOfRegistration.errors}"
+                            ngbDatepicker #d="ngbDatepicker" [maxDate]="maxDate"  [minDate]="minDate" /> 
+                 <div class="font-icon pl-3" (click)="d.toggle()" style="Z-index:999"> 
+                    <i class="fa fa-calendar"></i> 
+                 </div>
+        
+                 <div *ngIf="submitted && f.dateOfRegistration.errors"  class="text-danger float-left" >
+                  <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.required">
+                    <p class="error_msg">***************************</p>
+                  </div>
+                  <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.minDate">
+                    <p class="error_msg">***************************</p>
+                  </div>
+                  <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.maxDate">
+                    <p class="error_msg">***************************</p>
+                  </div>
+                </div> </div>
+        </div>  
+        <div class="col-md-4 float-left">
+          <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Date of Birth : <span> *</span>  </label>  </div>
+         <div class="col-sm-6 float-left">  <input class="form-control  bg-white text-right pr-4 input-textsize" id="dateOfBirth" type="text" 
+            formControlName="dateOfBirth" [ngClass]="{'is-invalid': submitted && f.dateOfBirth.errors}"
+                        ngbDatepicker #a="ngbDatepicker" [maxDate]="maxDate"  [minDate]="minDate" /> 
+             <div class="font-icon pl-3" (click)="a.toggle()" style="Z-index:999"> 
+                <i class="fa fa-calendar"></i> 
+             </div>
+    
+             <div *ngIf="submitted && f.dateOfBirth.errors"  class="text-danger float-left" >
+              <div class="error_msg1" *ngIf="f.dateOfBirth.errors.required">
+                <p class="error_msg">***************************</p>
+              </div>
+              <div class="error_msg1" *ngIf="f.dateOfBirth.errors.minDate">
+                <p class="error_msg">***************************</p>
+              </div>
+              <div class="error_msg1" *ngIf="f.dateOfBirth.errors.maxDate">
+                <p class="error_msg">***************************</p>
+              </div>
+            </div> </div>
+     </div> 
+    </div>
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+        <div class="col-md-4 float-left ">
+             <div class="col-sm-6 mt-1 text-right float-left "> <label  class="text-label"> Name of Child  : <span> *</span>  </label>  </div>
+             <div class="col-sm-6 float-left">  <input class="form-control" type="text" id="firstName" formControlName="firstName" placeholder="First Name"
+
+                [ngClass]="{'is-invalid': submitted && f.firstName.errors}"/>
+               
+                          <div *ngIf="submitted && f.firstName.errors"  class="text-danger">
+                  <div class="error_msg1" *ngIf="f.firstName.errors.required">
+                                  <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                  </div>
+                  
+                              <div class="error_msg1" *ngIf="f.firstName.errors.pattern">
+                                  <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                              </div>
+                          </div></div>    
+        </div>
+        <div class="col-md-4 float-left">
+          <div class="col-sm-6 float-left"> <input class="form-control" type="text" id="middleName" formControlName="middleName" placeholder="Middle Name"
+
+            [ngClass]="{'is-invalid': submitted && f.middleName.errors}"/>
+           
+                      <div *ngIf="submitted && f.middleName.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.middleName.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.middleName.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div>
+                      </div></div>
+         <div class="col-sm-6 float-left"> <input class="form-control" type="text" id="lastName" formControlName="lastName" placeholder="Last Name"
+
+            [ngClass]="{'is-invalid': submitted && f.lastName.errors}"/>
+           
+                      <div *ngIf="submitted && f.lastName.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.lastName.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.lastName.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div>
+                      </div></div>
+ 
+     </div>
+     <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Birth Certificate No :  </label>  </div>
+     <div class="col-sm-6 float-left">  <input class="form-control" type="text" id="birthCerificateNo" formControlName="birthCerificateNo" 
+
+        [ngClass]="{'is-invalid': submitted && f.birthCerificateNo.errors}"/>
+       
+                  <div *ngIf="submitted && f.birthCerificateNo.errors"  class="text-danger">
+          <div class="error_msg1" *ngIf="f.birthCerificateNo.errors.required">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+          </div>
+          
+                      <div class="error_msg1" *ngIf="f.birthCerificateNo.errors.pattern">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                      </div>
+                  </div> </div>
+ </div> 
+    </div>
+ 
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+      <div class="col-md-4 float-left">
+        <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Aadhaar No. of Chid : </label>  </div>
+       <div class="col-sm-5 float-left">  <input class="form-control" type="text" id="adharNumber" formControlName="adharNumber"
+        [ngClass]="{'is-invalid': submitted && f.adharNumber.errors}"/>
+       
+                  <div *ngIf="submitted && f.adharNumber.errors"  class="text-danger">
+          <div class="error_msg1" *ngIf="f.adharNumber.errors.required">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+          </div>
+          
+                      <div class="error_msg1" *ngIf="f.adharNumber.errors.pattern">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                      </div>
+                  </div></div>
+       <div class=" float-left mt-1 text-11 ml-2"> <input type="checkbox" class="form-check-input" id="exampleCheck"  (change)="aAdharDisable($event)" formControlName="aAdhaarDisable">
+        <label class="form-check-label mt-1" for="exampleCheck1">NA</label> </div>
+   </div>
+        <div class="col-md-4 float-left">
+          <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Sex of Child : <span> *</span> </label>  </div>
+         <div class="col-sm-6 float-left"><select id="anmid" 
+            name="anmid" class="form-control" formControlName="sex" [ngClass]="{'is-invalid': submitted && f.sex.errors}" >
+            <option value="" >Select</option>
+            <option value="m">Male</option>
+            <option value="f">Female</option>
+            <option value="o">Other</option>
+  
+          </select>
+          <div *ngIf="submitted && f.sex.errors"  class="text-danger float-left" >
+            <div class="error_msg1" *ngIf="f.sex.errors.required">
+              <p class="error_msg">***************************</p>
+            </div>
+          </div></div>
+     </div>
+     <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Weight at Birth (kg)  : <span> *</span> </label>  </div>
+     <div class="col-sm-6 float-left"><input class="form-control" type="text" id="infantWeight" formControlName="infantWeight"
+
+        [ngClass]="{'is-invalid': submitted && f.infantWeight.errors}"/>
+       
+                  <div *ngIf="submitted && f.infantWeight.errors"  class="text-danger">
+          <div class="error_msg1" *ngIf="f.infantWeight.errors.required">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+          </div>
+          
+                      <div class="error_msg1" *ngIf="f.infantWeight.errors.pattern">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                      </div>
+                  </div></div>
+ </div>    
+    </div>
+ 
+ 
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+ 
+        <div class="col-md-4 float-left">
+             <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Mother's Name : <span> *</span></label>  </div>
+            <div class="col-sm-6 float-left">  <input class="form-control" type="text" id="firstNameM" formControlName="firstNameM" placeholder="First Name"
+
+                [ngClass]="{'is-invalid': submitted && f.firstNameM.errors}"/>
+               
+                          <div *ngIf="submitted && f.firstNameM.errors"  class="text-danger">
+                  <div class="error_msg1" *ngIf="f.firstNameM.errors.required">
+                                  <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                  </div>
+                  
+                              <div class="error_msg1" *ngIf="f.firstNameM.errors.pattern">
+                                  <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                              </div>
+                          </div> </div>
+        </div>  
+        <div class="col-md-4 float-left">
+          <div class="col-sm-6 float-left"> <input class="form-control" type="text" id="middleNameM" formControlName="middleNameM" placeholder="Middle Name"
+
+            [ngClass]="{'is-invalid': submitted && f.middleNameM.errors}"/>
+           
+                      <div *ngIf="submitted && f.middleNameM.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.middleNameM.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.middleNameM.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div>
+                      </div>  </div>
+         <div class="col-sm-6 float-left">  <input class="form-control" type="text" id="lastNameM" formControlName="lastNameM" placeholder="Last Name"
+
+            [ngClass]="{'is-invalid': submitted && f.lastNameM.errors}"/>
+           
+                      <div *ngIf="submitted && f.lastNameM.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.lastNameM.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.lastNameM.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div> 
+                      </div>  </div>
+     </div>  
+     <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">Religion  : </label>  </div>
+     <div class="col-sm-5 float-left"> <select id="religion" 
+        name="anmid" class="form-control" formControlName="religion" [ngClass]="{'is-invalid': submitted && f.religion.errors}"
+       >
+        <option value="" >Select</option>
+        <option *ngFor="let a of religions" [value]="a.id">{{a.name}}</option>
+
+      </select>
+      </div>
+ </div>
+    </div>
+    
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+      <div class="col-md-4 float-left">
+        <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label">RCH ID of Mother  : </label>  </div>
+       <div class="col-sm-6 float-left pr-0">  <input id="rchIdMother" name="rchIdMother" maxlength="12" class="form-control col-md-8 float-left" 
+        type="text" formControlName="rchIdMother" [ngClass]="{'is-invalid': submitted && f.rchIdMother.errors}" /> 
+         <a href="#"><i class="fa fa-file-text mt-2 mr-1 ml-1 text-16 float-left" aria-hidden="true"></i>
+       </a>  <a href="#"> <i class="fa fa-search float-left mt-2 ml-2 text-16"></i></a>
+      
+       <div *ngIf="submitted && f.rchIdMother.errors"  class="text-danger">
+        <div class="error_msg1" *ngIf="f.rchIdMother.errors.required">
+                        <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+        </div>
+        
+                    <div class="error_msg1" *ngIf="f.rchIdMother.errors.pattern">
+                        <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                    </div>
+                </div>
+      </div>
+   </div>     
+ 
+        <div class="col-md-4 float-left">
+             <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Caste : </label>  </div>
+            <div class="col-sm-6 float-left">  <select id="caste" 
+                name="caste" class="form-control" formControlName="caste" [ngClass]="{'is-invalid': submitted && f.caste.errors}"
+               >
+                <option value="" >Select</option>
+                <option [value]="1">SC</option>
+				<option [value]="2">ST</option>
+				<option [value]="99">Other</option>
+      
+              </select></div>
+        </div>  
+    
+    </div> 
+    <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+ 
+      <div class="col-md-4 float-left">
+           <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Father's Name : </label>  </div>
+          <div class="col-sm-6 float-left"> <input class="form-control" type="text" id="firstNameH" formControlName="firstNameH" placeholder="First Name"
+
+            [ngClass]="{'is-invalid': submitted && f.firstNameH.errors}"/>
+           
+                      <div *ngIf="submitted && f.firstNameH.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.firstNameH.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.firstNameH.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div>
+                      </div> </div>
+      </div>  
+      <div class="col-md-4 float-left">
+        <div class="col-sm-5 float-left"> <input class="form-control" type="text" id="middleNameH" formControlName="middleNameH" placeholder="Middle Name"
+
+            [ngClass]="{'is-invalid': submitted && f.middleNameH.errors}"/>
+           
+                      <div *ngIf="submitted && f.middleNameH.errors"  class="text-danger">
+              <div class="error_msg1" *ngIf="f.middleNameH.errors.required">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              
+                          <div class="error_msg1" *ngIf="f.middleNameH.errors.pattern">
+                              <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                          </div>
+                      </div></div>
+       <div class="col-sm-5 float-left">  <input class="form-control" type="text" id="lastNameH" formControlName="lastNameH" placeholder="Last Name"
+
+        [ngClass]="{'is-invalid': submitted && f.lastNameH.errors}"/>
+       
+                  <div *ngIf="submitted && f.lastNameH.errors"  class="text-danger">
+          <div class="error_msg1" *ngIf="f.lastNameH.errors.required">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+          </div>
+          
+                      <div class="error_msg1" *ngIf="f.lastNameH.errors.pattern">
+                          <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                      </div>
+                  </div> </div>
+       <div class="col-sm-2 float-left mt-1">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1"  (change)="fatherDisable($event)" formControlName="HusbandNA">
+    <label class="form-check-label mt-1" for="exampleCheck1">NA</label> </div>
+   </div>  
+  
+  </div>
+  <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
+    <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Place of Birth : <span> *</span> </label>  </div>
+     <div class="col-sm-6 float-left">  <select class="form-control">
+       <option>Select </option>
+       <option>2</option>
+       <option>3</option>
+       <option>4</option>
+     </select> </div>
+  </div>
+    <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Name of facility :  <span> *</span> </label>  </div>
+    <div class="col-sm-6 float-left">  <select id="facilityName" 
+        name="facilityName" class="form-control" formControlName="facilityName" [ngClass]="{'is-invalid': submitted && f.facilityName.errors}"
+       >
+        <option value="" hidden>Select</option>
+        <option *ngFor="let a of healthProviderANM" [value]="a.id">{{a.name}}</option>
+
+      </select>
+      <div *ngIf="submitted && f.facilityName.errors"  class="text-danger float-left" >
+        <div class="error_msg1" *ngIf="f.facilityName.errors.required">
+          <p class="error_msg">***************************</p>
+        </div>
+      </div> </div>
+    </div>
+    <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Other : </label>  </div>
+    <div class="col-sm-6 float-left">   <input class="form-control " type="text" /> </div>
+    </div> 
+  </div>
+  <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">  
+    <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Mobile No :  <span> *</span></label>  </div>
+    <div class="col-sm-6 float-left">   <input id="mobile" name="mobile" maxlength="10" class="form-control input-new ml-0 text-right" 
+        type="text" formControlName="mobile" [ngClass]="{'is-invalid': submitted && f.mobile.errors}" /> 
+        <div *ngIf="submitted && f.mobile.errors"  class="text-danger">
+            <div class="error_msg1" *ngIf="f.mobile.errors.required">
+                            <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+            </div>
+            
+                        <div class="error_msg1" *ngIf="f.mobile.errors.pattern">
+                            <p class="error_msg">xxxxxxxxxxxxxxxxxxxxxx</p>
+                        </div>
+                    </div>
+    </div>
+    </div> 
+    <div class="col-md-4 float-left">
+      <div class="col-sm-6 mt-2 text-right float-left "> <label  class="text-label"> Whose Mobile :  <span> *</span></label>  </div>
+    <div class="col-sm-6 float-left"> <select id="whoseMobile" 
+        name="whoseMobile" class="form-control" formControlName="whoseMobile" [ngClass]="{'is-invalid': submitted && f.whoseMobile.errors}"
+       >
+        <option value="" hidden>Select</option>
+        <option *ngFor="let a of whosemobile" [value]="a.id">{{a.whosemobile}}</option>
+
+      </select>
+      <div *ngIf="submitted && f.whoseMobile.errors"  class="text-danger">
+        <div class="error_msg1" *ngIf="f.whoseMobile.errors.required">
+          <p class="error_msg">***************************</p>
+        </div>
+      </div> </div>
+    </div> 
+</div>
+ 
+    <section class="col-md-12 pr-0 pl-0 float-left ">
+      <div class="mx-auto mt-4 mb-2 col-sm-12 text-center">
+        <button class="btn btn-success radius-p text-12 mr-2 mt-1 mb-1" type="submit">Save </button>
+        <a class="btn btn-danger radius-p text-12 mt-1 mb-1" href="#"> Continue </a>
+      </div>
+    </section>
+</form>
+ 
+ 
+<div class="col-md-12 float-left mt-5 mb-5"> </div>
+ 
+ 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+

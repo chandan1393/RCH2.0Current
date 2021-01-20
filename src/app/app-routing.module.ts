@@ -31,6 +31,7 @@ import { ECCountReportComponent } from './component/eccount-report/eccount-repor
 import{PwregistrationComponent} from './component/pwregistration/pwregistration.component';
 import{MotherpncComponent} from './component/motherpnc/motherpnc.component';
 import { DeliveryComponent } from './component/delivery/delivery.component';
+import { ChildRegistrationComponent } from './component/child-registration/child-registration.component';
 
 
 const routes: Routes = 
@@ -146,6 +147,10 @@ const routes: Routes =
   path:'childpnc',
   component:ChildPncComponent,
 
+},
+{
+path:'childregistration',
+component:ChildRegistrationComponent,
 },
 
 {
