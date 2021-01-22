@@ -130,16 +130,16 @@ getECCountReport(state_code:number, district_code:number,month:number,yearid: nu
   return this.httpClient.get(environment.ecCoutReport+state_code+"&district_code="+district_code+"&month="+month+"&yearid="+yearid).pipe(catchError(this.errorHandler));
 }
 
-getInfantFacilityType(){
+ getDeliveryPlace(){
   return this.httpClient.get(environment.deliveryPlace).pipe(catchError(this.errorHandler));
-}
+} 
 
 getPNCPeriod(){
   return this.httpClient.get(environment.pncPeriod).pipe(catchError(this.errorHandler));
 }
-pncFacilityType(){
+/* pncFacilityType(){
   return this.httpClient.get(environment.pncFacilityType).pipe(catchError(this.errorHandler));
-}
+} */
 
 saveChildPNC(data:any): Observable<any> {
   console.log("inside service")
@@ -156,93 +156,152 @@ getChildPNC(id:number,caseno:number){
   return this.httpClient.get(environment.getChildPNC+id+"&caseno="+caseno).pipe(catchError(this.errorHandler));
 }
 
+saveChildRegistration(data:any): Observable<any> {
+  console.log("inside service")
+  console.log(data)
+  return this.httpClient.post(environment.saveChildRegistration,data );
+}
+
 //nisha
 
-getBankAPI(): Observable<any>{
+getBankAPI(): Observable<any> {
   return this.httpClient.get(environment.BankDetails).pipe(catchError(this.errorHandler));
-  }
-
-getReligionsAPI():Observable<any>{
-    return this.httpClient.get(environment.Religions).pipe(catchError(this.errorHandler));
-    }
-
-getEducationsAPI():Observable<any>{
-      return this.httpClient.get(environment.Educations).pipe(catchError(this.errorHandler));
-      }
-
-getOccupationsAPI():Observable<any>{
-   return this.httpClient.get(environment.Occupations).pipe(catchError(this.errorHandler));
-  }
-
-  getHealthPHCAPIByBlockAndType(blockCode:number, facilityType:number): Observable<any> {
-    return this.httpClient.get(environment.healthPHCByBlockAndType+blockCode+"&type="+facilityType).pipe(catchError(this.errorHandler));
-  }
-
-  getFacilityType(): Observable<any> {
-    return this.httpClient.get(environment.FacilityType).pipe(catchError(this.errorHandler));
-}
-getVillage(subfacility_code:number){
-  return this.httpClient.get(environment.village+subfacility_code).pipe(catchError(this.errorHandler));
 }
 
-getHealthPhcbyTypeBlock(block:number, ftype:number){
-  return this.httpClient.get(environment.HealthPhcbyTypeBlock+block+"&type="+ftype).pipe(catchError(this.errorHandler));
+getReligionsAPI(): Observable<any> {
+  return this.httpClient.get(environment.Religions).pipe(catchError(this.errorHandler));
+}
+
+getEducationsAPI(): Observable<any> {
+  return this.httpClient.get(environment.Educations).pipe(catchError(this.errorHandler));
+}
+
+getOccupationsAPI(): Observable<any> {
+  return this.httpClient.get(environment.Occupations).pipe(catchError(this.errorHandler));
+}
+
+getHealthPHCAPIByBlockAndType(blockCode: number, facilityType: number): Observable<any> {
+  return this.httpClient.get(environment.healthPHCByBlockAndType + blockCode + "&type=" + facilityType).pipe(catchError(this.errorHandler));
+}
+
+getFacilityType(): Observable<any> {
+  return this.httpClient.get(environment.FacilityType).pipe(catchError(this.errorHandler));
+}
+getVillage(subfacility_code: number) {
+  return this.httpClient.get(environment.village + subfacility_code).pipe(catchError(this.errorHandler));
+}
+
+getHealthPhcbyTypeBlock(block: number, ftype: number) {
+  //used
+  return this.httpClient.get(environment.HealthPhcbyTypeBlock + block + "&type=" + ftype).pipe(catchError(this.errorHandler));
 }
 
 
-editECData(regID:number, caseno:number, data :any) { 
+editECData(regID: number, caseno: number, data: any) {
   console.log("inside service edit ec data")
- console.log(environment.editECData+regID+"&caseNo="+caseno,data)
+  console.log(environment.editECData + regID + "&caseNo=" + caseno, data)
   //return this.httpClient.post(environment.postECData );
-  return this.httpClient.put(environment.editECData+regID+"&caseNo="+caseno,data).pipe(catchError(this.errorHandler));
+  return this.httpClient.put(environment.editECData + regID + "&caseNo=" + caseno, data).pipe(catchError(this.errorHandler));
 }
 
 
-getPWbyregistrationNo(id:number, caseno:number){
+getPWbyregistrationNo(id: number, caseno: number) {
   console.log("inside get PG data")
-  console.log(environment.getPWbyRegNo+id+"&caseno="+caseno)
-  return this.httpClient.get(environment.getPWbyRegNo+id+"&caseno="+caseno).pipe(catchError(this.errorHandler));
+  console.log(environment.getPWbyRegNo + id + "&caseno=" + caseno)
+  return this.httpClient.get(environment.getPWbyRegNo + id + "&caseno=" + caseno).pipe(catchError(this.errorHandler));
+}
+
+GetMotherANC(id: number, caseno: number) {
+  console.log("inside get ANC data")
+  console.log(environment.GetMotherANC + id + "&caseno=" + caseno)
+  return this.httpClient.get(environment.GetMotherANC + id + "&caseno=" + caseno).pipe(catchError(this.errorHandler));
 }
 
 
-getBeneficiary(id:number, caseno:number){
+getBeneficiary(id: number, caseno: number) {
   console.log("inside get PG data")
-  console.log(environment.getBeneficiary+id+"&caseno="+caseno)
-  return this.httpClient.get(environment.getBeneficiary+id+"&caseno="+caseno).pipe(catchError(this.errorHandler));
+  console.log(environment.getBeneficiary + id + "&caseno=" + caseno)
+  return this.httpClient.get(environment.getBeneficiary + id + "&caseno=" + caseno).pipe(catchError(this.errorHandler));
 }
 
-searchRegistrationNo(id: number){
+searchRegistrationNo(id: number) {
   console.log("inside search")
-  console.log(environment.searchECbyRegNo+id)
-  return this.httpClient.get(environment.searchECbyRegNo+id).pipe(catchError(this.errorHandler));
+  console.log(environment.searchECbyRegNo + id)
+  return this.httpClient.get(environment.searchECbyRegNo + id).pipe(catchError(this.errorHandler));
 }
 
-getStatebyID(id: number){
-  console.log(environment.getStatebyID+id)
-  return this.httpClient.get(environment.getStatebyID+id).pipe(catchError(this.errorHandler));
+getStatebyID(id: number) {
+  console.log(environment.getStatebyID + id)
+  return this.httpClient.get(environment.getStatebyID + id).pipe(catchError(this.errorHandler));
 }
-getDistrictbyID(id: number){
-  console.log(environment.getDistrictbyID+id)
-  return this.httpClient.get(environment.getDistrictbyID+id).pipe(catchError(this.errorHandler));
+getDistrictbyID(id: number) {
+  console.log(environment.getDistrictbyID + id)
+  return this.httpClient.get(environment.getDistrictbyID + id).pipe(catchError(this.errorHandler));
 }
-getTalukabyID(id: number){
-  console.log(environment.getTalukabyID+id)
-  return this.httpClient.get(environment.getTalukabyID+id).pipe(catchError(this.errorHandler));
+getTalukabyID(id: number) {
+  console.log(environment.getTalukabyID + id)
+  return this.httpClient.get(environment.getTalukabyID + id).pipe(catchError(this.errorHandler));
 }
-getBlockbyID(id: number){
-  console.log(environment.getBlockbyID+id)
-  return this.httpClient.get(environment.getBlockbyID+id).pipe(catchError(this.errorHandler));
-}
-
-getFacilitybyID(id: number){
-  console.log(environment.getFacilitybyID+id)
-  return this.httpClient.get(environment.getFacilitybyID+id).pipe(catchError(this.errorHandler));
+getBlockbyID(id: number) {
+  console.log(environment.getBlockbyID + id)
+  return this.httpClient.get(environment.getBlockbyID + id).pipe(catchError(this.errorHandler));
 }
 
-getSubcenterbyID(id: number){
-  console.log(environment.getSubcenterbyID+id)
-  return this.httpClient.get(environment.getSubcenterbyID+id).pipe(catchError(this.errorHandler));
+getFacilitybyID(id: number) {
+  console.log(environment.getFacilitybyID + id)
+  return this.httpClient.get(environment.getFacilitybyID + id).pipe(catchError(this.errorHandler));
 }
+
+getSubcenterbyID(id: number) {
+  console.log(environment.getSubcenterbyID + id)
+  return this.httpClient.get(environment.getSubcenterbyID + id).pipe(catchError(this.errorHandler));
+}
+
+GetMethods(): Observable<any> {
+  return this.httpClient.get(environment.GetMethods).pipe(catchError(this.errorHandler));
+}
+GetBloodGroup(): Observable<any> {
+  return this.httpClient.get(environment.GetBloodGroup).pipe(catchError(this.errorHandler));
+}
+GetAbortionType(): Observable<any> {
+  return this.httpClient.get(environment.GetAbortionType).pipe(catchError(this.errorHandler));
+}
+GetAbortionInducedType(): Observable<any> {
+  return this.httpClient.get(environment.GetAbortionInducedType).pipe(catchError(this.errorHandler));
+}
+GetMMethodUsed(): Observable<any> {
+  return this.httpClient.get(environment.GetMMethodUsed).pipe(catchError(this.errorHandler));
+}
+GetMMethodsPpmcPpc(): Observable<any> {
+  return this.httpClient.get(environment.GetMMethodsPpmcPpc).pipe(catchError(this.errorHandler));
+}
+GetMTt(): Observable<any> {
+  return this.httpClient.get(environment.GetMTt).pipe(catchError(this.errorHandler));
+}
+GetMFoetalMovements(): Observable<any> {
+  return this.httpClient.get(environment.GetMFoetalMovements).pipe(catchError(this.errorHandler));
+}
+GetMSymptomshighrisk(): Observable<any> {
+  return this.httpClient.get(environment.GetMSymptomshighrisk).pipe(catchError(this.errorHandler));
+}
+GetMDeathcause(): Observable<any> {
+  return this.httpClient.get(environment.GetMDeathcause).pipe(catchError(this.errorHandler));
+}
+GetANCplace(): Observable<any> {
+  return this.httpClient.get(environment.GetANCplace).pipe(catchError(this.errorHandler));
+}
+GetANCDone(): Observable<any> {
+  return this.httpClient.get(environment.GetANCDone).pipe(catchError(this.errorHandler));
+}
+GetMDeliveryplace(): Observable<any> {
+  return this.httpClient.get(environment.GetMDeliveryplace).pipe(catchError(this.errorHandler));
+}
+postANCData(data: any): Observable<any> {
+  console.log("inside service post ANC data")
+  console.log(data)
+  return this.httpClient.post(environment.PostANC, data);
+}
+
 
   /* Bunty ji */
 
@@ -601,6 +660,40 @@ editEctVisitDetails(rchId : any,caseNo: any,visitNo : any , ectdata : any) : Obs
 }
 
 
+
+//- Delivery API ---//
+getBeneficiaryForDelivery(rchId : any,caseNo: any)
+{
+  return this.httpClient.get(environment.getBeneficiaryData+"id="+rchId+"&caseno="+caseNo).pipe(catchError(this.errorHandler));
+
+}
+
+getDeliveryComlicationAPI()
+{
+  return this.httpClient.get(environment.getDeliveryComplication).pipe(catchError(this.errorHandler));
+
+}
+
+getDeliveryType()
+{
+  return this.httpClient.get(environment.getDeliveryType).pipe(catchError(this.errorHandler));
+
+}
+
+
+
+getDeliveryConductedBy()
+{
+  return this.httpClient.get(environment.getDeliveryConductedBy).pipe(catchError(this.errorHandler));
+
+}
+
+
+getMdeathCause()
+{
+  return this.httpClient.get(environment.getMdeathCause).pipe(catchError(this.errorHandler));
+
+}
 
 
   //-----------------------------------------//

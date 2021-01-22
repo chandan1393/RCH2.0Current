@@ -62,6 +62,10 @@ import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { MotherpncComponent } from './component/motherpnc/motherpnc.component';
 import { DeliveryComponent } from './component/delivery/delivery.component';
 import { ChildRegistrationComponent } from './component/child-registration/child-registration.component';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import { MotherancComponent } from './component/motheranc/motheranc.component';
+import { ChildmedicalComponent } from './component/childmedical/childmedical.component';
+
 
 
 
@@ -108,6 +112,8 @@ import { ChildRegistrationComponent } from './component/child-registration/child
 	MotherpncComponent,
 	DeliveryComponent,
 	ChildRegistrationComponent,
+	MotherancComponent,
+	ChildmedicalComponent,
     
 
 
@@ -130,7 +136,8 @@ import { ChildRegistrationComponent } from './component/child-registration/child
     SidebarModule.forRoot(),
     ToastrModule.forRoot(),
     ModalModule.forRoot(),
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    NgxMaterialTimepickerModule
 
 
   ],

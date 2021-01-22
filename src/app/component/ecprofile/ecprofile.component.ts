@@ -485,7 +485,7 @@ export class EcprofileComponent implements OnInit {
       PWEducation: new FormControl('', [Validators.required]),
       PWage: new FormControl('', [Validators.required, Validators.maxLength(2), Validators.min(10),
       Validators.pattern('[1-6]{1}[0-9]*$')]),
-      PWDOB: new FormControl({ value: '', disabled: true }),
+      PWDOB: new FormControl({ value: '', disabled: true },[Validators.required]),
 
       // rdpwdob: new FormControl({ value: '', checked: true }),
       // rdpwage: new FormControl({ value: '', disabled: false }),

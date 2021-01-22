@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, Form, ValidatorFn, Abs
 import { TokenStorageService } from 'src/app/Core/service/token/tokenstoreage.service';
 import { HierarchyModel } from '../../Core/Model/hierarchyModel';
 import { BackendAPIService } from '../service/backend-api.service';
+import { ErrroMessage } from 'src/app/utility/ErrorMessages';
 
 @Component({
   selector: 'app-child-pnc',
@@ -26,12 +27,12 @@ export class ChildPncComponent implements OnInit {
   totalInfant=2;
   checkedFirst:boolean=true
   registrationNo=104000001887;
-  //showFirstRadioButton:boolean=false
   showSecondRadioButton:boolean=false
   showThirdRadioButton:boolean=false
   showFourthRadioButton:boolean=false
   showFifthRadioButton:boolean=false
   showSixthRadioButton:boolean=false
+  required : String =ErrroMessage.REQUIRED;
 
   dob:any;
 
@@ -46,8 +47,8 @@ export class ChildPncComponent implements OnInit {
     this.getFacilityType();
     this.getPNCPeriod();
    this.setInfantRegistrationNo(6)
-    this.getInfantPNC(104000001887,1)
-    this.registrationNo=this.childPNCForm.value.registrationNo1
+    this.getInfantPNC(204000002191,1)
+    //this.registrationNo=this.childPNCForm.value.registrationNo1
     this.setMotherDisplay();
     
   }
@@ -139,7 +140,7 @@ if(length==1){
     alert("click radio button")
     alert(e)
    alert(this.childPNCForm.value.infantRegistrationNo1)
-   this.getInfantPNC(104000001887,1)
+   this.getInfantPNC(204000002191,1)
    this.infantRegistration=this.childPNCForm.value.infantRegistrationNo1;
    this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo1)
    this.childPNCForm.controls['infantName'].setValue("rajiv")
@@ -320,7 +321,7 @@ showInfantDeathReason: boolean = false;
   }
 
   getFacilityType(): void {
-    this.backendApiService.pncFacilityType().subscribe((res: Response) => {
+    this.backendApiService.getDeliveryPlace().subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
       console.log(response)
       this.FacilityType = response;
@@ -341,7 +342,7 @@ showInfantDeathReason: boolean = false;
       this.showFacilityDropdown=false;
        this.showFacilityTextbox=true;
        this.childPNCForm.get('referralLoationOtherInfant').reset();
-       this.childPNCForm.get('referralLoationOtherInfant').setValidators(Validators.required); 
+       this.childPNCForm.get('referralLoationOtherInfant').setValidators([Validators.required,Validators.pattern("^[ A-Za-z0-9_@.#&+-,-(/)]{0,50}$")]); 
        this.childPNCForm.get('referralLoationOtherInfant').updateValueAndValidity();      
 
     }
@@ -354,64 +355,77 @@ showInfantDeathReason: boolean = false;
     let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
     let dateMinimum: Date;
     let dateMaximum: Date;
+
+    if((Number(this.infantPNC.length)+1)==e){
+
+      if(e=="1"){
+        dateMinimum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 1 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth()  + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth()  + 1), day: (dateMinimum.getUTCDate()) }
+        
+      }
+      else if(e=="2"){
+        dateMinimum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 3 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth()  + 1), day: (dateMinimum.getUTCDate())}
+        
+      }
+      else if(e=="3"){
+        dateMinimum = new Date(x);
+        dateMaximum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 4 );
+        dateMaximum.setDate((dateMaximum.getDate()) + 10 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
+  
+      }
+      else  if(e=="4"){
+        dateMinimum = new Date(x);
+        dateMaximum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 11 );
+        dateMaximum.setDate((dateMaximum.getDate()) + 17 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
+      }
+      else  if(e=="5"){
+        dateMinimum = new Date(x);
+        dateMaximum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 18 );
+        dateMaximum.setDate((dateMaximum.getDate()) + 24 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
+      }
+      else  if(e=="6"){
+        dateMinimum = new Date(x);
+        dateMaximum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 25 );
+        dateMaximum.setDate((dateMaximum.getDate()) + 31 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
+      }
+      else 
+       if(e=="7"){
+        dateMinimum = new Date(x);
+        dateMaximum = new Date(x);
+        dateMinimum.setDate((dateMinimum.getDate()) + 39 );
+        dateMaximum.setDate((dateMaximum.getDate()) + 45 );
+        this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
+        this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
+      }
+  
+
+    }
+    else{
+
+      alert("Select Corret PNC Type.")
+      this.childPNCForm.controls['pncType'].setValue("");
+    }
+
+
     
-    if(e=="1"){
-      dateMinimum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 1 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      
-    }
-    else if(e=="2"){
-      dateMinimum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 3 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 3), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 3), day: (dateMinimum.getUTCDate()) }
-      
-    }
-    else if(e=="3"){
-      dateMinimum = new Date(x);
-      dateMaximum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 4 );
-      dateMaximum.setDate((dateMaximum.getDate()) + 10 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
-
-    }
-    else  if(e=="4"){
-      dateMinimum = new Date(x);
-      dateMaximum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 11 );
-      dateMaximum.setDate((dateMaximum.getDate()) + 17 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
-    }
-    else  if(e=="5"){
-      dateMinimum = new Date(x);
-      dateMaximum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 18 );
-      dateMaximum.setDate((dateMaximum.getDate()) + 24 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
-    }
-    else  if(e=="6"){
-      dateMinimum = new Date(x);
-      dateMaximum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 25 );
-      dateMaximum.setDate((dateMaximum.getDate()) + 31 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
-    }
-    else 
-     if(e=="7"){
-      dateMinimum = new Date(x);
-      dateMaximum = new Date(x);
-      dateMinimum.setDate((dateMinimum.getDate()) + 39 );
-      dateMaximum.setDate((dateMaximum.getDate()) + 45 );
-      this.minDate={ year: dateMinimum.getUTCFullYear(), month: (dateMinimum.getMonth() + 1), day: (dateMinimum.getUTCDate()) }
-      this.maxDate={ year: dateMaximum.getUTCFullYear(), month: (dateMaximum.getMonth() + 1), day: (dateMaximum.getUTCDate()) }
-    }
-
+    
 
 
   }
@@ -561,7 +575,7 @@ let pncDate = childPNCForm.value.pncDate ?  this.datepipe.transform(new Date(chi
  console.log("pnc date"+pncDate)
 console.log(childPNCForm.value.pncDate)
 
-let infantDeathDate=""
+let infantDeathDate=null
 if(childPNCForm.value.infantDeathDate!=undefined){
    infantDeathDate= childPNCForm.value.infantDeath ?  this.datepipe.transform(new Date(childPNCForm.value.infantDeathDate.year, childPNCForm.value.infantDeathDate.month - 1, childPNCForm.value.infantDeathDate.day), 'yyyy-MM-dd')  : null;
 
@@ -608,7 +622,7 @@ if( childPNCForm.value.infantDeath=="0"){ //  when death is no------------------
       "registrationNo":this.registrationNo,
       "idNo": "",
       "infantRegistration":this.infantRegistration,
-      "pncNo": null,
+      "pncNo": Number(childPNCForm.value.pncType),
       "pncType": Number(childPNCForm.value.pncType),
       "pncDate":pncDate,//childPNCForm.value.pncDate,
       "infantWeight":  Number(childPNCForm.value.infantWeight),
@@ -664,6 +678,12 @@ this.saveChildPNCData(data);
     this.backendApiService.saveChildPNC(data).subscribe(res => {
       let response = JSON.parse(JSON.stringify(res))
       console.log(response);
+      console.log("status alert")
+      console.log(response.status)
+      alert("Record saved successfully")
+      this.getInfantPNC(204000002191,1);
+
+
     }, error => {
       console.log("inside child pnc ts error")
       console.log(error)

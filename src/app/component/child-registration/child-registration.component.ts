@@ -5,6 +5,9 @@ import { FormGroup, FormBuilder, FormControl, Validators, Form, ValidatorFn, Abs
 import { TokenStorageService } from 'src/app/Core/service/token/tokenstoreage.service';
 import { HierarchyModel } from '../../Core/Model/hierarchyModel';
 import { BackendAPIService } from '../service/backend-api.service';
+import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { ErrroMessage } from 'src/app/utility/ErrorMessages';
 
 @Component({
   selector: 'app-child-registration',
@@ -13,27 +16,22 @@ import { BackendAPIService } from '../service/backend-api.service';
 })
 export class ChildRegistrationComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, private tokenservice: TokenStorageService, public datepipe: DatePipe) { }
+  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, 
+    private tokenservice: TokenStorageService, public datepipe: DatePipe,config: NgbModalConfig,private modalService: NgbModal) { }
 
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
   healthProviderMPW: Array<any>;
+  placeOfBirth:Array<any>;
   religions:Array<any>;
   submitted: boolean = false
   whosemobile:Array<any>
   showFacilityDropdown:boolean=true;
   showFacilityTextbox:boolean=false;
   healthPHC:Array<any>
+  required : String =ErrroMessage.REQUIRED;
 
-  ngOnInit(): void {
-    this.whosemobile = 
-    [{ id: 'W', whosemobile: 'Mother'},
-     { id: 'H', whosemobile: 'Father'},
-     { id: 'N', whosemobile: 'Others'},];
-
-    this.createForm();
-    this.getReligions();
-  }
+  
   hierarchyMobj = new HierarchyModel();
   selectedVillage;
   selectedSubCentre;
@@ -46,6 +44,20 @@ export class ChildRegistrationComponent implements OnInit {
   selectedRuralUreban;
   selectedWard;
 
+  //***************************************************Initiate Form***************************************************** */
+
+  ngOnInit(): void {
+    this.whosemobile = 
+    [{ id: 'W', whosemobile: 'Mother'},
+     { id: 'H', whosemobile: 'Father'},
+     { id: 'N', whosemobile: 'Others'},];
+
+    this.createForm();
+    this.getReligions();
+    this.getDeliveryPlace();
+  }
+  
+//************************************************Hierarchy Integration************************************************* */
   usehierarchyHandler(hierarchyMobj: HierarchyModel) {
     this.hierarchyMobj = hierarchyMobj;
     this.selectedVillage = this.hierarchyMobj.villageid
@@ -68,13 +80,13 @@ export class ChildRegistrationComponent implements OnInit {
 
     
   }
-
-  minDate = { year: 2011, month: 4, day: 1 };
+//*****************************************Min And Max Date ***************************************************************** */
+  minDate = { year: new Date().getFullYear() - 65, month: 4, day: 1 };
   maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
 
   childRegistrationForm: FormGroup;
 
-
+//*******************************************Create Form Controls*************************************************************** */
 
   createForm() {
     this.childRegistrationForm = this.formBuilder.group({
@@ -103,14 +115,16 @@ export class ChildRegistrationComponent implements OnInit {
       aAdhaarDisable:new FormControl(''),
       adharNumber:new FormControl('',[Validators.pattern('[1-9]{1}[0-9]{11}$')]),
       facilityName:new FormControl('',Validators.required), 
-      rchIdMother:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')])    
+      facilityNameOther:new FormControl(''), 
+      rchIdMother:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')]) ,
+      placeOfBirth:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')])     
 
 
      
 
 
    }) }
-
+//****************************************Submit Form************************************************************* */
    submitForm(childRegistrationForm){
   alert("inside submit") 
 
@@ -129,7 +143,7 @@ export class ChildRegistrationComponent implements OnInit {
   console.log(childRegistrationForm)
 
   }
-
+//********************************Find Invalid Controls*************************************************************** */
   public findInvalidControls() {
     const invalid = [];
     const controls = this.childRegistrationForm.controls;
@@ -141,7 +155,7 @@ export class ChildRegistrationComponent implements OnInit {
     console.log(invalid)
     return invalid;
 }
-
+//********************************Pattern Mobile Validation************************************************************ */
   patternMobValidator(): ValidatorFn { 
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
@@ -164,12 +178,12 @@ export class ChildRegistrationComponent implements OnInit {
       return valid ? null : { pattern: true };
     };
   }
-
+//*******************************Return Function************************************************************** */
   get f() {
 
     return this.childRegistrationForm.controls;
   }
-
+//**************************************Get Methods************************************************************* */
   fetchHealthProviderOnSubcentre(subcentre_code: any) {
     console.log("inside health provider subcentre method")
     this.getHealthProviderByANMType(subcentre_code, 2)
@@ -217,6 +231,33 @@ export class ChildRegistrationComponent implements OnInit {
     })
   }
 
+
+  getReligions(): void {
+    this.backendApiService.getReligionsAPI().subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      // console.log(response);
+      this.religions = response;
+    })
+  }
+
+  getDeliveryPlace(): void {
+    this.backendApiService.getDeliveryPlace().subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      // console.log(response);
+      this.placeOfBirth = response;
+    })
+  }
+  
+  
+  getHealthFacility(block: number, ftype: number): void {
+    this.backendApiService.getHealthPhcbyTypeBlock(block,ftype).subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      this.healthPHC = response;
+      
+    })
+  }
+
+//***********************Weight Validation****************************************************************** */
   infantWeightValidation(): ValidatorFn { 
     return (control: AbstractControl): { [key: string]: any } => {
       if (!control.value) {
@@ -240,23 +281,7 @@ export class ChildRegistrationComponent implements OnInit {
     };
   }
 
-  getReligions(): void {
-    this.backendApiService.getReligionsAPI().subscribe((res: Response) => {
-      let response = JSON.parse(JSON.stringify(res));
-      // console.log(response);
-      this.religions = response;
-    })
-  }
-
-  
-  getHealthFacility(block: number, ftype: number): void {
-    this.backendApiService.getHealthPhcbyTypeBlock(block,ftype).subscribe((res: Response) => {
-      let response = JSON.parse(JSON.stringify(res));
-      this.healthPHC = response;
-      
-    })
-  }
-
+  //**********************************************Father Disable Method*************************************** */
   fatherDisable(e) {
     if (e.target.checked == true) {
     
@@ -291,7 +316,7 @@ export class ChildRegistrationComponent implements OnInit {
      
     }
   }
-
+//*****************************************Aadhaar Disable Method************************************************************ */
   aAdharDisable(e){
     if (e.target.checked == true) {
       this.childRegistrationForm.controls['adharNumber'].disable();
@@ -308,7 +333,7 @@ export class ChildRegistrationComponent implements OnInit {
 
 
   }
-
+//******************************************No Blank Space Method************************************************ */
   noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
 
@@ -319,6 +344,68 @@ export class ChildRegistrationComponent implements OnInit {
     const isValid = !isWhitespace;
     return isValid ? null : { 'pattern': true };
   }
+//****************************************************Save Method********************************************************* */
 
+  saveChildRegistrationData(data: any): void {
+    console.log(data)
+    this.backendApiService.saveChildPNC(data).subscribe(res => {
+      let response = JSON.parse(JSON.stringify(res))
+      console.log(response);
+    }, error => {
+      console.log("inside child pnc ts error")
+      console.log(error)
+    })
+  }
+
+  changeFacility(e){
+    debugger
+     if(e=="1"||e=="2"||e=="4"||e=="5"||e=="17"||e=="24"){
+       this.showFacilityDropdown=true;
+       this.showFacilityTextbox=false
+      this.getHealthFacility(this.selectedHealthBlock,e)
+      this.childRegistrationForm.get('facilityNameOther').clearValidators();
+       this.childRegistrationForm.get('facilityNameOther').updateValueAndValidity();  
+
+    } 
+    else{
+      this.showFacilityDropdown=false;
+       this.showFacilityTextbox=true;
+       this.childRegistrationForm.get('facilityNameOther').reset();
+       this.childRegistrationForm.get('facilityNameOther').setValidators([Validators.required,
+        Validators.pattern("^[ A-Za-z0-9_@.#&+-,-(/)]{0,50}$")]); 
+       this.childRegistrationForm.get('facilityNameOther').updateValueAndValidity();      
+
+    }
+
+
+  }
+  //***********************************Model Popup******************************************************************** */
+  closeResult: string;
+  open(content) {
+    console.log(content)
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'xl' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  openPopUpodel(){
+    if(this.childRegistrationForm.get('').value){
+      document.getElementById("openModalButton").click();
+    }
+  
+
+  }
 
 }

@@ -32,7 +32,8 @@ import{PwregistrationComponent} from './component/pwregistration/pwregistration.
 import{MotherpncComponent} from './component/motherpnc/motherpnc.component';
 import { DeliveryComponent } from './component/delivery/delivery.component';
 import { ChildRegistrationComponent } from './component/child-registration/child-registration.component';
-
+import { MotherancComponent } from './component/motheranc/motheranc.component';
+import {ChildmedicalComponent } from './component/childmedical/childmedical.component'
 
 const routes: Routes = 
 [
@@ -147,6 +148,14 @@ const routes: Routes =
   path:'childpnc',
   component:ChildPncComponent,
 
+},
+{
+  path:'motheranc',
+  component:MotherancComponent,
+},
+{
+  path:'childmedical',
+  component:ChildmedicalComponent,
 },
 {
 path:'childregistration',

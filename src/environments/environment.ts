@@ -33,10 +33,11 @@ infantDangerSign:"http://164.100.61.93/GetMDangersigninfant",
 infantDeathReason:"http://164.100.61.93/GetMInfantdeathreason",
 deliveryPlace:"http://164.100.61.93/GetMDeliveryplace",
 pncPeriod:"http://164.100.61.93/GetPNCPeriod",
-pncFacilityType:"http://164.100.61.93/GetPNCplace",
+//pncFacilityType:"http://164.100.61.93/GetPNCplace",
 saveChildPNC:"http://164.100.61.93/SaveChildPnc",
 getChildPNC:"http://164.100.61.93/GetChildPNC?id=",
 updateChildPNC:"http://164.100.61.93/UpdateChildPnc?id=", 
+saveChildRegistration:"http://164.100.61.93/SaveChildPnc",
 
 
 
@@ -55,6 +56,8 @@ editECData:"http://164.100.61.93/UpdateEC?registrationNo=",
 getPWbyRegNo:"http://164.100.61.93/GetMotherRegistrations?id=",
 searchECbyRegNo:"http://164.100.61.93/GetECByRegistrationNo?Registrationno=",
 getBeneficiary:"http://164.100.61.93/GetBeneficiary?id=",
+GetMotherANC:"http://164.100.61.93/GetMotherANC?id=",
+
 getStatebyID:"http://164.100.61.93/States/",
 getDistrictbyID:"http://164.100.61.93/Districts/ByID?districtid=",
 getTalukabyID:"http://164.100.61.93/Talukas/",
@@ -62,6 +65,27 @@ getBlockbyID:"http://164.100.61.93/HealthBlocks/ByID?HealthBlockID=",
 getFacilitybyID:"http://164.100.61.93/HealthPhcs/ByID?HealthPhcID=",
 getSubcenterbyID:"http://164.100.61.93/HealthSubcentres/ByID?SubcentreID=",
 getVillagebyID:"",
+
+
+//ANC page
+GetMethods:"http://164.100.61.93/GetMethods",
+GetBloodGroup:"http://164.100.61.93/GetBloodGroup",
+
+GetAbortionType:"http://164.100.61.93/GetAbortionType",
+GetAbortionInducedType:"http://164.100.61.93/GetAbortionInducedType",
+GetMMethodUsed:"http://164.100.61.93/GetMMethodUsed",
+GetMMethodsPpmcPpc:"http://164.100.61.93/GetMMethodsPpmcPpc",
+GetMTt:"http://164.100.61.93/GetMTt",
+GetMFoetalMovements:"http://164.100.61.93/GetMFoetalMovements",
+GetMSymptomshighrisk:"http://164.100.61.93/GetMSymptomshighrisk",
+GetMDeathcause:"http://164.100.61.93/GetMDeathreason",
+PostANC:"http://164.100.61.93/SavePWAnc",
+GetANCplace:"http://164.100.61.93/GetANCplace",
+GetANCDone:"http://164.100.61.93/GetANCDone",
+GetMDeliveryplace:"http://164.100.61.93/GetMDeliveryplace",
+
+
+
 //bunty ji
 
 forgotpassotpUrl:"http://164.100.61.93/ResetPassword",
@@ -130,7 +154,19 @@ getHealthFacilityType:"http://164.100.61.93/HealthPhcs/GetHealthPhcbyTypeBlock?"
 saveEctdetails : "http://164.100.61.93/SaveECT",
 getMethods : "http://164.100.61.93/GetMethods",
 getEctVisit: "http://164.100.61.93/GetECTDetailsVisit?",
-editEct : "http://164.100.61.93/UpdateECT?"
+editEct : "http://164.100.61.93/UpdateECT?",
+
+
+
+
+// Delivery
+getBeneficiaryData   : "http://164.100.61.93/GetBeneficiary?",
+getDeliveryComplication: "http://164.100.61.93/GetDeliveryComplication",
+getDeliveryType :  "http://164.100.61.93/GetMDeliverytype",
+//getDeliveryPlace: "http://164.100.61.93/GetMDeliveryplace",
+getDeliveryConductedBy : "http://164.100.61.93/GetMDeliveryconductedby",
+getMdeathCause: "http://164.100.61.93/GetMDeathcause"
+
 
 
 };

@@ -1,4 +1,4 @@
-export class ECModel
+export class PGModel
 {
     sno: number;
         stateCode: number;

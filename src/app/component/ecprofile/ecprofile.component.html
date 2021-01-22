@@ -114,35 +114,35 @@
 
 	<div class=" col-md-12 mt-3  pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left"> EC Registration
 	</div>
-	<div class="col-md-12 float-left mt-2 pl-0 pr-0 text-12" *ngIf="Editmode">  
- 
-		<nav aria-label="breadcrumb " >
-		  <ol class="breadcrumb">
-			<li class="breadcrumb-item">Registration Location </li>
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> State : </span> {{parentStateName}} ({{parentState}})</li>
-			 <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> District :   </span>{{parentDistrictName}} ({{parentDistrict}}) </li> 
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Taluka :   </span>{{parentTalukaName}} ({{parentTaluka}})</li>
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Block : </span>{{parentBlockName}} ({{parentBlock}}) </li>
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Facility : </span>{{parentFacilityName}}  ({{parentFacility}} )</li>
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Subcenter : </span> {{parentSubcenterName}} ({{parentSubcenter}} )</li>
-			<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Village : </span>  ({{parentVillage}}) </li> 
-		</ol>
-		</nav>
-		
-	  </div>
-	<div class="float-left col-md-12 error_msg pb-0" *ngIf="validationMsg">
-		<div class="col-md-12  mt-3 alert alert-danger float-left error_msg pb-0" role="alert">
 
-			<!-- 	<p *ngFor="let msg of vmsg; let i =index"  class="error_msg1">
-				{{i+1}}.&nbsp;{{msg}}
-
-			</p> -->
-			<p class="error_msg1">{{vmsg}}</p>
-		</div>
-	</div>
 	<div class="container border bg-white col-md-12 float text-12 mb-4 float-left mt-3 mob-text "
 		*ngIf="!fill_hierarchy">
-
+		<div class="col-md-12 float-left mt-2 pl-0 pr-0 text-12" *ngIf="Editmode">  
+ 
+			<nav aria-label="breadcrumb " >
+			  <ol class="breadcrumb">
+				<li class="breadcrumb-item">Registration Location </li>
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> State : </span> {{parentStateName}} ({{parentState}})</li>
+				 <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> District :   </span>{{parentDistrictName}} ({{parentDistrict}}) </li> 
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Taluka :   </span>{{parentTalukaName}} ({{parentTaluka}})</li>
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Block : </span>{{parentBlockName}} ({{parentBlock}}) </li>
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Facility : </span>{{parentFacilityName}}  ({{parentFacility}} )</li>
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Subfacility : </span> {{parentSubcenterName}} ({{parentSubcenter}} )</li>
+				<li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Village : </span>  ({{parentVillage}}) </li> 
+			</ol>
+			</nav>
+			
+		  </div>
+		<div class="float-left col-md-12 error_msg pb-0" *ngIf="validationMsg">
+			<div class="col-md-12  mt-3 alert alert-danger float-left error_msg pb-0" role="alert">
+	
+				<!-- 	<p *ngFor="let msg of vmsg; let i =index"  class="error_msg1">
+					{{i+1}}.&nbsp;{{msg}}
+	
+				</p> -->
+				<p class="error_msg1">{{vmsg}}</p>
+			</div>
+		</div>
 
 		<form [formGroup]="ECForm" autocomplete="off" (ngSubmit)="onSubmit(ECForm)" class="text-12">
 
@@ -359,11 +359,11 @@
 									[ngClass]="{ 'is-invalid': submitted && f.PWIFSCcode.errors }" />
 								<div *ngIf="submitted && f.PWIFSCcode.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
-									<div class="error_msg1" *ngIf="f.PWIFSCcode.errors.pattern"> Please enter Valid IFSC
+									<div class="error_msg1" *ngIf="f.PWIFSCcode.errors.pattern"> Enter Valid IFSC
 										Code </div>
 								</div>
 								<div *ngIf="submitted && f.PWIFSCcode.errors" class="text-danger">
-									<div class="error_msg1" *ngIf="f.PWIFSCcode.errors.maxLength"> Please enter Valid
+									<div class="error_msg1" *ngIf="f.PWIFSCcode.errors.maxLength"> Enter Valid
 										IFSC Code </div>
 								</div>
 							</div>
@@ -576,7 +576,7 @@
 									[ngClass]="{ 'is-invalid': submitted && f.HusbandAccountNo.errors }" />
 								<div *ngIf="submitted && f.HusbandAccountNo.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
-									<div class="error_msg1" *ngIf="f.HusbandAccountNo.errors.pattern"> Please Enter
+									<div class="error_msg1" *ngIf="f.HusbandAccountNo.errors.pattern">Enter
 										Valid Account Number</div>
 								</div>
 							</div>
@@ -610,9 +610,9 @@
 									[ngClass]="{ 'is-invalid': submitted && f.HusbandBranch.errors }" />
 								<div *ngIf="submitted && f.HusbandBranch.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
-									<div class="error_msg1" *ngIf="f.HusbandBranch.errors.pattern"> Please enter
+									<div class="error_msg1" *ngIf="f.HusbandBranch.errors.pattern"> Enter
 										Valid Branch Name </div>
-									<div class="error_msg1" *ngIf="f.HusbandBranch.errors.maxLength"> Please enter Valid
+									<div class="error_msg1" *ngIf="f.HusbandBranch.errors.maxLength"> Enter Valid
 										Branch Name </div>
 								</div>
 							</div>
@@ -626,10 +626,10 @@
 									[ngClass]="{ 'is-invalid': submitted && f.HusbandIFSC.errors }" />
 								<div *ngIf="submitted && f.HusbandIFSC.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
-									<div class="error_msg1" *ngIf="f.HusbandIFSC.errors.pattern"> Please enter Valid
+									<div class="error_msg1" *ngIf="f.HusbandIFSC.errors.pattern"> Enter Valid
 										IFSC Code </div>
 
-									<div class="error_msg1" *ngIf="f.HusbandIFSC.errors.maxLength"> Please enter
+									<div class="error_msg1" *ngIf="f.HusbandIFSC.errors.maxLength"> Enter
 										Valid IFSC Code </div>
 								</div>
 							</div>
@@ -710,11 +710,11 @@
 										</div> -->
 								</div>
 								<div *ngIf="submitted && f.HusbandAge.errors" class="text-danger">
-									<div class="error_msg1" *ngIf="f.HusbandAge.errors.pattern"> Please enter Valid
+									<div class="error_msg1" *ngIf="f.HusbandAge.errors.pattern"> Enter Valid
 										Husband Current Age </div>
 								</div>
 								<div *ngIf="submitted && f.HusbandAge.errors" class="text-danger">
-									<div class="error_msg1" *ngIf="f.HusbandAge.errors.maxLength"> Please enter
+									<div class="error_msg1" *ngIf="f.HusbandAge.errors.maxLength"> Enter
 										Valid Husband Current Age </div>
 								</div>
 
@@ -731,12 +731,10 @@
 									(keydown)="keydownfunction($event)"
 									[ngClass]="{ 'is-invalid': submitted && f.HusbandMarriageAge.errors }" />
 								<div *ngIf="submitted && f.HusbandMarriageAge.errors" class="text-danger">
-									<div class="error_msg1" *ngIf="f.HusbandMarriageAge.errors.pattern"> Please
-										enter Valid Husband Marriage Age </div>
+									<div class="error_msg1" *ngIf="f.HusbandMarriageAge.errors.pattern">Enter Valid Husband Marriage Age </div>
 								</div>
 								<div *ngIf="submitted && f.HusbandMarriageAge.errors" class="text-danger">
-									<div class="error_msg1" *ngIf="f.HusbandMarriageAge.errors.maxLength"> Please
-										enter Valid Husband Marriage Age </div>
+									<div class="error_msg1" *ngIf="f.HusbandMarriageAge.errors.maxLength"> Enter Valid Husband Marriage Age </div>
 								</div>
 							</div>
 
@@ -782,7 +780,7 @@
 								class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
 								<div class="error_msg1" *ngIf="f.Address.errors.required">Address is required</div>
 
-								<div class="error_msg1" *ngIf="f.Address.errors.pattern"> Please enter Valid Address
+								<div class="error_msg1" *ngIf="f.Address.errors.pattern"> Enter Valid Address
 								</div>
 								<div class="error_msg1" *ngIf="f.Address.errors.maxLength">Address Character limit 100
 								</div>
@@ -873,7 +871,7 @@
 										<option [value]="23">23</option>
 										<option [value]="24">24</option>
 										<option [value]="25">25</option>
-										<option [value]="26"> 26</option>
+										<option [value]="26">26</option>
 										<option [value]="27">27</option>
 										<option [value]="28">28</option>
 										<option [value]="29">29</option>
@@ -915,7 +913,7 @@
 										<option [value]="23">23</option>
 										<option [value]="24">24</option>
 										<option [value]="25">25</option>
-										<option [value]="26"> 26</option>
+										<option [value]="26">26</option>
 										<option [value]="27">27</option>
 										<option [value]="28">28</option>
 										<option [value]="29">29</option>
@@ -1050,7 +1048,7 @@
 										<option [value]="23">23</option>
 										<option [value]="24">24</option>
 										<option [value]="25">25</option>
-										<option [value]="26"> 26</option>
+										<option [value]="26">26</option>
 										<option [value]="27">27</option>
 										<option [value]="28">28</option>
 										<option [value]="29">29</option>
@@ -1078,7 +1076,7 @@
 								class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
 								<div class="error_msg1" *ngIf="f.mobno.errors.required">Mobile no is required</div>
 
-								<div class="error_msg1" *ngIf="f.mobno.errors.maxLength">Please enter valid 10 digits
+								<div class="error_msg1" *ngIf="f.mobno.errors.maxLength">Enter valid 10 digits
 									mobile
 									no.</div>
 
