@@ -234,7 +234,7 @@
 
        <div class="col-sm-5 float-left"><input class="form-control  bg-white text-right pr-4 input-textsize" id="pncDate" type="text" 
         formControlName="pncDate" [ngClass]="{'is-invalid': submitted && f.pncDate.errors}"
-                    ngbDatepicker #d="ngbDatepicker" [maxDate]="maxDate"  [minDate]="minDate" (ngModelChange)="changeRegDate($event)" /> 
+                    ngbDatepicker #d="ngbDatepicker" [maxDate]="maxDate"  [minDate]="minDate"  /> 
          <div class="font-icon pl-3" (click)="d.toggle()" style="Z-index:999"> 
             <i class="fa fa-calendar"></i> 
          </div>

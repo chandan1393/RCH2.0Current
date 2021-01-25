@@ -9,15 +9,33 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDismissReasons, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ErrroMessage } from 'src/app/utility/ErrorMessages';
 
+declare let ClientIP: any;
+
 @Component({
   selector: 'app-child-registration',
   templateUrl: './child-registration.component.html',
   styleUrls: ['./child-registration.component.css']
 })
 export class ChildRegistrationComponent implements OnInit {
+  
 
-  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, 
-    private tokenservice: TokenStorageService, public datepipe: DatePipe,config: NgbModalConfig,private modalService: NgbModal) { }
+  privateIP ;
+  publicIP;
+
+
+  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, private tokenservice: 
+    TokenStorageService, public datepipe: DatePipe,config: NgbModalConfig,private modalService: NgbModal,) { 
+debugger
+      //this.privateIP = ClientIP;
+      this.http.get('https://api.ipify.org?format=json').subscribe(data => {
+        this.publicIP=data['ip'];
+
+        console.log("inside ip ")
+        console.log(this.publicIP,this.privateIP)
+      });
+    
+
+    }
 
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
@@ -407,5 +425,8 @@ export class ChildRegistrationComponent implements OnInit {
   
 
   }
+  
+
+
 
 }
