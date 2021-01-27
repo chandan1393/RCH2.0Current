@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, Valid
 import { BackendAPIService } from '../service/backend-api.service';
 import { TokenStorageService } from 'src/app/Core/service/token/tokenstoreage.service';
 import { HierarchyModel } from '../../Core/Model/hierarchyModel';
+import { ErrroMessage } from 'src/app/utility/ErrorMessages';
 
 
 @Component({
@@ -26,6 +27,9 @@ export class VillageprofileComponent implements OnInit {
   selectedTaluka;
   selectedRuralUreban;
   selectedWard;
+  required : String =ErrroMessage.REQUIRED;
+  mobile:string=ErrroMessage.MobileValidation;
+  phone:string=ErrroMessage.PhoneValidation;
 
   fill_hierarchy = true
   RuralUrban: string; talukacode: string; wardcode: number
@@ -177,52 +181,16 @@ console.log(range)
       fruName: new FormControl(''),
       ruralUrban: new FormControl(''),
       villageCode: new FormControl(''),
-      villagePopulation: new FormControl('',
-        [Validators.required,
-
-        Validators.min(100),
-        Validators.max(99999),
-        Validators.pattern('[1-9]{1}[0-9]{0,5}'),
-
-        ]),
-
-      eligibleCouples: new FormControl('',
-        [Validators.required,
-        Validators.max(99999),
-        Validators.pattern('[1-9]{1}[0-9]{0,5}'),
-
-
-
-
-        ]),
-      estimatedPw: new FormControl('',
-        [Validators.required,
-        Validators.max(99999),
-        Validators.pattern('[1-9]{1}[0-9]{0,5}'),
-
-        ]),
-      estimatedInfant: new FormControl('',
-        [
-          Validators.required,
-
-          Validators.max(99999),
-          Validators.pattern('[1-9]{1}[0-9]{0,5}'),
-
-        ]),
-      estimatedChild: new FormControl('',
-        [
-          Validators.required,
-
-          Validators.max(99999),
-          Validators.pattern('[1-9]{1}[0-9]{0,5}'),
-
-        ]),
+      villagePopulation: new FormControl('',[Validators.required,Validators.min(100), Validators.max(99999), Validators.pattern('[1-9]{1}[0-9]{0,5}'), ]),
+      eligibleCouples: new FormControl('',[Validators.required,Validators.max(99999), Validators.pattern('[1-9]{1}[0-9]{0,5}'), ]),
+      estimatedPw: new FormControl('',[Validators.required, Validators.max(99999), Validators.pattern('[1-9]{1}[0-9]{0,5}')]),
+      estimatedInfant: new FormControl('',[Validators.required,Validators.max(99999),Validators.pattern('[1-9]{1}[0-9]{0,5}'),]),
+      estimatedChild: new FormControl('',[Validators.required,Validators.max(99999), Validators.pattern('[1-9]{1}[0-9]{0,5}'),]),
       phcLl: new FormControl('', Validators.pattern('^[0]{1}[0-9]{2,4}-[1-9]{1}[0-9]{6,8}$')),
       phcMob: new FormControl('',[ Validators.pattern('[6-9]{1}[0-9]{9}$'),this.patternMobValidator()]),
       fruLl: new FormControl('', Validators.pattern('^[0]{1}[0-9]{2,4}-[1-9]{1}[0-9]{6,8}$')),
       fruMob: new FormControl('', [Validators.pattern('[6-9]{1}[0-9]{9}$'),this.patternMobValidator()]),
-      trsprtLl: new FormControl('', Validators.pattern('^[0]{1}[0-9]{2,4}-[1-9]{1}[0-9]{6,8}$'),
-      ),
+      trsprtLl: new FormControl('', Validators.pattern('^[0]{1}[0-9]{2,4}-[1-9]{1}[0-9]{6,8}$')),
       trsprtMob: new FormControl('',[Validators.pattern('[6-9]{1}[0-9]{9}$'),this.patternMobValidator()]),
       phcName: new FormControl(''),
       phcAddress: new FormControl(''),
@@ -256,11 +224,8 @@ console.log(range)
       {
 
         validator: [
-          //this.validatePopulation('villagePopulation', 'eligibleCouples'),
           this.ConfirmedVillagePopulation('villagePopulation', 'eligibleCouples'),
           this.ConfirmedECPopulation('eligibleCouples', 'estimatedPw'),
-         // this.ConfirmedPWPopulation('estimatedPw', 'estimatedInfant'),
-         // this.ConfirmedInfantPopulation('estimatedInfant', 'estimatedChild'),
           this.checkSum1('villagePopulation', 'eligibleCouples', 'estimatedInfant','estimatedChild'),
           this.ConfirmedANMOrMPW('anmid', 'mpwid')
         ]

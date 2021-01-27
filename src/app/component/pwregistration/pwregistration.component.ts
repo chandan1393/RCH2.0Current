@@ -2571,7 +2571,7 @@ pad(num:number, size:number): string {
         
 	  window.localStorage.setItem("RCH_ID", String(this.PWregistrationData.registrationNo))
    // window.localStorage.setItem("caseNo",String(this.ectForm.get('caseNo').value))
-    this.router.navigate(['home/motherpnc'])
+    this.router.navigate(['home/motheranc'])
   
   }
   

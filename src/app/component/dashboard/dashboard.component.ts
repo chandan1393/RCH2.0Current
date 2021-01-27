@@ -112,82 +112,128 @@ else if(this.level==6){
 
     }
     
-  // Home page Search ********************************************************
-
-  Selectrd(e){ 
-    if (e.target.value == 'ECPW') {
-this.rdecchild =e.target.value
-    }
-    else{
-      this.rdecchild =e.target.value
-    }
-  }
-  search(){
-    if ((this.level == 1) || (this.level == 2) || (this.level == 3)) {
-      alert('This functionality is not available for National, State and District level users')
-    }
-    else{
-    //debugger
-    const rchid = document.getElementById("searchRCHid") as HTMLInputElement;
-   // const rdecchild =document.getElementById("searchRCHid") as HTMLInputElement;
-    if(rchid.value ==null  || rchid.value =="")
-    {
-      alert('Please provide RCH Id')
-    }
-    else{
-      if((this.rdecchild)=='ECPW' && (document.getElementById("defaultInline1") as HTMLInputElement).checked ==true){
-       // alert('EC')
-        //alert((rchid.value).substr(0,1))
-       if(((rchid.value).substr(0,1))=='1' && ((rchid.value).length)==12){
-        window.localStorage.removeItem("ECT-EC")
-        window.localStorage.removeItem("HomeSearch")
-          this.searchbyID(Number(rchid.value))
-       }
-       else{
-         alert('Invalid RCH Id')
-       }
+    Selectrd(e) {
+      if (e.target.value == 'ECPW') {
+        this.rdecchild = e.target.value
       }
-      else{
-        alert('child')
+      else {
+        this.rdecchild = e.target.value
       }
-     
-    }}
-  }
-
-  searchbyID(registrationId: number) {
-    //debugger
-    this.backendApiService.searchRegistrationNo(registrationId).subscribe((res: Response) => {
-      let response = JSON.parse(JSON.stringify(res));
-           console.log(response);
-          // console.log('hghjghjgj')
-
-            if(response.status==false){
-              alert('No Data Found')
-           }
-           else{
-             // response.
-             //window.localStorage.setItem("rchid", "HomeSearch")
-             window.localStorage.setItem("HomeSearch",String(response.data[0].registration_no))
-
-             if(response.data[0].page_code=="EC"){
-              this.router.navigate(['home/ecprofile'])
-             }
-             else if(response.data[0].page_code=="ECT"){
-              window.localStorage.setItem("PageCode",'HOMESEARCH')
-              this.router.navigate(['home/ectrack'])
-             }
-             else{
-              alert("Coming soon")
+    }
+    search() {
+      if ((this.level == 1) || (this.level == 2) || (this.level == 3)) {
+        alert('This functionality is not available for National, State and District level users')
+      }
+      else {
+        //debugger
+        const rchid = document.getElementById("searchRCHid") as HTMLInputElement;
+        // const rdecchild =document.getElementById("searchRCHid") as HTMLInputElement;
+        if (rchid.value == null || rchid.value == "") {
+          alert('Please provide RCH Id')
+        }
+        else {
+          if ((this.rdecchild) == 'ECPW' && (document.getElementById("defaultInline1") as HTMLInputElement).checked == true) 
+          {
+            // alert('EC')
+            //alert((rchid.value).substr(0,1))
+            if (((rchid.value).substr(0, 1)) == '1' && ((rchid.value).length) == 12) {
+              window.localStorage.removeItem("ECT-EC")
+              window.localStorage.removeItem("HomeSearch")
+              this.searchbyID(Number(rchid.value))
             }
-
-           } 
+            else {
+              alert('Invalid RCH Id')
+            }
+          }
+          else {
+            if (((rchid.value).substr(0, 1)) == '2' && ((rchid.value).length) == 12) {
+              window.localStorage.removeItem("ECT-EC")
+              window.localStorage.removeItem("HomeSearch")
+              this.searchbyID(Number(rchid.value))
+            }
+            else {
+              alert('Invalid RCH Id')
+            }
+          }
   
-
-
+        }
+      }
     }
-    )
+  
+    searchbyID(registrationId: number) {
+      //debugger
+     /*  this.backendApiService.searchRegistrationNo(registrationId).subscribe((res: Response) => {
+        let response = JSON.parse(JSON.stringify(res));
+        console.log(response);
+        if (response.status == false) {
+          alert('No Data Found')
+        }
+        else {
+          // response.
+          //window.localStorage.setItem("rchid", "HomeSearch")
+          window.localStorage.setItem("HomeSearch", String(response.data[0].registration_no))
+  
+          if (response.data[0].page_code == "EC") {
+            this.router.navigate(['home/ecprofile'])
+          }
+          else if (response.data[0].page_code == "ECT") {
+            window.localStorage.setItem("PageCode", 'HOMESEARCH')
+            this.router.navigate(['home/ectrack'])
+          }
+          else {
+            alert("Coming soon")
+          }
+        }
+      }) */
+  
+      this.backendApiService.getBeneficiary(registrationId,1).subscribe((res: Response) => {
+        let response = JSON.parse(JSON.stringify(res));
+        console.log(response);
+        if (response.status == 404) {
+          alert('No Data Found')
+        }
+        else {
+          // response.
+          //window.localStorage.setItem("rchid", "HomeSearch")
+          window.localStorage.setItem("HomeSearch", String(response.registrationNo))
+  
+          if (response.pageCode == "EC") {
+            this.router.navigate(['home/ecprofile'])
+          }
+          else if (response.pageCode == "ECT") {
+            window.localStorage.setItem("PageCode", 'HOMESEARCH')
+            this.router.navigate(['home/ectrack'])
+          }
+          else if(response.pageCode == "MR" ||response.pageCode == "MM"){
+            this.router.navigate(['home/pwregistration'])
+          }
+          else if(response.pageCode == "MA"){
+            this.router.navigate(['home/motheranc'])
+          }
+          else if(response.pageCode == "MD" || response.pageCode == "MI"){
+            this.router.navigate(['home/delivery'])
+          }
+          else if(response.pageCode == "MP"){
+            //mother pNC
+            this.router.navigate(['home/motherpnc'])
+          }
+          else if(response.pageCode == "IP"){
+            //infant PNC,   
+            this.router.navigate(['home/childpnc'])
+          }
+          /* else if(response.pageCode == "CR" && this.rdecchild == 'Child'){
+            //Child reg CR,
+            this.router.navigate(['home/childregistration'])
+          }
+          else if(response.pageCode == "CT" && this.rdecchild == 'Child'){
+            //Child trcking CT,
+           // this.router.navigate(['home/motheranc'])
+           alert("Coming soon")
+          } */
+          else {
+           alert("Coming soon")
+          }
+        }
+      })
+    }
   }
-
-  // ************************************************************
-
-    }

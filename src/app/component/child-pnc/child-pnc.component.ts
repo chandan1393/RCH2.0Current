@@ -1,12 +1,13 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, Form, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TokenStorageService } from 'src/app/Core/service/token/tokenstoreage.service';
 import { HierarchyModel } from '../../Core/Model/hierarchyModel';
 import { BackendAPIService } from '../service/backend-api.service';
 import { ErrroMessage } from 'src/app/utility/ErrorMessages';
 import{IpServiceService} from '../service/ip-service.service'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-child-pnc',
@@ -14,26 +15,34 @@ import{IpServiceService} from '../service/ip-service.service'
   styleUrls: ['./child-pnc.component.css']
 })
 export class ChildPncComponent implements OnInit {
-//comment from home
 
-  selectedInfantDangerSign = [];
+  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient,private route: ActivatedRoute,
+    private tokenservice: TokenStorageService, public datepipe: DatePipe, private ipaddress:IpServiceService ,private changeDetector: ChangeDetectorRef) { }
+
+
+  selectedInfantDangerSign :Array<any>= [];
   selectedInfantDeathReason=[];
   selectedFinencialYear;
   selectedYear;
   sno=0;
   caseno;
   pncNo;
-  infantRegistration=204000002191;
+  //infantRegistration=204000002191;
+  infantRegistration;
   findByIndex;
   totalInfant=2;
   checkedFirst:boolean=true
-  registrationNo=104000001887;
+  //registrationNo=104000001887;
+  registrationNo
   showSecondRadioButton:boolean=false
   showThirdRadioButton:boolean=false
   showFourthRadioButton:boolean=false
   showFifthRadioButton:boolean=false
   showSixthRadioButton:boolean=false
   required : String =ErrroMessage.REQUIRED;
+  atLeastOne : String =ErrroMessage.AtLeastOne;
+
+
   editFalg=0
 
   dob:any;
@@ -43,17 +52,29 @@ export class ChildPncComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.registrationNo = this.route.snapshot.queryParamMap.get('ID');
+    this.infantRegistration=this.route.snapshot.queryParamMap.get('infantRegistration');
+    
+    //alert(RCHID+"hhhhh"+c)
 
     this.getInfantDangerSign()
     this.getInfantDeathReason()
+
+
+
     this.getFacilityType();
     this.getPNCPeriod();
-   this.setInfantRegistrationNo(6)
-    this.getInfantPNC(204000002191,1)
-    //this.registrationNo=this.childPNCForm.value.registrationNo1
+   this.setInfantRegistrationNo(1)
+   // this.getInfantPNC(204000002191,1)
+   this.getInfantPNC(this.infantRegistration,1) 
+   //this.registrationNo=this.childPNCForm.value.registrationNo1
     this.setMotherDisplay();
     this.getNewIP();
     
+  }
+
+  ngAfterViewChecked() {
+    this.changeDetector.detectChanges();
   }
  
   
@@ -64,7 +85,7 @@ setMotherDisplay(){
    this.childPNCForm.controls['infantName'].setValue("rajiv")
    this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
   this.childPNCForm.controls['mobileNo'].setValue(8968124244)
-  this.childPNCForm.controls['motherRegistrationNo'].setValue(104000001887)
+  this.childPNCForm.controls['motherRegistrationNo'].setValue(this.registrationNo)
   this.childPNCForm.controls['motherName'].setValue("PRIYANKA")
   this.childPNCForm.controls['motherAge'].setValue(23)
   this.childPNCForm.controls['FatherName'].setValue("PARMINDER  SINGH")
@@ -79,7 +100,7 @@ setMotherDisplay(){
 setInfantRegistrationNo(length:any){
 
 if(length==1){
-  this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
+  this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantRegistration)
   }
 
  else if(length==2){
@@ -196,8 +217,7 @@ if(length==1){
 
   //**********************************End of Radio Button Function**************************************************************** */
 
-  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient,
-     private tokenservice: TokenStorageService, public datepipe: DatePipe, private ipaddress:IpServiceService) { }
+  
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
   FacilityType:Array<any>;
@@ -420,20 +440,22 @@ setCalenderDate(e){
         if(this.infantPNC[v-1].infantDeath==0){    //when death is marked false.
 
 
-          if((Number(this.infantPNC.length)+1)==e){ // when pnc type is greater than previous pnc type
+        /*   if((Number(this.infantPNC.length)+1)==e){ // when pnc type is greater than previous pnc type
       
             this.setCalenderDate(e);
         
           }
           else{
-            alert("Select Corret PNC Type.")
+            alert("Select Corret PNC.")
             this.childPNCForm.controls['pncType'].setValue("");
-          }
+          } */
+
+          this.setCalenderDate(e);
 
         }
         else{ //Death is marked true.
        alert("Infant Death is marked. Entry is closed.")
-       this.resetForm();
+       this.resetFormCustom();
 
         }
 
@@ -496,11 +518,69 @@ setCalenderDate(e){
       motherName:new FormControl(''),
       motherAge:new FormControl(' '),
       FatherName:new FormControl(''),
-      infantRegistrationNo:new FormControl('')
+      infantRegistrationNo:new FormControl(''),
+      tcfsd:new FormControl('')
      
 
 
-   }) }
+   },
+   {
+
+    validator: [
+      this.ConfirmedANMOrMPW('anmId', 'ashaId')
+    ]
+  },
+  ) }
+
+  validateANMOrMPW(anm: any, ashaId: any) {
+    debugger
+    return (formGroup: FormGroup) => {
+      const anm1 = formGroup.controls[anm];
+      const asha = formGroup.controls[ashaId];
+
+      // window.alert(villagePopulation.value  || couplePopulation.value )
+      //console.log((anm1.value || asha.value))
+
+      if (!anm1 || !asha) {
+        return null;
+      }
+      else{
+
+        if (anm1.errors && !asha.errors.pattern) {
+          return null;
+        }
+        if (anm1.value == "0" && asha.value == "0") {
+          asha.setErrors({ pattern: true });
+  
+  
+  
+        } else {
+          asha.setErrors(null);
+        }
+      }
+
+      
+    }
+
+
+  }
+
+
+  ConfirmedANMOrMPW(controlName: string, matchingControlName: string) {
+    debugger
+    return (myForm: FormGroup) => {
+      const control = myForm.controls[controlName];
+      const matchingControl = myForm.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.pattern) {
+        return;
+      }
+      if (control.value == "0" && matchingControl.value == "0") {
+        matchingControl.setErrors({ pattern: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
+  }
 //**********************************************IP Address**************************************************** */
 
    getNewIP() {
@@ -578,9 +658,9 @@ else{                       //Death is True
       "villageCode":  Number(this.selectedVillage),
       "financialYr": this.selectedFinencialYear,
       "financialYear": Number(this.selectedYear),
-      "registrationNo":this.registrationNo,
+      "registrationNo":Number(this.registrationNo),
       "idNo": "",
-      "infantRegistration":this.infantRegistration,
+      "infantRegistration":Number(this.infantRegistration),
       "pncNo": Number(childPNCForm.value.pncType),
       "pncType": Number(childPNCForm.value.pncType),
       "pncDate":pncDate,//childPNCForm.value.pncDate,
@@ -645,8 +725,8 @@ this.saveChildPNCData(data);
   }
   //***********************************Reset Form*************************************************************** */
 
-  resetForm(){
-    this.childPNCForm.controls['pncType'].setValue("")
+  resetFormCustom(){
+    /* this.childPNCForm.controls['pncType'].setValue("")
     this.childPNCForm.controls['pncDate'].setValue("")
     this.childPNCForm.controls['infantWeight'].setValue("")
     this.childPNCForm.controls['dangerSignInfant'].setValue("")
@@ -674,6 +754,7 @@ this.saveChildPNCData(data);
       this.childPNCForm.controls['fbirByAnm'].enable();
       this.childPNCForm.controls['remarks'].enable();
       this.childPNCForm.controls['pncType'].enable();
+      this.editFalg=0;
 
 
       this. settingsInfantDeathReason = {
@@ -688,6 +769,8 @@ this.saveChildPNCData(data);
       disabled: false
           };
 
+ */
+this.createForm();
 
   this.submitted=false;
    
@@ -705,7 +788,7 @@ this.saveChildPNCData(data);
       console.log(response.status)
       alert("Record saved successfully")
       this.getInfantPNC(204000002191,1);
-      this.resetForm();
+      this.resetFormCustom();
 
 
     }, error => {
@@ -721,7 +804,7 @@ updateChildPNC(registrationNo:number ,caseno:number,pncno:number,data:any): void
     console.log(response);
     alert("Update record successfully")
     this.getInfantPNC(204000002191,1)
-    this.resetForm();
+    this.resetFormCustom();
     
   }, error => {
     alert("Something Went Wrong")
@@ -932,12 +1015,53 @@ console.log(this.infantDeathReason[0])
     })
   }
 
+dangerSignName="";
+
   getInfantPNC(id:number,caseno:number){
+    debugger
 this.backendApiService.getChildPNC(id,caseno).subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
       console.log("response of get infant pnc")
       console.log(response);
      this.infantPNC = response;
+     console.log("gter change array")
+     console.log(this.infantPNC)
+
+     for(let i=0;i<this.infantPNC.length;i++){
+
+
+       let v=this.infantPNC[i].dangerSignInfant.split('')
+       for(let i=0; i<v.length;i++){
+       const index = this.infantDangerSign.findIndex(x => x.id == v[i])
+       if(this.dangerSignName==""){
+        this.dangerSignName=this.infantDangerSign[index].itemName
+
+       }
+       else{
+        this.dangerSignName=this.dangerSignName+","+this.infantDangerSign[index].itemName
+
+       }
+       
+       }
+
+       
+
+ const index = this.pncPeriod.findIndex(x => x.pncNo == (this.infantPNC[i].pncType))
+ this.infantPNC[i].pncName=this.pncPeriod[index].pncPeriod
+
+      this.infantPNC[i].infantDangerSignCustom=this.dangerSignName;
+      this.dangerSignName="";
+
+      if(this.infantPNC[i].infantDeath==1){
+        this.infantPNC[i].death="Yes";
+      }
+      else{
+        this.infantPNC[i].death="No";
+      }
+     
+
+     }
+
       
     })
   }
@@ -977,6 +1101,16 @@ pncDateArray=(this.datepipe.transform((this.infantPNC[index].pncDate), 'yyyy-MM-
   this.childPNCForm.controls['infantWeight'].setValue(this.infantPNC[index].infantWeight),
   
   this.childPNCForm.controls['infantDeath'].setValue(this.infantPNC[index].infantDeath)
+  let len=this.infantPNC.length-1;
+  if(index!==this.infantPNC.length-1){
+
+    this.childPNCForm.controls['infantDeath'].disable(); 
+  }
+  else{
+
+    this.childPNCForm.controls['infantDeath'].enable(); 
+
+  }
   if(this.infantPNC[index].infantDeath==0){
     this. settingsInfantDeathReason = {
       text: "Select",
@@ -1062,6 +1196,7 @@ let infantdeath:Array<any>
 infantdeath= (this.infantPNC[index].infantDeathReason).split('')
 console.log("charecter array----------------------"+infantdeath)
 console.log("length--------------------------"+infantdeath.length)
+this.selectedInfantDeathReason=[];
 for(let i=0; i<infantdeath.length;i++){
 console.log(infantdeath[i])
 
@@ -1097,10 +1232,12 @@ debugger
 v= (this.infantPNC[index].dangerSignInfant).split('')
 console.log("charecter array----------------------"+v)
 console.log("length--------------------------"+v.length)
+this.selectedInfantDangerSign = [];
 for(let i=0; i<v.length;i++){
 console.log(v[i])
 //error 8888888888888888888888888888888888888888888888888888
 const index = this.infantDangerSign.findIndex(x => x.id == v[i])
+
 this.selectedInfantDangerSign[i]=this.infantDangerSign[index]
 console.log(this.selectedInfantDangerSign)
 }
@@ -1294,6 +1431,7 @@ disabled: false
 
 
      onSelectAll(items: any){
+       alert("select all")
       console.log(items);
       console.log("all select --------------")
       console.log(this.selectedInfantDangerSign);
@@ -1326,6 +1464,8 @@ disabled: false
   
   
   }
+
+
 //****************************************Infant death Reason MultipleSelection************************************** */
 
 

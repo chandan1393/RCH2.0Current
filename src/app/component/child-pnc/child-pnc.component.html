@@ -186,6 +186,9 @@
           <div class="error_msg1" *ngIf="f.ashaId.errors.required">
             <p class="error_msg">{{required}}</p>
           </div>
+          <div class="error_msg1" *ngIf="f.ashaId.errors.pattern">
+            <p class="error_msg">{{atLeastOne}}</p>
+          </div>
         </div>
 
         </div> 
@@ -334,6 +337,7 @@
         <angular2-multiselect [data]="infantDangerSign" [(ngModel)]="selectedInfantDangerSign" 
         [settings]="settingsInfantDangerSign" 
         (onSelect)="onItemSelectInfantDangerSign($event)"
+        
         (onDeSelect)="OnItemDeSelectInfantDangerSign($event)" 
          
          formControlName="dangerSignInfant" id="dangerSignInfant"  [ngClass]="{'is-invalid': submitted && f.dangerSignInfant.errors}">
@@ -400,8 +404,8 @@
         <div class="col-sm-6  text-right float-left"> <label class="text-label"> Baby-If referral to facility was
             refused by family, was the treatment continued for baby for seven days :</label> </div>
 
-        <div class="col-sm-5 float-left mt-2"> <select id="anmid" 
-          name="anmid" class="form-control" formControlName="anmid"
+        <div class="col-sm-5 float-left mt-2"> <select id="tcfsd" 
+          name="tcfsd" class="form-control" formControlName="tcfsd"
          >
           <option value="" >Select</option>
           <option value="1">Yes</option>
@@ -538,9 +542,8 @@
             <angular2-multiselect  [data]="infantDeathReason" [(ngModel)]="selectedInfantDeathReason" 
             [settings]="settingsInfantDeathReason" 
             (onSelect)="onItemSelectInfantDeathReason($event)"
-         
+            (onSelectAll)="onSelectAll($event)"
             (onDeSelect)="OnItemDeSelectInfantDeathReason($event)"
-            
             [ngClass]="{'is-invalid': submitted && f.infantDeathReason.errors}"
              
              formControlName="infantDeathReason" id="infantDeathReason">
@@ -683,7 +686,7 @@
               [ngClass]="{'is-invalid': submitted && f.remarks.errors}"> </textarea>
            
             <div *ngIf="submitted && f.remarks.errors"  class="text-danger">
-              <div class="error_msg1" *ngIf="f.remarks.errors.pattern">
+              <div class="error_msg1" *ngIf="f.remarks.errors.required">
                 <p class="error_msg">{{required}}</p>
               </div>
             </div>
@@ -741,12 +744,12 @@
       <tbody class="text-13">
         <tr class="trow"  *ngFor="let infantpnc of infantPNC; let i=index"   (click)="getEditPNC(infantpnc.pncType)" >
           <th scope="row">{{i+1}}</th>
-          <td align="right">{{infantpnc.pncType}}</td>
-          <td align="right">{{infantpnc.pncDate}}</td>
+          <td align="left">{{infantpnc.pncName}}</td>
+          <td align="left">{{infantpnc.pncDate}}</td>
           <td align="right">{{infantpnc.infantRegistration}}</td>
           <td align="right">{{infantpnc.infantWeight}}</td>
-          <td align="right">{{infantpnc.infantDeath}}</td>
-          <td align="right">{{infantpnc.infantRegistration}}</td>
+          <td align="left">{{infantpnc.infantDangerSignCustom}}</td>
+          <td align="left">{{infantpnc.death}}</td>
           <td align="left">{{infantpnc.anmId}}</td>
           <td align="left">{{infantpnc.ashaId}}</td>
 
