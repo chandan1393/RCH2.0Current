@@ -24,18 +24,7 @@ export class ChildRegistrationComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient, private tokenservice: 
-    TokenStorageService, public datepipe: DatePipe,config: NgbModalConfig,private modalService: NgbModal,) { 
-debugger
-      //this.privateIP = ClientIP;
-      this.http.get('https://api.ipify.org?format=json').subscribe(data => {
-        this.publicIP=data['ip'];
-
-        console.log("inside ip ")
-        console.log(this.publicIP,this.privateIP)
-      });
-    
-
-    }
+    TokenStorageService, public datepipe: DatePipe,config: NgbModalConfig,private modalService: NgbModal,) {}
 
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
@@ -135,13 +124,18 @@ debugger
       facilityName:new FormControl('',Validators.required), 
       facilityNameOther:new FormControl(''), 
       rchIdMother:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')]) ,
-      placeOfBirth:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')])     
+      placeOfBirth:new FormControl('',[Validators.required,Validators.pattern('[1]{1}[0-9]{11}$')]) , 
+      motherAge:new FormControl(''),
+      lmpDate:new FormControl(''),
 
 
      
 
 
    }) }
+
+
+  
 //****************************************Submit Form************************************************************* */
    submitForm(childRegistrationForm){
   alert("inside submit") 
@@ -427,6 +421,47 @@ debugger
   }
   
 
+showData(){
 
+  this.childRegistrationForm.controls['anmId'].setValue("-"), 
+  this.childRegistrationForm.controls['ashaId'].setValue("-"),
+  this.childRegistrationForm.controls['mpwId'].setValue("-")
+  this.childRegistrationForm.controls['dateOfRegistration'].setValue("-"), 
+  this.childRegistrationForm.controls['dateOfBirth'].setValue("-"),
+  this.childRegistrationForm.controls['firstName'].setValue("-")
+  this.childRegistrationForm.controls['middleName'].setValue("-"), 
+  this.childRegistrationForm.controls['lastName'].setValue("-"),
+  this.childRegistrationForm.controls['birthCerificateNo'].setValue("-")
+  this.childRegistrationForm.controls['sex'].setValue("-"), 
+  this.childRegistrationForm.controls['infantWeight'].setValue("-"),
+  this.childRegistrationForm.controls['firstNameM'].setValue("-")
+  this.childRegistrationForm.controls['middleNameM'].setValue("-"), 
+  this.childRegistrationForm.controls['lastNameM'].setValue("-"),
+  this.childRegistrationForm.controls['religion'].setValue("-")
+  this.childRegistrationForm.controls['caste'].setValue("-"), 
+  this.childRegistrationForm.controls['firstNameH'].setValue("-"),
+  this.childRegistrationForm.controls['middleNameH'].setValue("-")
+  this.childRegistrationForm.controls['lastNameH'].setValue("-"), 
+  this.childRegistrationForm.controls['mobile'].setValue("-"),
+  this.childRegistrationForm.controls['whoseMobile'].setValue("-")
+  this.childRegistrationForm.controls['aAdhaarDisable'].setValue("-"), 
+  this.childRegistrationForm.controls['adharNumber'].setValue("-"),
+  this.childRegistrationForm.controls['facilityName'].setValue("-")
+  this.childRegistrationForm.controls['facilityNameOther'].setValue("-"), 
+  this.childRegistrationForm.controls['rchIdMother'].setValue("-"),
+  this.childRegistrationForm.controls['placeOfBirth'].setValue("-")
+
+}
+
+nonEditData(){
+  this.childRegistrationForm.controls['childRCHId'].setValue("-")
+  this.childRegistrationForm.controls['firstNameM'].setValue("-")
+  this.childRegistrationForm.controls['firstNameH'].setValue("-")
+  this.childRegistrationForm.controls['dateOfRegistration'].setValue("-")
+  this.childRegistrationForm.controls['motherAge'].setValue("-")
+  this.childRegistrationForm.controls['mobile'].setValue("-")
+  this.childRegistrationForm.controls['lmpDate'].setValue("-")
+  this.childRegistrationForm.controls['dateOfBirth'].setValue("-")
+}
 
 }

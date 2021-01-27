@@ -71,43 +71,41 @@
  
         <div class="col-md-3 float-left pl-0 pr-0 ">
              <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Child RCH ID No. :  <span> *</span> </label>  </div>
-            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="childRCHId" readonly/> </div>
         </div>
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label">Mother Name : <span> *</span>   </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="firstNameM" readonly/> </div>
         </div>      
  
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Father Name :  <span> *</span>  </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="firstNameH" readonly/> </div>
         </div>
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Date of Registration :  <span> *</span>  </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="dateOfRegistration" readonly/> </div>
         </div>
     </div>  
-  <!-- <div class="col-md-12 pr-0 pl-0   float-left border-bottom border-grey">
-      <div class="col-md-2  float-left  text-12  mt-2"> Mother </div>
-      </div>--> 
+ 
     <div class="col-md-12 pr-0 pl-0  mt-2 float-left ">
  
         <div class="col-md-3 float-left pl-0 pr-0 ">
              <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Mother : &nbsp; &nbsp; &nbsp; &nbsp;  Age :  <span> *</span> </label>  </div>
-            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+            <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="motherAge" readonly/> </div>
         </div>
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Mobile Number : <span> *</span>   </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="mobile" readonly/> </div>
         </div>      
  
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> LMP Date :  <span> *</span>  </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="lmpDate" readonly/> </div>
         </div>
         <div class="col-md-3 float-left pl-0 pr-0">
           <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0 text-12"> <label  class="text-label"> Delivery Date :  <span> *</span>  </label>  </div>
-          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" readonly/> </div>
+          <div class="col-sm-6 float-left text-12">   <input class="form-control input-new ml-0" type="text" formControlName="dateOfBirth" readonly/> </div>
         </div>    
     </div>  
   </div>        
@@ -123,7 +121,7 @@
               </select>
               <div *ngIf="submitted && f.anmId.errors"  class="text-danger float-left" >
                 <div class="error_msg1" *ngIf="f.anmId.errors.required">
-                  <p class="error_msg">***************************</p>
+                  <p class="error_msg">{{required}}</p>
                 </div>
               </div></div>
         </div>
@@ -138,7 +136,7 @@
               </select>
               <div *ngIf="submitted && f.ashaId.errors"  class="text-danger">
                 <div class="error_msg1" *ngIf="f.ashaId.errors.required">
-                  <p class="error_msg">***************************</p>
+                  <p class="error_msg">{{required}}</p>
                 </div>
               </div>
             </div>
@@ -154,7 +152,7 @@
           </select>
           <div *ngIf="submitted && f.mpwId.errors"  class="text-danger">
             <div class="error_msg1" *ngIf="f.mpwId.errors.required">
-              <p class="error_msg">***************************</p>
+              <p class="error_msg">{{required}}</p>
             </div>
           </div>
           </div>
@@ -173,13 +171,13 @@
         
                  <div *ngIf="submitted && f.dateOfRegistration.errors"  class="text-danger float-left" >
                   <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.required">
-                    <p class="error_msg">***************************</p>
+                    <p class="error_msg">{{required}}</p>
                   </div>
                   <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.minDate">
-                    <p class="error_msg">***************************</p>
+                    <p class="error_msg">{{required}}</p>
                   </div>
                   <div class="error_msg1" *ngIf="f.dateOfRegistration.errors.maxDate">
-                    <p class="error_msg">***************************</p>
+                    <p class="error_msg">{{required}}</p>
                   </div>
                 </div> </div>
         </div>  
@@ -194,13 +192,13 @@
     
              <div *ngIf="submitted && f.dateOfBirth.errors"  class="text-danger float-left" >
               <div class="error_msg1" *ngIf="f.dateOfBirth.errors.required">
-                <p class="error_msg">***************************</p>
+                <p class="error_msg">{{required}}</p>
               </div>
               <div class="error_msg1" *ngIf="f.dateOfBirth.errors.minDate">
-                <p class="error_msg">***************************</p>
+                <p class="error_msg">{{required}}</p>
               </div>
               <div class="error_msg1" *ngIf="f.dateOfBirth.errors.maxDate">
-                <p class="error_msg">***************************</p>
+                <p class="error_msg">{{required}}</p>
               </div>
             </div> </div>
      </div> 
@@ -299,7 +297,7 @@
           </select>
           <div *ngIf="submitted && f.sex.errors"  class="text-danger float-left" >
             <div class="error_msg1" *ngIf="f.sex.errors.required">
-              <p class="error_msg">***************************</p>
+              <p class="error_msg">{{required}}</p>
             </div>
           </div></div>
      </div>
@@ -389,8 +387,15 @@
 
   
         
-         <a ><i class="fa fa-file-text mt-2 mr-1 ml-1 text-16 float-left" aria-hidden="true" (click)="open(mymodal)"></i>
-       </a> 
+          <div><i class="fa fa-file-text mt-2 mr-1 ml-1 text-16 float-left" aria-hidden="true" (click)="open(mymodal)"></i>
+      </div>
+
+
+
+      <!--  <a href="#"><i class="fa fa-file-text mt-2 mr-1 ml-1 text-16 float-left" aria-hidden="true"></i>
+       </a>  --> 
+
+
         <a href="/home/dashboard"> <i class="fa fa-search float-left mt-2 ml-2 text-16"></i></a>
         <div *ngIf="submitted && f.rchIdMother.errors"  class="text-danger col-sm-6 float-left pr-0 pl-0">
           <div class="error_msg1" *ngIf="f.rchIdMother.errors.required">
@@ -499,7 +504,7 @@
       </select>
       <div *ngIf="submitted && f.facilityName.errors"  class="text-danger float-left" >
         <div class="error_msg1" *ngIf="f.facilityName.errors.required">
-          <p class="error_msg">***************************</p>
+          <p class="error_msg">{{required}}</p>
         </div>
       </div> </div>
     </div>
@@ -545,7 +550,7 @@
       </select>
       <div *ngIf="submitted && f.whoseMobile.errors"  class="text-danger">
         <div class="error_msg1" *ngIf="f.whoseMobile.errors.required">
-          <p class="error_msg">***************************</p>
+          <p class="error_msg">{{required}}</p>
         </div>
       </div> </div>
     </div> 

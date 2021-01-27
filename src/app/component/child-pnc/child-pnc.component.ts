@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, Form, ValidatorFn, AbstractControl } from '@angular/forms';
 import { TokenStorageService } from 'src/app/Core/service/token/tokenstoreage.service';
 import { HierarchyModel } from '../../Core/Model/hierarchyModel';
@@ -14,9 +14,12 @@ import{IpServiceService} from '../service/ip-service.service'
   styleUrls: ['./child-pnc.component.css']
 })
 export class ChildPncComponent implements OnInit {
-//comment from home
 
-  selectedInfantDangerSign = [];
+  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient,
+    private tokenservice: TokenStorageService, public datepipe: DatePipe, private ipaddress:IpServiceService ,private changeDetector: ChangeDetectorRef) { }
+
+
+  selectedInfantDangerSign :Array<any>= [];
   selectedInfantDeathReason=[];
   selectedFinencialYear;
   selectedYear;
@@ -34,6 +37,9 @@ export class ChildPncComponent implements OnInit {
   showFifthRadioButton:boolean=false
   showSixthRadioButton:boolean=false
   required : String =ErrroMessage.REQUIRED;
+  atLeastOne : String =ErrroMessage.AtLeastOne;
+
+
   editFalg=0
 
   dob:any;
@@ -54,6 +60,10 @@ export class ChildPncComponent implements OnInit {
     this.setMotherDisplay();
     this.getNewIP();
     
+  }
+
+  ngAfterViewChecked() {
+    this.changeDetector.detectChanges();
   }
  
   
@@ -196,8 +206,7 @@ if(length==1){
 
   //**********************************End of Radio Button Function**************************************************************** */
 
-  constructor(private formBuilder: FormBuilder,private backendApiService: BackendAPIService,private http: HttpClient,
-     private tokenservice: TokenStorageService, public datepipe: DatePipe, private ipaddress:IpServiceService) { }
+  
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
   FacilityType:Array<any>;
@@ -426,7 +435,7 @@ setCalenderDate(e){
         
           }
           else{
-            alert("Select Corret PNC Type.")
+            alert("Select Corret PNC.")
             this.childPNCForm.controls['pncType'].setValue("");
           }
 
@@ -496,11 +505,69 @@ setCalenderDate(e){
       motherName:new FormControl(''),
       motherAge:new FormControl(' '),
       FatherName:new FormControl(''),
-      infantRegistrationNo:new FormControl('')
+      infantRegistrationNo:new FormControl(''),
+      tcfsd:new FormControl('')
      
 
 
-   }) }
+   },
+   {
+
+    validator: [
+      this.ConfirmedANMOrMPW('anmId', 'ashaId')
+    ]
+  },
+  ) }
+
+  validateANMOrMPW(anm: any, ashaId: any) {
+    debugger
+    return (formGroup: FormGroup) => {
+      const anm1 = formGroup.controls[anm];
+      const asha = formGroup.controls[ashaId];
+
+      // window.alert(villagePopulation.value  || couplePopulation.value )
+      //console.log((anm1.value || asha.value))
+
+      if (!anm1 || !asha) {
+        return null;
+      }
+      else{
+
+        if (anm1.errors && !asha.errors.pattern) {
+          return null;
+        }
+        if (anm1.value == "0" && asha.value == "0") {
+          asha.setErrors({ pattern: true });
+  
+  
+  
+        } else {
+          asha.setErrors(null);
+        }
+      }
+
+      
+    }
+
+
+  }
+
+
+  ConfirmedANMOrMPW(controlName: string, matchingControlName: string) {
+    debugger
+    return (myForm: FormGroup) => {
+      const control = myForm.controls[controlName];
+      const matchingControl = myForm.controls[matchingControlName];
+      if (matchingControl.errors && !matchingControl.errors.pattern) {
+        return;
+      }
+      if (control.value == "0" && matchingControl.value == "0") {
+        matchingControl.setErrors({ pattern: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
+  }
 //**********************************************IP Address**************************************************** */
 
    getNewIP() {
@@ -674,6 +741,7 @@ this.saveChildPNCData(data);
       this.childPNCForm.controls['fbirByAnm'].enable();
       this.childPNCForm.controls['remarks'].enable();
       this.childPNCForm.controls['pncType'].enable();
+      this.editFalg=0;
 
 
       this. settingsInfantDeathReason = {
@@ -1097,10 +1165,12 @@ debugger
 v= (this.infantPNC[index].dangerSignInfant).split('')
 console.log("charecter array----------------------"+v)
 console.log("length--------------------------"+v.length)
+this.selectedInfantDangerSign = [];
 for(let i=0; i<v.length;i++){
 console.log(v[i])
 //error 8888888888888888888888888888888888888888888888888888
 const index = this.infantDangerSign.findIndex(x => x.id == v[i])
+
 this.selectedInfantDangerSign[i]=this.infantDangerSign[index]
 console.log(this.selectedInfantDangerSign)
 }
@@ -1294,6 +1364,7 @@ disabled: false
 
 
      onSelectAll(items: any){
+       alert("select all")
       console.log(items);
       console.log("all select --------------")
       console.log(this.selectedInfantDangerSign);
@@ -1326,6 +1397,8 @@ disabled: false
   
   
   }
+
+
 //****************************************Infant death Reason MultipleSelection************************************** */
 
 

@@ -227,7 +227,7 @@
 						</select>
 						<div *ngIf="submitted && f.anmid.errors"  class="text-danger">
 							<div class="error_msg1" *ngIf="f.anmid.errors.required">
-								<p class="error_msg">ANM is required</p>
+								<p class="error_msg">{{required}}</p>
 							</div>
 						</div>
 
@@ -255,7 +255,7 @@
 						</select>
 						<div *ngIf="submitted && f.anm2id.errors"  class="text-danger">
 							<div class="error_msg1" *ngIf="f.anm2id.errors.required">
-								<p class="error_msg">ANM2 is required</p>
+								<p class="error_msg">{{required}}</p>
 							</div>
 						</div>
 
@@ -283,7 +283,7 @@
 						</select>
 						<div *ngIf="submitted && f.mpwid.errors"  class="text-danger float-left text-12">
 							<div class="error_msg1" *ngIf="f.mpwid.errors.required">
-								<p class="error_msg">MPW is required</p>
+								<p class="error_msg">{{required}}</p>
 							</div>
 							<div class="error_msg1 float-right" *ngIf="f.mpwid.errors.atleatOne">
 								<p class="error_msg float-left">Please select atleast one ANM or MPW</p>
@@ -313,7 +313,7 @@
 						</select>
 						<div *ngIf="submitted && f.ashaid.errors"  class="text-danger">
 							<div class="error_msg1" *ngIf="f.ashaid.errors.required">
-								<p class="error_msg">ASHA is required</p>
+								<p class="error_msg">{{required}}</p>
 							</div>
 						</div>
 
@@ -342,7 +342,7 @@
 						</select>
 						<div *ngIf="submitted && f.awwid.errors"  class="text-danger">
 							<div class="error_msg1" *ngIf="f.awwid.errors.required">
-								<p class="error_msg">AWW is required</p>
+								<p class="error_msg">{{required}}</p>
 							</div>
 							<div class="error_msg1" *ngIf="f.awwid.errors.validHP">
 								<p class="error_msg">Please select atleast one Health Provider</p>
@@ -386,12 +386,13 @@
 					<div class="col-sm-6 float-left"> <input id="phclandline" name="phclandline" maxlength="12"
 							  class="form-control input-new ml-0 text-right"
 							type="text" formControlName="phcLl"
-							[ngClass]="{'is-invalid': submitted && f.phcLl.errors}" /></div>
+							[ngClass]="{'is-invalid': submitted && f.phcLl.errors}" />
 					<div *ngIf="submitted && f.phcLl.errors"  class="text-danger float-left text-12">
 						<div class="error_msg1" *ngIf="f.phcLl.errors.pattern">
-							<p class="error_msg">Land line number should be in format as XXX-XXXXXXXX</p>
+							<p class="error_msg">{{phone}}</p>
 						</div>
 					</div>
+				</div>
 				</div>
 
 
@@ -401,12 +402,13 @@
 					<div class="col-sm-6 float-left"> <input id="phcmobile" name="phcmobile" maxlength="10"
 							(keydown)="mobileFunction($event)" class="form-control input-new ml-0 text-right"
 							type="text" formControlName="phcMob"
-							[ngClass]="{'is-invalid': submitted && f.phcMob.errors}" /> </div>
+							[ngClass]="{'is-invalid': submitted && f.phcMob.errors}" /> 
 					<div *ngIf="submitted && f.phcMob.errors"  class="text-danger">
 						<div class="error_msg1" *ngIf="f.phcMob.errors.pattern">
-							<p class="error_msg">Please Enter correct Mobile Number</p>
+							<p class="error_msg">{{mobile}}</p>
 						</div>
 					</div>
+				</div>
 				</div>
 
 			</div>
@@ -437,13 +439,13 @@
 					<div class="col-sm-6 float-left"> <input id="frulandline" name="frulandline"
 							  maxlength="12"
 							class="form-control input-new ml-0 text-right" type="text" formControlName="fruLl"
-							[ngClass]="{'is-invalid': submitted && f.fruLl.errors}" /> </div>
+							[ngClass]="{'is-invalid': submitted && f.fruLl.errors}" /> 
 					<div *ngIf="submitted && f.fruLl.errors"  class="text-danger float-left text-12">
 						<div class="error_msg1" *ngIf="f.fruLl.errors.pattern">
-							<p class="error_msg">Land line number should be in format as XXX-XXXXXXXX</p>
+							<p class="error_msg">{{phone}}</p>
 						</div>
 					</div>
-
+				</div>
 				</div>
 				<div class="col-md-3 pl-0 mr-0 pr-0">
 					<div class="col-sm-5 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Mobile
@@ -451,14 +453,15 @@
 					<div class="col-sm-6 float-left"> <input id="frumobile" name="frumobile"
 							(keydown)="mobileFunction($event)" maxlength="10"
 							class="form-control input-new ml-0 text-right" type="text" formControlName="fruMob"
-							[ngClass]="{'is-invalid': submitted && f.fruMob.errors}" /></div>
+							[ngClass]="{'is-invalid': submitted && f.fruMob.errors}" />
 
 					<div *ngIf="submitted && f.fruMob.errors"  class="text-danger">
 						<div class="error_msg1" *ngIf="f.fruMob.errors.pattern">
-							<p class="error_msg">Please Enter correct mobile Number</p>
+							<p class="error_msg">{{mobile}}</p>
 						</div>
 					</div>
 				</div>
+			</div>
 
 
 
@@ -480,13 +483,14 @@
 					<div class="col-sm-6 float-left"> <input id="trplandline" name="trplandline" maxlength="12"
 							  class="form-control input-new ml-0 text-right"
 							type="text" formControlName="trsprtLl"
-							[ngClass]="{'is-invalid': submitted && f.trsprtLl.errors}" /> </div>
+							[ngClass]="{'is-invalid': submitted && f.trsprtLl.errors}" /> 
 
 					<div *ngIf="submitted && f.trsprtLl.errors"  class="text-danger float-left text-12">
 						<div class="error_msg1" *ngIf="f.trsprtLl.errors.pattern">
-							<p class="error_msg">Land line number should be in format as XXX-XXXXXXXX</p>
+							<p class="error_msg">{{phone}}</p>
 						</div>
 					</div>
+				</div>
 				</div>
 
 				<div class="col-md-3 pl-0 mr-0 pr-0">
@@ -495,13 +499,13 @@
 					<div class="col-sm-6 float-left"> <input id="trsprtMob" name="trsprtMob" maxlength="10"
 							class="form-control input-new ml-0 text-right" (keydown)="mobileFunction($event)"
 							type="text" formControlName="trsprtMob"
-							[ngClass]="{'is-invalid': submitted && f.trsprtMob.errors}" /> </div>
+							[ngClass]="{'is-invalid': submitted && f.trsprtMob.errors}" />
 					<div *ngIf="submitted && f.trsprtMob.errors"  class="text-danger">
 						<div class="error_msg1" *ngIf="f.trsprtMob.errors.pattern">
-							<p class="error_msg">Please Enter correct mobile Number</p>
+							<p class="error_msg">{{mobile}}</p>
 						</div>
 					</div>
-
+				</div>
 				</div>
 
 
