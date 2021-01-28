@@ -2023,7 +2023,7 @@ else
           innerFormGroup.controls['switchingMonth'].setValue(response[0].switchingMonth)
          innerFormGroup.controls['switchingMonth'].setValidators([Validators.required]);
          innerFormGroup.controls['switchingMonth'].updateValueAndValidity();
-          switch (response[0].ectmethod[0].switchingMonth) {
+          switch (response[0].switchingMonth) {
             case 'Y':
               this.contraceptiveMethod = true;
               innerFormGroup.controls['alternativeMethod'].setValue(response[0].alternativeMethod)

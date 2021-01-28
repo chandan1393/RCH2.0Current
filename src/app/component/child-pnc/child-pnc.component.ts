@@ -39,6 +39,9 @@ export class ChildPncComponent implements OnInit {
   required : String =ErrroMessage.REQUIRED;
   atLeastOne : String =ErrroMessage.AtLeastOne;
 
+  showNotFoundMsg: boolean = false;
+  vmsg;
+  fill_hierarchy = true
 
   editFalg=0
 
@@ -267,6 +270,19 @@ showInfantDeathReason: boolean = false;
       
 
       this.fetchHealthProviderOnSubcentre(this.selectedSubCentre);
+    }
+
+    if(this.selectedVillage ==undefined){
+      this.showNotFoundMsg = true;
+      this.vmsg = "Select Hierarchy";
+      this.fill_hierarchy = true
+    
+    }else{
+    
+      this.showNotFoundMsg = false;
+      this.vmsg = null;
+      this.fill_hierarchy = false
+
     }
 
 
@@ -584,6 +600,9 @@ setCalenderDate(e){
 
    submitForm(childPNCForm){
      debugger
+
+     this.childPNCForm.controls['infantDeathDate'].clearValidators()
+     this.childPNCForm.controls['infantDeathDate'].updateValueAndValidity();
   
    this.findInvalidControls()    
     this.submitted = true;

@@ -165,7 +165,14 @@ getDeliveryComplication: "http://164.100.61.93/GetDeliveryComplication",
 getDeliveryType :  "http://164.100.61.93/GetMDeliverytype",
 //getDeliveryPlace: "http://164.100.61.93/GetMDeliveryplace",
 getDeliveryConductedBy : "http://164.100.61.93/GetMDeliveryconductedby",
-getMdeathCause: "http://164.100.61.93/GetMDeathcause"
+getMdeathCause: "http://164.100.61.93/GetMDeathcause",
+
+nonObstericComplications:"http://164.100.61.93/GetNonObstetricComplications",
+
+postPWdelivery:"http://164.100.61.93/SavePWDelivery",
+editPWdelivery : "http://164.100.61.93/UpdatePWDelivery?",
+getPWDdetails :  "http://164.100.61.93/GetMotherDelivery?",
+
 
 
 

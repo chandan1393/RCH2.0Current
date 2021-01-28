@@ -221,7 +221,7 @@
 					<div class="col-sm-4 float-left"> <select id="anmid" (change)="changeANMMobile($event.target.value)"
 							name="anmid" class="form-control" formControlName="anmid"
 							[ngClass]="{'is-invalid': submitted && f.anmid.errors}">
-							<option value="" >Select ANM</option>
+							<option value="" >Select</option>
 							<option *ngFor="let a of healthProviderANM" [value]="a.id">{{a.name}}</option>
 
 						</select>
@@ -250,7 +250,7 @@
 					<div class="col-sm-4 float-left"> <select id="anm2" class="form-control" name="anm2id"
 							(change)="changeANM2Mobile($event.target.value)" formControlName="anm2id"
 							[ngClass]="{'is-invalid': submitted && f.anm2id.errors}">
-							<option value="" >Select ANM2</option>
+							<option value="" >Select</option>
 							<option *ngFor="let a of healthProviderANM2" [value]="a.id">{{a.name}}</option>
 						</select>
 						<div *ngIf="submitted && f.anm2id.errors"  class="text-danger">
@@ -278,7 +278,7 @@
 					<div class="col-sm-4 float-left"> <select id="mpwid" name="mpwid" class="form-control"
 							(change)="changeMPWMobile($event.target.value)" formControlName="mpwid"
 							[ngClass]="{'is-invalid': submitted && f.mpwid.errors}">
-							<option value="" >Select MPW</option>
+							<option value="" >Select</option>
 							<option *ngFor="let a of healthProviderMPW" [value]="a.id">{{a.name}}</option>
 						</select>
 						<div *ngIf="submitted && f.mpwid.errors"  class="text-danger float-left text-12">
@@ -308,7 +308,7 @@
 					<div class="col-sm-4 float-left"> <select id="ashaid" name="ashaid" class="form-control"
 							(change)="changeASHAMobile($event.target.value)" formControlName="ashaid"
 							[ngClass]="{'is-invalid': submitted && f.ashaid.errors}">
-							<option value="" >Select ASHA</option>
+							<option value="" >Select</option>
 							<option *ngFor="let a of healthProviderASHA" [value]="a.id">{{a.name}}</option>
 						</select>
 						<div *ngIf="submitted && f.ashaid.errors"  class="text-danger">
@@ -337,7 +337,7 @@
 					<div class="col-sm-4 float-left"> <select id="awwid" name="awwid" class="form-control "
 							(change)="changeAWWMobile($event.target.value)" formControlName="awwid"
 							[ngClass]="{'is-invalid': submitted && f.awwid.errors}">
-							<option value="" >Select AWW</option>
+							<option value="" >Select</option>
 							<option *ngFor="let a of healthProviderAWW" [value]="a.id">{{a.name}}</option>
 						</select>
 						<div *ngIf="submitted && f.awwid.errors"  class="text-danger">

@@ -1,10 +1,18 @@
 <app-hierarchy (usehierarchy)="usehierarchyHandler($event)"></app-hierarchy>
 
-<div class="col-md-12 mt-2 pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left"> Infant PNC Details
+<div class="float-left col-md-12 error_msg pb-0" *ngIf="showNotFoundMsg">
+  <div class="col-md-3 mt-1 pt-2 text-12 alert-danger float-left error_msg pb-0" > 
+
+  
+<label class="error_msg1 pb-0" role="alert">{{vmsg}}</label>
+  </div>
+</div>
+
+<div class="col-md-12 mt-2 pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left" > Infant PNC Details
 
 </div>
 
-<div class="border bg-white mt-1 col-md-12 float-left pl-0 pr-0">
+<div class="border bg-white mt-1 col-md-12 float-left pl-0 pr-0" *ngIf="!fill_hierarchy">
 
 
 
