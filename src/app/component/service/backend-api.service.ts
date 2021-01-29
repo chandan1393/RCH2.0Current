@@ -696,6 +696,38 @@ getMdeathCause()
 }
 
 
+getNonObstericComplication()
+{
+  return this.httpClient.get(environment.nonObstericComplications).pipe(catchError(this.errorHandler));
+
+}
+
+
+postPWDelivery(PWdata : any) : Observable<any>
+{
+  return this.httpClient.post(environment.postPWdelivery,PWdata )//.pipe(catchError(this.errorHandler));
+}
+
+getPWDdetails(rchId : any,caseNo: any) : Observable<any>
+{
+  return this.httpClient.get(environment.getPWDdetails+"id="+rchId+"&caseno="+caseNo).pipe(catchError(this.errorHandler));
+}
+
+
+editPWDeliveryDetails(rchId : any,caseNo: any , ectdata : any) : Observable<any>
+{
+  return this.httpClient.put(environment.editPWdelivery+"id="+rchId+"&caseNo="+caseNo,ectdata).pipe(catchError(this.errorHandler));
+
+}
+
+
+
+
+
+
+
+
+
   //-----------------------------------------//
   errorHandler(error) {
 
