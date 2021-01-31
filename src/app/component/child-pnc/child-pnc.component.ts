@@ -69,10 +69,11 @@ export class ChildPncComponent implements OnInit {
     this.getPNCPeriod();
    this.setInfantRegistrationNo(1)
    // this.getInfantPNC(204000002191,1)
-   this.getInfantPNC(this.infantRegistration,1) 
+  
    //this.registrationNo=this.childPNCForm.value.registrationNo1
     this.setMotherDisplay();
     this.getNewIP();
+    this.getInfantPNC(this.infantRegistration,1) 
     
   }
 
@@ -380,7 +381,7 @@ showInfantDeathReason: boolean = false;
 
 setCalenderDate(e){
 
-  let x=this.datepipe.transform(("2015-01-20T00:00:00"), 'yyyy-MM-dd');
+  let x=this.datepipe.transform(("2015-03-01T00:00:00"), 'yyyy-MM-dd');
   let dateMinimum: Date;
   let dateMaximum: Date;
 
@@ -789,7 +790,7 @@ this.saveChildPNCData(data);
           };
 
  */
-this.createForm();
+this.ngOnInit();
 
   this.submitted=false;
    
@@ -1045,10 +1046,11 @@ this.backendApiService.getChildPNC(id,caseno).subscribe((res: Response) => {
      this.infantPNC = response;
      console.log("gter change array")
      console.log(this.infantPNC)
-
+debugger
      for(let i=0;i<this.infantPNC.length;i++){
 
-
+      this.infantPNC[i].pncDate=this.infantPNC[i].pncDate.substr(0, 10)
+if(this.infantPNC[i].dangerSignInfant!==null){
        let v=this.infantPNC[i].dangerSignInfant.split('')
        for(let i=0; i<v.length;i++){
        const index = this.infantDangerSign.findIndex(x => x.id == v[i])
@@ -1062,7 +1064,7 @@ this.backendApiService.getChildPNC(id,caseno).subscribe((res: Response) => {
        }
        
        }
-
+      }
        
 
  const index = this.pncPeriod.findIndex(x => x.pncNo == (this.infantPNC[i].pncType))
@@ -1084,7 +1086,20 @@ this.backendApiService.getChildPNC(id,caseno).subscribe((res: Response) => {
       
     })
   }
-
+  //****************************Calculate Finencial Year********************************************************* */
+  changeRegDate($event) {
+    ////debugger
+    let yr = String($event.year)
+    if ($event.month > 3) {
+      this.selectedFinencialYear = $event.year + "-" + (Number(yr) + 1)
+      this.selectedYear=$event.year
+    }
+    else {
+      this.selectedFinencialYear = (Number(yr) - 1) + "-" + $event.year
+      this.selectedYear=(Number(yr) - 1)
+    }
+  }
+//********************************************************************************************************************** */
 
   getEditPNC(pncType:any){
     this.editFalg=1;
@@ -1210,25 +1225,26 @@ pncDateArray=(this.datepipe.transform((this.infantPNC[index].pncDate), 'yyyy-MM-
 
     this.childPNCForm.controls['remarks'].setValidators(Validators.required);
     this.childPNCForm.controls['remarks'].updateValueAndValidity();
-let infantdeath:Array<any>
 
+let infantdeath:Array<any>
 infantdeath= (this.infantPNC[index].infantDeathReason).split('')
-console.log("charecter array----------------------"+infantdeath)
-console.log("length--------------------------"+infantdeath.length)
 this.selectedInfantDeathReason=[];
+
+
 for(let i=0; i<infantdeath.length;i++){
 console.log(infantdeath[i])
-
 const index = this.infantDeathReason.findIndex(x => x.id == infantdeath[i])
 console.log(this.infantDeathReason[0])
 this.selectedInfantDeathReason[i]=this.infantDeathReason[index]
 console.log(this.selectedInfantDeathReason)
 }
+
+
 if(infantdeath.find(x => x == "Z")!==undefined){
   this.showInfantDeathReason=true;
   this.childPNCForm.controls['infantDeathReasonOther'].setValue(this.infantPNC[index].infantDeathReasonOther)
-
 }
+
 else{
   this.showInfantDeathReason=false;
   this.childPNCForm.controls['infantDeathReasonOther'].setValue("")
@@ -1244,34 +1260,43 @@ deathDateArray=(this.datepipe.transform((this.infantPNC[index].infantDeathDate),
   this.childPNCForm.controls['fbirByAnm'].setValue(this.infantPNC[index].fbirByAnm),
   this.childPNCForm.controls['notificationByAsha'].setValue(this.infantPNC[index].notificationByAsha)
   }
+
   this.childPNCForm.controls['temperatureChecked'].setValue(this.infantPNC[index].temperatureChecked)
 debugger
 // set infant danger sign
-   let v:Array<any>
-v= (this.infantPNC[index].dangerSignInfant).split('')
-console.log("charecter array----------------------"+v)
-console.log("length--------------------------"+v.length)
-this.selectedInfantDangerSign = [];
-for(let i=0; i<v.length;i++){
-console.log(v[i])
-//error 8888888888888888888888888888888888888888888888888888
-const index = this.infantDangerSign.findIndex(x => x.id == v[i])
 
-this.selectedInfantDangerSign[i]=this.infantDangerSign[index]
-console.log(this.selectedInfantDangerSign)
-}
-if(v.find(x => x == "Z")!==undefined){
-  this.showInfantDangerSignOther=true;
-  this.childPNCForm.controls['dangerSignInfantOther'].setValue(this.infantPNC[index].dangerSignInfantOther)
+if(this.infantPNC[index].dangerSignInfant!==null){
+  let v:Array<any>
+  v= (this.infantPNC[index].dangerSignInfant).split('')
+  console.log("charecter array----------------------"+v)
+  console.log("length--------------------------"+v.length)
+  this.selectedInfantDangerSign = [];
+  for(let i=0; i<v.length;i++){
+  console.log(v[i])
+  const index = this.infantDangerSign.findIndex(x => x.id == v[i])
+  
+  this.selectedInfantDangerSign[i]=this.infantDangerSign[index]
+  console.log(this.selectedInfantDangerSign)
+  }
+  
+  
+  if(v.find(x => x == "Z")!==undefined){
+    this.showInfantDangerSignOther=true;
+    this.childPNCForm.controls['dangerSignInfantOther'].setValue(this.infantPNC[index].dangerSignInfantOther)
+  
+  }
+  else{
+    this.showInfantDangerSignOther=false;
+    this.childPNCForm.controls['dangerSignInfantOther'].setValue("")
+  }
+  
+    this.childPNCForm.controls['dangerSignInfant'].setValue(this.selectedInfantDangerSign)
+  
+  
+
 
 }
-else{
-  this.showInfantDangerSignOther=false;
-  this.childPNCForm.controls['dangerSignInfantOther'].setValue("")
-}
-
-  this.childPNCForm.controls['dangerSignInfant'].setValue(this.selectedInfantDangerSign),
- 
+   
   this.childPNCForm.controls['preReferralDose'].setValue(this.infantPNC[index].preReferralDose),
   this.childPNCForm.controls['referralFacilityInfant'].setValue(this.infantPNC[index].referralFacilityInfant)
   debugger
