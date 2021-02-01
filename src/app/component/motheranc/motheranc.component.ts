@@ -350,9 +350,11 @@ debugger
     debugger
     if (this.selectedSubCentre != undefined && this.selectedVillage != undefined) {
       this.h = true;
+      this.fill_page = false
     }
     if (this.h === true) {
       this.FillProviderandANCdeatils();
+      this.fill_page = false
     }
 
   }
@@ -379,8 +381,7 @@ debugger
           this.getpgdetails(this.rchId, 1);
           this.getANCdetails(this.rchId,1);
         }
-      }
-
+      } else
       if (Number(window.localStorage.getItem("RCH_ID")) > 0) {
         let RCHID: string = window.localStorage.getItem("RCH_ID")
         this.rchId = Number(window.localStorage.getItem("RCH_ID"))
@@ -392,6 +393,7 @@ debugger
           this.getANCdetails(this.rchId, 1);
         }
       }
+      else{}
     }
   }
 
@@ -573,8 +575,13 @@ public findInvalidControls() {
     data.healthFacilityCode = this.selectedFacilityCode
     data.healthSubFacilityCode = this.selectedSubCentre
     data.villageCode = this.selectedVillage
+    if(this.motherancForm.controls['DateANC'].value !=""){
     data.financialYear = (this.motherancForm.controls['DateANC'].value).year
+    data.financialYr= String(this.selectedFinencialYear)}
+    else{
+      data.financialYear = (this.motherancForm.controls['AbortionDate'].value).year
     data.financialYr= String(this.selectedFinencialYear)
+    }
     
     data.registrationNo = Number(this.motherancForm.controls['RCHID'].value)
     // data.ancNo = 1
@@ -1092,40 +1099,39 @@ public findInvalidControls() {
 
 
   //-------------------------------------Bind ANC Details----------------------------
- 
   getANCdetails(registrationId: number, caseno: number) {
-    debugger
-     this.backendApiService.GetMotherANC(registrationId, caseno).subscribe((res: Response) => {
-       let response = JSON.parse(JSON.stringify(res));
-       if (response.length > 0) {
-         this.btncontinue=true
-         
-         this.ANCGridArray = response;
-         this.gen_rchid = this.ANCGridArray[0].registrationNo
-         console.log(this.ANCGridArray.length)
-         if (this.ANCGridArray[0].tt1Date != null) {
-           this.TT_Grid = 'TT1'
-           this.TTDate_Grid = this.ANCGridArray[0].tt1Date
-         }
-         else if (this.ANCGridArray[0].tt2Date != null) {
-           this.TT_Grid = 'TT2'
-           this.TTDate_Grid = this.ANCGridArray[0].tt2Date
-         }
-         else if (this.ANCGridArray[0].ttbDate != null) {
-           this.TT_Grid = 'TTB'
-           this.TTDate_Grid = this.ANCGridArray[0].ttbDate
-         }
-         else {
-           this.TT_Grid = ''
-           this.TTDate_Grid = ''
-         }
-       }
-       else{
-         this.btncontinue=false
-       }
- 
-     })
-   }
+   debugger
+    this.backendApiService.GetMotherANC(registrationId, caseno).subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      if (response.length > 0) {
+        this.btncontinue=true
+        
+        this.ANCGridArray = response;
+        this.gen_rchid = this.ANCGridArray[0].registrationNo
+        console.log(this.ANCGridArray.length)
+        if (this.ANCGridArray[0].tt1Date != null) {
+          this.TT_Grid = 'TT1'
+          this.TTDate_Grid = this.ANCGridArray[0].tt1Date
+        }
+        else if (this.ANCGridArray[0].tt2Date != null) {
+          this.TT_Grid = 'TT2'
+          this.TTDate_Grid = this.ANCGridArray[0].tt2Date
+        }
+        else if (this.ANCGridArray[0].ttbDate != null) {
+          this.TT_Grid = 'TTB'
+          this.TTDate_Grid = this.ANCGridArray[0].ttbDate
+        }
+        else {
+          this.TT_Grid = ''
+          this.TTDate_Grid = ''
+        }
+      }
+      else{
+        this.btncontinue=false
+      }
+
+    })
+  }
 
   // Bind PG details----------------------
   getpgdetails(registrationId: number, caseno: number) {
@@ -1177,7 +1183,7 @@ public findInvalidControls() {
     this.maxDate_Abortion = { year: Maxdate.getFullYear(), month: Maxdate.getMonth() + 1, day: Maxdate.getDate() }
 
     //********************* */
-    this.parentState = 4;
+    this.parentState = pg.stateCode;
     this.parentDistrict = pg.districtCode;
     // parentTaluka=pg.; 
     this.parentBlock = pg.healthBlockCode;
@@ -1185,7 +1191,7 @@ public findInvalidControls() {
     this.parentSubcenter = pg.healthSubFacilityCode;
     this.parentVillage = pg.villageCode;
     this.parentFacilityType = pg.healthFacilityType;
-    this.parentStateName = 'Chandigarh';
+    this.parentStateName = pg.stateName;
     this.parentDistrictName = pg.districtName;
     //parentTalukaName; 
     this.parentBlockName = pg.healthBlockName;
@@ -1419,19 +1425,20 @@ public findInvalidControls() {
   }
   calWeek() {
 debugger
-    let yr = String((this.motherancForm.controls['DateANC'].value).year)
-    if ((this.motherancForm.controls['DateANC'].value).month > 3) {
-      this.selectedFinencialYear = (this.motherancForm.controls['DateANC'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
-    }
-    else {
-      this.selectedFinencialYear = (Number(yr) - 1) + "-" + Number(yr.substr(2, 2))
-    }
+    
 
     this.bsLMPDate = (this.motherancForm.controls['LMP'].value).substr(0, 4) + '-' + (this.motherancForm.controls['LMP'].value).substr(5, 2) + '-' + (this.motherancForm.controls['LMP'].value).substr(8, 2) + ' 12:00:00';
 
     if (this.motherancForm.controls['Abortion'].value == 0) {
       if (this.motherancForm.controls['DateANC'].value != '') {
 
+        let yr = String((this.motherancForm.controls['DateANC'].value).year)
+        if ((this.motherancForm.controls['DateANC'].value).month > 3) {
+          this.selectedFinencialYear = (this.motherancForm.controls['DateANC'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
+        }
+        else {
+          this.selectedFinencialYear = (Number(yr) - 1) + "-" + Number(yr.substr(2, 2))
+        }
        
         // Here are the two dates to compare
        // let ANCDate_modified_validation = this.motherancForm.controls['DateANC'].value.year + '-' + this.motherancForm.controls['DateANC'].value.month + '-' + this.motherancForm.controls['DateANC'].value.day;
@@ -1553,6 +1560,14 @@ debugger
     else {
       if (this.motherancForm.controls['AbortionDate'].value != '') {
         debugger
+        let yr = String((this.motherancForm.controls['AbortionDate'].value).year)
+        if ((this.motherancForm.controls['AbortionDate'].value).month > 3) {
+          this.selectedFinencialYear = (this.motherancForm.controls['AbortionDate'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
+        }
+        else {
+          this.selectedFinencialYear = (Number(yr) - 1) + "-" + Number(yr.substr(2, 2))
+        }
+
           var daysDiff = this.comparetwodates(this.motherancForm.controls['AbortionDate'].value,this.bsLMPDate)
        var no_of_week = Math.floor(daysDiff / 7);
        this.motherancForm.controls['PregnancyWeek'].setValue(no_of_week);
@@ -1573,6 +1588,7 @@ debugger
   }
  
   onContinue() {
+    debugger
     window.localStorage.setItem("RCH_ID", String(this.gen_rchid))
    
     this.router.navigate(['home/delivery'])
@@ -1827,7 +1843,7 @@ debugger
       this.motherancForm.get('JSSKScheme').updateValueAndValidity();
     }
   }
-  SetTTDose(){
+  SetTTDose(event){
     if (this.motherancForm.controls['TTDose'].value != "") {
       this.Show_TTDatediv = true
       this.motherancForm.get('TTDate').setValidators(Validators.required);
@@ -1838,6 +1854,25 @@ debugger
       this.motherancForm.get('TTDate').setValidators([]);
       this.motherancForm.get('TTDate').updateValueAndValidity();
     }
+    if(event.target.value == 13){
+      this.MTtArray.forEach((item, index) => {
+        if (item.ttcode === 17) this.MTtArray.splice(index, 1);
+      });
+    }
+    else if(event.target.value == 17){
+      this.MTtArray.forEach((item, index) => {
+        if (item.ttcode === 13) this.MTtArray.splice(index, 1);
+      });
+      this.MTtArray.forEach((item, index) => {
+        if (item.ttcode === 14) this.MTtArray.splice(index, 1);
+      });
+    }
+
+
+   
+   
+    console.log(this.MTtArray)
+
   }
   onChangehighrisk(e){
     debugger
@@ -1863,4 +1898,6 @@ this.motherancForm.get('highriskDate').updateValueAndValidity();
     var daysDiff = this.dateDiffInDays(new Date(d2), new Date(Date_modified_validation));
     return daysDiff;
   }
+
+ 
 }

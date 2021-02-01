@@ -6,7 +6,7 @@
   </div>
 </div>
 
-
+<!-- 
 <div class="container float-left col-md-6 mt-2 pl-0 pr-0">
 
   <ul class="step d-flex flex-nowrap text-12 ml-0 pl-0">
@@ -31,11 +31,11 @@
 
 
 </div>
-
+ -->
 <div class="col-md-12 mt-2 pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left"> Delivery Page
 </div>
-
-<div class="border bg-white mt-1 col-md-12 float-left pl-0 pr-0">
+<div class="border bg-white mt-3 float-left" *ngIf="fill_hierarchy">
+<div class="border bg-white mt-1 col-md-12 float-left pl-0 pr-0"  >
   <form class="text-13" [formGroup]="deliveryForm" (ngSubmit)="submitDelivery(deliveryForm)">
 
     <div class="oppacity col-md-12 float-left pb-3 pt-1 mt-2">
@@ -1435,4 +1435,6 @@ disabled : Enable or disable the select component.
       <a class="btn btn-danger radius-p text-12 mt-1 mb-1" href="#"> Continue </a>
     </div>
   </section>
+  </div>
   <div class="col-md-12 float-left mt-5 mb-5"> </div>
+  

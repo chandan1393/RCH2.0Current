@@ -25,7 +25,7 @@ export class ChildPncComponent implements OnInit {
   selectedFinencialYear;
   selectedYear;
   sno=0;
-  caseno;
+  caseNo;
   pncNo;
   //infantRegistration=204000002191;
   infantRegistration;
@@ -50,15 +50,21 @@ export class ChildPncComponent implements OnInit {
 
   dob:any;
 
+  parentState; parentDistrict; parentTaluka; parentBlock; parentFacility; parentSubcenter; parentVillage; parentFacilityType;
+  parentStateName; parentDistrictName; parentTalukaName; parentBlockName; parentFacilityName; parentSubcenterName; parentVillageName;
+
   
 //************************************************************************************************************************ */
 
   ngOnInit(): void {
     this.createForm();
-    this.registrationNo = this.route.snapshot.queryParamMap.get('ID');
-    this.infantRegistration=this.route.snapshot.queryParamMap.get('infantRegistration');
+    this.registrationNo = Number(this.route.snapshot.queryParamMap.get('rchId'));
+    this.caseNo=Number(this.route.snapshot.queryParamMap.get('caseNo'));
     
-    //alert(RCHID+"hhhhh"+c)
+
+
+
+
 
     this.getInfantDangerSign()
     this.getInfantDeathReason()
@@ -67,7 +73,13 @@ export class ChildPncComponent implements OnInit {
 
     this.getFacilityType();
     this.getPNCPeriod();
-   this.setInfantRegistrationNo(1)
+
+    this.getBeneficiary(this.registrationNo,this.caseNo);
+
+    this.getInfantRegistration(this.registrationNo,this.caseNo)
+    let infantDetailsLength=this.infantDetails.length
+
+   this.setInfantRegistrationNo(infantDetailsLength)
    // this.getInfantPNC(204000002191,1)
   
    //this.registrationNo=this.childPNCForm.value.registrationNo1
@@ -81,18 +93,16 @@ export class ChildPncComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
  
+
+
   
 //***************************************************Display mother Details Hidden***************************************** */
 setMotherDisplay(){
-
-  this.childPNCForm.controls['infantRegistrationNo'].setValue(this.childPNCForm.value.infantRegistrationNo1)
-   this.childPNCForm.controls['infantName'].setValue("rajiv")
-   this.childPNCForm.controls['infantDOB'].setValue("20-10-2021")
-  this.childPNCForm.controls['mobileNo'].setValue(8968124244)
-  this.childPNCForm.controls['motherRegistrationNo'].setValue(this.registrationNo)
-  this.childPNCForm.controls['motherName'].setValue("PRIYANKA")
-  this.childPNCForm.controls['motherAge'].setValue(23)
-  this.childPNCForm.controls['FatherName'].setValue("PARMINDER  SINGH")
+  this.childPNCForm.controls['mobileNo'].setValue(this.beneficiaryDetails[0].mobileNumber)
+  this.childPNCForm.controls['motherRegistrationNo'].setValue(this.beneficiaryDetails[0].registrationNo)
+  this.childPNCForm.controls['motherName'].setValue(this.beneficiaryDetails[0].beneficiaryNmae)
+  this.childPNCForm.controls['motherAge'].setValue(this.beneficiaryDetails[0].age)
+  this.childPNCForm.controls['FatherName'].setValue(this.beneficiaryDetails[0].husbandName)
 
 }
 
@@ -104,31 +114,31 @@ setMotherDisplay(){
 setInfantRegistrationNo(length:any){
 
 if(length==1){
-  this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantRegistration)
+  this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
   }
 
  else if(length==2){
   this.showSecondRadioButton=true
-    this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
-    this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
+    this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
+    this.childPNCForm.controls['infantRegistrationNo2'].setValue(this.infantDetails[1].infantId)
     }
 
   else if(length==3){
           this.showSecondRadioButton=true
           this.showThirdRadioButton=true
-       this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
-      this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
-      this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
+      this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
+      this.childPNCForm.controls['infantRegistrationNo2'].setValue(this.infantDetails[1].infantId)
+      this.childPNCForm.controls['infantRegistrationNo3'].setValue(this.infantDetails[2].infantId)
       }
 
     else  if(length==4){
           this.showSecondRadioButton=true
           this.showThirdRadioButton=true
           this.showFourthRadioButton=true
-        this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
-        this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
-        this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
-        this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
+        this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
+        this.childPNCForm.controls['infantRegistrationNo2'].setValue(this.infantDetails[1].infantId)
+        this.childPNCForm.controls['infantRegistrationNo3'].setValue(this.infantDetails[2].infantId)
+        this.childPNCForm.controls['infantRegistrationNo4'].setValue(this.infantDetails[3].infantId)
         }
 
        else if(length==5){
@@ -136,11 +146,11 @@ if(length==1){
         this.showThirdRadioButton=true
         this.showFourthRadioButton=true
         this.showFifthRadioButton=true
-          this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
-          this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
-          this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
-          this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
-          this.childPNCForm.controls['infantRegistrationNo5'].setValue(204000001891)
+        this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
+        this.childPNCForm.controls['infantRegistrationNo2'].setValue(this.infantDetails[1].infantId)
+        this.childPNCForm.controls['infantRegistrationNo3'].setValue(this.infantDetails[2].infantId)
+        this.childPNCForm.controls['infantRegistrationNo4'].setValue(this.infantDetails[3].infantId)
+        this.childPNCForm.controls['infantRegistrationNo5'].setValue(this.infantDetails[4].infantId)
           }
 
         else  if(length==6){
@@ -149,12 +159,12 @@ if(length==1){
           this.showFourthRadioButton=true
           this.showFifthRadioButton=true
           this.showSixthRadioButton=true
-            this.childPNCForm.controls['infantRegistrationNo1'].setValue(204000002191)
-            this.childPNCForm.controls['infantRegistrationNo2'].setValue(204000001888)
-            this.childPNCForm.controls['infantRegistrationNo3'].setValue(204000001889)
-            this.childPNCForm.controls['infantRegistrationNo4'].setValue(204000001890)
-            this.childPNCForm.controls['infantRegistrationNo5'].setValue(204000001891)
-            this.childPNCForm.controls['infantRegistrationNo6'].setValue(204000001892)
+          this.childPNCForm.controls['infantRegistrationNo1'].setValue(this.infantDetails[0].infantId)
+          this.childPNCForm.controls['infantRegistrationNo2'].setValue(this.infantDetails[1].infantId)
+          this.childPNCForm.controls['infantRegistrationNo3'].setValue(this.infantDetails[2].infantId)
+          this.childPNCForm.controls['infantRegistrationNo4'].setValue(this.infantDetails[3].infantId)
+          this.childPNCForm.controls['infantRegistrationNo5'].setValue(this.infantDetails[4].infantId)
+          this.childPNCForm.controls['infantRegistrationNo6'].setValue(this.infantDetails[5].infantId)
             }
 
 }
@@ -220,8 +230,8 @@ if(length==1){
   }
 
   //**********************************End of Radio Button Function**************************************************************** */
-
-  
+  infantDetails:Array<any>=[]
+  beneficiaryDetails:Array<any>;
   healthProviderANM:Array<any>;
   healthProviderASHA:Array<any>;
   FacilityType:Array<any>;
@@ -381,7 +391,7 @@ showInfantDeathReason: boolean = false;
 
 setCalenderDate(e){
 
-  let x=this.datepipe.transform(("2015-03-01T00:00:00"), 'yyyy-MM-dd');
+  let x=this.datepipe.transform(("2015-08-04T00:00:00"), 'yyyy-MM-dd');
   let dateMinimum: Date;
   let dateMaximum: Date;
 
@@ -450,34 +460,48 @@ setCalenderDate(e){
   changepncDateCalender(e){
     debugger
     let v=this.infantPNC.length;
-    console.log("sdhfdskjhfskjdhks"+this.infantPNC[v-1].infantDeath)
+    console.log(v+"vxcxvcxvx")
 
 
-      if(this.editFalg==0){ //when data is fresh 
-        if(this.infantPNC[v-1].infantDeath==0){    //when death is marked false.
+if(this.infantPNC.length!==0){
 
+  
 
-        /*   if((Number(this.infantPNC.length)+1)==e){ // when pnc type is greater than previous pnc type
-      
-            this.setCalenderDate(e);
-        
-          }
-          else{
-            alert("Select Corret PNC.")
-            this.childPNCForm.controls['pncType'].setValue("");
-          } */
-
+    if(this.editFalg==0){ //when data is fresh 
+      if(this.infantPNC.filter(x => x.infantDeath === 1)){    //when death is marked false.
+  
+  
+      /*   if((Number(this.infantPNC.length)+1)==e){ // when pnc type is greater than previous pnc type
+    
           this.setCalenderDate(e);
-
+      
         }
-        else{ //Death is marked true.
-       alert("Infant Death is marked. Entry is closed.")
-       this.resetFormCustom();
-
-        }
-
-       
+        else{
+          alert("Select Corret PNC.")
+          this.childPNCForm.controls['pncType'].setValue("");
+        } */
+  
+        this.setCalenderDate(e);
+  
       }
+      else{ //Death is marked true.
+     alert("Infant Death is marked. Entry is closed.")
+     this.resetFormCustom();
+  
+      }
+  
+     
+    }
+
+  
+
+
+
+  
+
+
+}
+
       
       else{   //when data is in edit mode
         this.setCalenderDate(e);
@@ -494,6 +518,33 @@ setCalenderDate(e){
       
     })
   }
+
+  getBeneficiary(id: number, caseno: number): void {
+    this.backendApiService.getBeneficiary(id,caseno).subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      this.beneficiaryDetails = response;
+      
+    })
+  }
+
+  getInfantRegistration(rchId: number, caseno: number): void {
+    console.log("infant")
+    this.backendApiService.getInfantRegistration(rchId,caseno).subscribe((res: Response) => {
+      let response = JSON.stringify(res);
+      console.log(response)
+      console.log(response[2])
+    
+
+
+
+      
+    })
+  }
+
+
+
+
+  
 
   minDate = { year: 2011, month: 4, day: 1 };
   maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
@@ -734,7 +785,7 @@ if(data.infantDeath==0){
 }
   console.log(JSON.stringify(data))
   console.log(data)
-this.updateChildPNC(this.registrationNo,this.caseno,this.pncNo,data);
+this.updateChildPNC(this.registrationNo,this.caseNo,this.pncNo,data);
 
 }
 else{
@@ -1091,11 +1142,11 @@ if(this.infantPNC[i].dangerSignInfant!==null){
     ////debugger
     let yr = String($event.year)
     if ($event.month > 3) {
-      this.selectedFinencialYear = $event.year + "-" + (Number(yr) + 1)
+      this.selectedFinencialYear = $event.year + "-" + (Number(yr.substr(2, 2)) + 1)
       this.selectedYear=$event.year
     }
     else {
-      this.selectedFinencialYear = (Number(yr) - 1) + "-" + $event.year
+      this.selectedFinencialYear =  (Number(yr) - 1) + "-" + Number(yr.substr(2, 2))
       this.selectedYear=(Number(yr) - 1)
     }
   }
@@ -1114,7 +1165,7 @@ if(this.infantPNC[i].dangerSignInfant!==null){
 editPNCByPNCType(index){
   debugger
 this.sno=this.infantPNC[index].sno
-this.caseno=this.infantPNC[index].caseNo
+this.caseNo=this.infantPNC[index].caseNo
 this.pncNo=this.infantPNC[index].pncNo
 
 this.registrationNo=this.infantPNC[index].registrationNo

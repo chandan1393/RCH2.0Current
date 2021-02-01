@@ -1,5 +1,32 @@
 <app-hierarchy (usehierarchy)="usehierarchyHandler($event)"></app-hierarchy>
 
+<div class="col-md-12 float-left mt-2 pl-0 pr-0 text-12">
+
+  <nav aria-label="breadcrumb " >
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">Registration Location </li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> State : </span> {{parentStateName}} ({{parentState}})</li>
+     <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> District :   </span>{{parentDistrictName}} ({{parentDistrict}}) </li> 
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Taluka :   </span>{{parentTalukaName}} ({{parentTaluka}})</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Block : </span>{{parentBlockName}} ({{parentBlock}}) </li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Facility : </span>{{parentFacilityName}}  ({{parentFacility}} )</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Subfacility : </span> {{parentSubcenterName}} ({{parentSubcenter}} )</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Village : </span> {{parentVillageName}} ({{parentVillage}}) </li> 
+  </ol>
+  </nav>
+<!--   <div class="col-md-12 float-left mt-0 pl-0 pr-0 text-12">
+    <nav aria-label="breadcrumb " class="mt-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#" class="text-13">Service Location </a></li>
+        <li class="breadcrumb-item text-dark font-weight-normal"><a href="#" class="text-dark"> <span
+              class="font-weight-bold"> District :</span> District Name </a></li>
+        <li class="breadcrumb-item text-dark font-weight-normal"><a href="#" class="text-dark"> <span
+              class="font-weight-bold"> Location dummy :</span> Location Name </a></li>
+      </ol>
+    </nav>
+  </div> -->
+</div>
+
 <div class="float-left col-md-12 error_msg pb-0" *ngIf="showNotFoundMsg">
   <div class="col-md-3 mt-1 pt-2 text-12 alert-danger float-left error_msg pb-0" > 
 

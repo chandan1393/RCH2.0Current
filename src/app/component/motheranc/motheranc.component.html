@@ -512,7 +512,7 @@
             <div class="col-md-4 float-left pl-0 pr-0">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> TT Dose/ Td
                   Dose : <span> * </span> </label> </div>
-              <div class="col-sm-6 float-left"> <select class="form-control" id="TTDoseid"  formControlName="TTDose" (change)="SetTTDose()">
+              <div class="col-sm-6 float-left"> <select class="form-control" id="TTDoseid"  formControlName="TTDose" (change)="SetTTDose($event)">
                 <option *ngFor="let a of MTtArray" [value]="a.ttcode">{{a.ttname}}</option>
                 </select>
               </div>

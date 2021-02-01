@@ -34,10 +34,12 @@ infantDeathReason:"http://164.100.61.93/GetMInfantdeathreason",
 deliveryPlace:"http://164.100.61.93/GetMDeliveryplace",
 pncPeriod:"http://164.100.61.93/GetPNCPeriod",
 //pncFacilityType:"http://164.100.61.93/GetPNCplace",
+getInfantRegistration:"http://164.100.61.93/GetInfantRegistration?id=",
 saveChildPNC:"http://164.100.61.93/SaveChildPnc",
 getChildPNC:"http://164.100.61.93/GetChildPNC?id=",
 updateChildPNC:"http://164.100.61.93/UpdateChildPnc?id=", 
 saveChildRegistration:"http://164.100.61.93/SaveChildPnc",
+
 
 
 
@@ -138,11 +140,13 @@ PWregistrationDataUrl: "http://164.100.61.93/GetBeneficiary",
 
 SendLoginDetailsEmailUrl:  "http://164.100.61.93/SendUserDetailsByEmail",
 
+GetMotherRegistrationsUrl:"http://164.100.61.93/GetMotherRegistrations",
+
 //brijesh sir
 ecreportdata:"http://164.100.61.93/getECHierarchy?phc=",
 bulkprofilereportdata:"http://164.100.61.97/api/BulkProfile?dcode=",
 
-
+ 
 
 
 

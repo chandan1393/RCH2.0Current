@@ -162,6 +162,13 @@ saveChildRegistration(data:any): Observable<any> {
   return this.httpClient.post(environment.saveChildRegistration,data );
 }
 
+
+getInfantRegistration(rchID: number, caseno: number) {
+  console.log("inside get PG data")
+  console.log(environment.getInfantRegistration + rchID + "&caseno=" + caseno)
+  return this.httpClient.get(environment.getInfantRegistration + rchID + "&caseno=" + caseno)
+}
+
 //nisha
 
 getBankAPI(): Observable<any> {
@@ -210,7 +217,7 @@ getPWbyregistrationNo(id: number, caseno: number) {
   console.log(environment.getPWbyRegNo + id + "&caseno=" + caseno)
   return this.httpClient.get(environment.getPWbyRegNo + id + "&caseno=" + caseno).pipe(catchError(this.errorHandler));
 }
-
+ 
 GetMotherANC(id: number, caseno: number) {
   console.log("inside get ANC data")
   console.log(environment.GetMotherANC + id + "&caseno=" + caseno)
@@ -593,7 +600,9 @@ chkUserNotExistAPI(username:string,emailid:string,mobno:string,dob:string,gender
           return this.httpClient.get(environment.SendLoginDetailsEmailUrl+"?emailid="+email+"&tempuserID="+id+"&username="+userName).pipe(catchError(this.errorHandler));
           }
           
-
+          getGetMotherRegistrationsAPI(id:string,caseno:string): Observable<any> {
+            return this.httpClient.get(environment.GetMotherRegistrationsUrl+"?id="+id+"&caseno="+caseno).pipe(catchError(this.errorHandler));
+          }
 
 
 

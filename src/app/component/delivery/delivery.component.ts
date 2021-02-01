@@ -70,7 +70,6 @@ export class DeliveryComponent implements OnInit {
   otherMdeathCauseDiv: Boolean = false;
   otherdeliveryLocationDiv: Boolean = false;
   currentdate = new Date(); 
-
   deathPlaceAvailable: Boolean = false;
   deathLoc: Array<any>;
 
@@ -89,7 +88,7 @@ export class DeliveryComponent implements OnInit {
 
 
 
-  minDate = { year: 2011, month: 4, day: 1 };
+  minDate = { year: 2005, month: 1, day: 1 };
   //maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
   maxDate = { year: 2030, month: 4, day: 1 }
 
@@ -97,14 +96,18 @@ export class DeliveryComponent implements OnInit {
   // required :String = this.errorMessageService.;
 
 
-  ngOnInit(): void {
-const RCHID: string = this.route.snapshot.queryParamMap.get('RCHID');
-const CASENO: string = this.route.snapshot.queryParamMap.get('CASENO');
+ngOnInit(): void {
+
+//window.localStorage.setItem("HomeSearch", String(response.registrationNo))
+const NEWRCHID: string = this.route.snapshot.queryParamMap.get('RCHID');
+const CASENO: string = "1";//this.route.snapshot.queryParamMap.get('CASENO');
+const RCHID: String =window.localStorage.getItem("HomeSearch") || window.localStorage.getItem("RCH_ID") ;
+
 
 if (RCHID!==null && CASENO!==null)
 {
-  this.DeliveryForm();
-  //  this.InfantForm();
+    this.DeliveryForm();
+    //this.InfantForm();
     this.getBeneficiaryDetails(RCHID, CASENO);
     this.getHealthFacility();
     this.deliveryComplications();
@@ -114,19 +117,16 @@ if (RCHID!==null && CASENO!==null)
     this.motherDeathCause();
     this.getnonObstericComplications();
     this.InfantFormArray();
-
-   this.editPWDeliveryForm(RCHID,CASENO);
- 
-   this.editFlag=true;
-
+    this.editPWDeliveryForm(RCHID,CASENO);
+    this.editFlag=true;
 
 }
 else
-{ 
 
+{ 
     this.DeliveryForm();
-  //  this.InfantForm();
-    this.getBeneficiaryDetails(104000000036, 1);
+    //this.InfantForm();
+    this.getBeneficiaryDetails(NEWRCHID, 1);
     this.getHealthFacility();
     this.deliveryComplications();
     this.typeDelivery();
@@ -242,7 +242,7 @@ else
       },
       {
         validator: [this.validDeliveryDate('lmpDate', 'lastAncVisitDate', 'deliveryDate'),
-      this.validDischargeDate('dischargeDate','deliveryDate')]
+        this.validDischargeDate('dischargeDate','deliveryDate')]
       }
 
 
@@ -300,6 +300,7 @@ else
         }    }   } }
 
 
+
         validDischargeDate(dischargeDate: any , deliveryDate : any)
         {
 
@@ -314,62 +315,64 @@ else
             if (!dischargeNgbdate || !deliveryNgbdate ) {
               return null;
             }
-    /* 
-            if (dischargeNgbdate.errors && !deliveryNgbdate.errors) {
+    /*    if (dischargeNgbdate.errors && !deliveryNgbdate.errors) {
               return null;
             }
-     
-           
             if (dischargeNgbdate.errors && !dischargeNgbdate.errors.valiDischargeMinDateFlag) {
               return null;
             }
-     
-
             if (dischargeNgbdate.errors && !dischargeNgbdate.errors.valiDischargeMinDateFlag) {
               return null;
             }
             if (dischargeNgbdate.errors && !dischargeNgbdate.errors.valiDischargeMaxDateFlag) {
               return null;
-            }
+            }  
+            
+            */        
+            
+            if (dischargeNgbdate.value != isEmpty && dischargeNgbdate.value != '' && dischargeNgbdate.value != null) {
+            
+              if (((dischdate.getTime() - delvdate.getTime()) / (1000 * 60 * 60 * 24)) < 42) {
+          
+                dischargeNgbdate.setErrors({ valiDischargeMaxDateFlag: true });
+       
+               }
 
-              
+             else if ((((delvdate.getTime() - dischdate.getTime()) / (1000 * 60 * 60 * 24)) >= 1)) {
 
-   */          if (dischargeNgbdate.value != isEmpty && dischargeNgbdate.value != '' && dischargeNgbdate.value != null) {
-              
-              if ((((delvdate.getTime() - dischdate.getTime()) / (1000 * 60 * 60 * 24)) >= 1)) {
-     
                 dischargeNgbdate.setErrors({ valiDischargeMinDateFlag: true });
      
              }
-             else if (((dischdate.getTime() - delvdate.getTime()) / (1000 * 60 * 60 * 24)) < 42) {
-          
-              dischargeNgbdate.setErrors({ valiDischargeMaxDateFlag: true });
-     
-             }
+           
              else
              {
               dischargeNgbdate.setErrors(null);
      
              }
             }
-
-
-        }
+       }
       }
 
 
 
   pragnancyWeekCal( )
   {
-    const mDeathNgbDate= this.deliveryForm.get("maternalDeathDate").value;
-    const lmpdate =  this.deliveryForm.get("lmpDate").value;
-    const deliverydate = mDeathNgbDate.value ? new Date(mDeathNgbDate.value.year, mDeathNgbDate.value.month - 1, mDeathNgbDate.value.day) : new Date();
+
+
+
+    const mDeathNgbDate= this.deliveryForm.controls["maternalDeathDate"].value;
+    const lmpdate =  this.deliveryForm.controls["lmpDate"].value;
+    const matDeathdate = mDeathNgbDate ? new Date(mDeathNgbDate.year, mDeathNgbDate.month - 1, mDeathNgbDate.day) : new Date();
     const LMPdate: Date = new Date(this.datepipe.transform(lmpdate, 'yyyy-MM-dd'));
-
-    let pragnancyWeek = Math.floor(((deliverydate.getTime()-LMPdate.getTime())/(1000 * 60 * 60 * 24))/7)
-
+    let pragnancyWeek = Math.floor(((matDeathdate.getTime()-LMPdate.getTime())/(1000*60*60*24))/7)
+    if(matDeathdate.getTime()>LMPdate.getTime())
     this.deliveryForm.controls['pregnancyWeek'].setValue(Number(pragnancyWeek).toFixed());
-   
+    else
+    {
+      this.deliveryForm.controls['pregnancyWeek'].setValue('');
+      this.deliveryForm.controls['maternalDeathDate'].setValue('');
+      alert('Maternal Death Date must be greater than LMP Date');
+    }
   }
 
 
@@ -415,16 +418,8 @@ this.clearFormArray(infantArray);
       this.deliveryForm.controls['mobileNo'].setValue(response.mobileNumber);
       this.deliveryForm.controls['caseNo'].setValue(response.caseNo);
       this.deliveryForm.controls['lmpDate'].setValue(response.lmpDate);
-      console.log("Hello ANC");
       this.deliveryForm.controls['lastAncVisitDate'].setValue(this.datepipe.transform(response.lastANCVisitDate, 'yyyy-MM-dd'));
-
-      console.log(response);
-      // console.log("Hello ANC"+ this.datepipe.transform(response.lastANCVisitDate, 'yyyy-MM-dd'));
-   //   console.log("Hello ANC" + this.datepipe.transform("2020-01-01T00:00:00", 'yyyy-MM-dd'));
-
-      //  console.log("Hello"+this.deliveryForm.get('lastAncVisitDate').value)
-
-    })
+     })
   }
 
 
@@ -450,12 +445,6 @@ this.clearFormArray(infantArray);
 
         count++;
       }
-
-
-      //      this.deliveryComplication = response;
-      //   console.log(response);
-      //    console.log(   this.deliveryComplication[0]);
-
 
     })
   }
@@ -543,15 +532,13 @@ this.clearFormArray(infantArray);
   deliveryFacilityChange() {
     this.tabMisoDiv = false;
     this.deliveryPlaceDiv = false;
-    this.otherdeliveryLocationDiv = false;
+    this.otherdeliveryLocationDiv = false;``
     this.deliveryForm.controls['deliveryLocationId'].clearValidators()
     this.deliveryForm.controls['deliveryLocationId'].updateValueAndValidity()
     this.deliveryForm.controls['tabMisoprostol'].clearValidators()
     this.deliveryForm.controls['tabMisoprostol'].updateValueAndValidity()
-
     this.deliveryForm.controls['deliveryLocation'].clearValidators()
     this.deliveryForm.controls['deliveryLocation'].updateValueAndValidity()
-
     this.typeId = this.deliveryForm.get('deliveryPlace').value
     this.deliveryLoc = [];
     if (this.typeId == 22) {
@@ -568,10 +555,8 @@ this.clearFormArray(infantArray);
 
     if (this.typeId !== 22 && this.typeId !== 99) {
       this.deliveryPlaceDiv = true;
-
       this.deliveryForm.controls['deliveryLocationId'].setValidators([Validators.required])
       this.deliveryForm.controls['deliveryLocationId'].updateValueAndValidity()
-
       this.healthFaclityType(this.typeId)
 
     }

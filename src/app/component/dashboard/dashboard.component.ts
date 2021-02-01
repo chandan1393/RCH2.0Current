@@ -138,6 +138,7 @@ else if(this.level==6){
             //alert((rchid.value).substr(0,1))
             if (((rchid.value).substr(0, 1)) == '1' && ((rchid.value).length) == 12) {
               window.localStorage.removeItem("ECT-EC")
+              window.localStorage.removeItem("RCH_ID")
               window.localStorage.removeItem("HomeSearch")
               this.searchbyID(Number(rchid.value))
             }
@@ -148,6 +149,7 @@ else if(this.level==6){
           else {
             if (((rchid.value).substr(0, 1)) == '2' && ((rchid.value).length) == 12) {
               window.localStorage.removeItem("ECT-EC")
+              window.localStorage.removeItem("RCH_ID")
               window.localStorage.removeItem("HomeSearch")
               this.searchbyID(Number(rchid.value))
             }
@@ -155,7 +157,7 @@ else if(this.level==6){
               alert('Invalid RCH Id')
             }
           }
-  
+    
         }
       }
     }
@@ -183,7 +185,7 @@ else if(this.level==6){
           else {
             alert("Coming soon")
           }
-        }
+        } 
       }) */
   
       this.backendApiService.getBeneficiary(registrationId,1).subscribe((res: Response) => {
