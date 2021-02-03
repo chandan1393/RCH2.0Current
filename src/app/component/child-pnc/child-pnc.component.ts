@@ -530,9 +530,9 @@ if(this.infantPNC.length!==0){
   getInfantRegistration(rchId: number, caseno: number): void {
     console.log("infant")
     this.backendApiService.getInfantRegistration(rchId,caseno).subscribe((res: Response) => {
-      let response = JSON.stringify(res);
-      console.log(response)
-      console.log(response[2])
+     // let response =JSON.parse(JSON.stringify(res));
+      console.log(Response)
+     // console.log(response[0])
     
 
 

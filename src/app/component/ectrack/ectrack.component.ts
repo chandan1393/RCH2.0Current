@@ -79,7 +79,7 @@ case  'HOMESEARCH' :
        
      this.getectdetails(this.rchId);
 
-    window.localStorage.removeItem("PageCode")
+  //  window.localStorage.removeItem("PageCode")
       
 //window.localStorage.removeItem("ECPROFILE")
 
@@ -104,7 +104,7 @@ this.createECTform();
           
 //window.localStorage.removeItem("HOMESEARCH")
 
-  window.localStorage.removeItem("PageCode")
+ // window.localStorage.removeItem("PageCode")
 
 
      break;
@@ -129,7 +129,7 @@ this.createECTform();
                 
       //window.localStorage.removeItem("HOMESEARCH")
       
-      window.localStorage.removeItem("PageCode")
+    //  window.localStorage.removeItem("PageCode")
       
       
            break;

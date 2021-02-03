@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<!-- 
+
 <div class="container float-left col-md-6 mt-2 pl-0 pr-0">
 
   <ul class="step d-flex flex-nowrap text-12 ml-0 pl-0">
@@ -31,7 +31,35 @@
 
 
 </div>
- -->
+ 
+<div class="col-md-12 float-left mt-2 pl-0 pr-0 text-12">
+
+  <nav aria-label="breadcrumb " >
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item">Registration Location </li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> State : </span> {{parentStateName}} ({{parentState}})</li>
+     <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> District :   </span>{{parentDistrictName}} ({{parentDistrict}}) </li> 
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Taluka :   </span>{{parentTalukaName}} ({{parentTaluka}})</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Block : </span>{{parentBlockName}} ({{parentBlock}}) </li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Facility : </span>{{parentFacilityName}}  ({{parentFacility}} )</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Health Subfacility : </span> {{parentSubcenterName}} ({{parentSubcenter}} )</li>
+    <li class="breadcrumb-item text-dark font-weight-normal"> <span class="font-weight-bold"> Village : </span> {{parentVillageName}} ({{parentVillage}}) </li> 
+  </ol>
+  </nav>
+<!--   <div class="col-md-12 float-left mt-0 pl-0 pr-0 text-12">
+    <nav aria-label="breadcrumb " class="mt-0">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#" class="text-13">Service Location </a></li>
+        <li class="breadcrumb-item text-dark font-weight-normal"><a href="#" class="text-dark"> <span
+              class="font-weight-bold"> District :</span> District Name </a></li>
+        <li class="breadcrumb-item text-dark font-weight-normal"><a href="#" class="text-dark"> <span
+              class="font-weight-bold"> Location dummy :</span> Location Name </a></li>
+      </ol>
+    </nav>
+  </div> -->
+</div>
+
+
 <div class="col-md-12 mt-2 pt-2 pb-2 pl-3 bg-primary text-white rounded text-16 float-left"> Delivery Page
 </div>
 <div class="border bg-white mt-3 float-left" *ngIf="fill_hierarchy">
@@ -113,7 +141,6 @@
               <p class="error_msg">{{required}}</p>
             </div>
           </div>
-
         </div>
       </div>
       <div class="col-md-4 float-left ">
@@ -123,15 +150,12 @@
             [ngClass]="{'is-invalid': submitted && mfg.ashaId.errors}">
             <option value="" selected>Select</option>
             <option *ngFor="let asha of healthProviderAsha" [ngValue]="asha.id">{{asha.name}}</option>
-
-          </select>
+       </select>
           <div *ngIf="submitted && mfg.ashaId.errors" class="invalid-feedback">
             <div class="error_msg1" *ngIf="mfg.ashaId.errors.required">
               <p class="error_msg">{{required}}</p>
             </div>
           </div>
-
-
         </div>
       </div>
 
@@ -140,11 +164,10 @@
       <div class="col-md-4 float-left">
         <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Date of Delivery :
             <span> *</span> </label> </div>
-        <div class="col-sm-6 float-left"> <input class="form-control bg-white text-right" type="text"
+        <div class="col-sm-6 float-left"> <input class="form-control bg-white text-right" type="text"  [(ngModel)]="deliveryDateSelected"
             formControlName="deliveryDate" [ngClass]="{'is-invalid': submitted && mfg.deliveryDate.errors}"
             [readonly]="true" ngbDatepicker #d="ngbDatepicker" [maxDate]="maxDate" [minDate]="minDate" />
           <div class="font-icon pl-3" (click)="d.toggle()" id="visitIcon"> <i class="fa fa-calendar"></i> </div>
-
           <div *ngIf="submitted && mfg.deliveryDate.errors" class="invalid-feedback">
             <div class="error_msg1" *ngIf="mfg.deliveryDate.errors.required">
               <p class="error_msg">{{required}}</p>
@@ -155,10 +178,8 @@
             <div class="error_msg1" *ngIf="mfg.deliveryDate.errors.DeliveryANCflag">
               <p class="error_msg">Delivery Date must be greater than or equal to ANC </p>
             </div>
-
           </div>
         </div>
-
       </div>
 
 
@@ -167,22 +188,15 @@
         <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Time of Delivery :
           </label> </div>
         <div class="col-sm-6 float-left">
-
-
           <input class="form-control bg-white text-right pr-4" formControlName="deliveryTime"
-            [ngxTimepicker]="toggleTimepicker" [disableClick]="true" [disabled]="false" readonly>
-
-
+            [ngxTimepicker]="toggleTimepicker" [format]="12" [disableClick]="true" [disabled]="false" readonly>
         </div>
         <div class="icon-time pl-1 pr-0 mr-0 ml-0 ">
           <ngx-material-timepicker-toggle [for]="toggleTimepicker"></ngx-material-timepicker-toggle>
-          <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
-
-        </div>
-
-
-
-
+         <ngx-material-timepicker #toggleTimepicker></ngx-material-timepicker>
+       <!--  <ngx-timepicker-field #toggleTimepicker></ngx-timepicker-field> -->
+       
+      </div>
       </div>
 
     </div>
@@ -221,9 +235,7 @@
             (change)="deliveryFacilityChange()" [ngClass]="{'is-invalid': submitted && mfg.deliveryPlace.errors}">
             <option value="" selected>Select</option>
             <option *ngFor="let h of deliveryPlace" [ngValue]="h.id">{{h.name}}</option>
-
           </select>
-
           <div *ngIf="submitted && mfg.deliveryPlace.errors" class="invalid-feedback">
             <div class="error_msg1" *ngIf="mfg.deliveryPlace.errors.required">
               <p class="error_msg">{{required}}</p>
@@ -501,8 +513,8 @@ disabled : Enable or disable the select component.
               (change)="deliveryOutcomeChange()" [ngClass]="{'is-invalid': submitted && mfg.deliveryOutcomes.errors}">
               <option value="" selected>Select </option>
               <option value=1>Live birth</option>
-              <option value=2>Abortion</option>
-              <option value=3>Still birth</option>
+            <!--   <option value=2>Abortion</option> -->
+              <option value=2>Still birth</option>
 
             </select>
             <div *ngIf="submitted && mfg.deliveryOutcomes.errors" class="invalid-feedback">
@@ -541,57 +553,7 @@ disabled : Enable or disable the select component.
         </div>
 
         <div *ngIf="stillBirthDiv">
-          <!-- <div class="col-md-4 float-left">
-  <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label  class="text-label"> No. of Still Birth : <span> *</span> </label>  </div>
- <div class="col-sm-6 float-left"><select class="form-control"  formControlName="stillBirth" [ngClass]="{'is-invalid': submitted && mfg.stillBirth.errors}">
-   <option value="" selected> Select </option>
-   <option>1</option>
-       <option>2</option>
-       <option>3</option>
-       <option>4</option>
-       <option>5</option>
-       <option>6</option>
- </select> 
- <div *ngIf="submitted && mfg.stillBirth.errors" class="invalid-feedback">
-  <div class="error_msg1" *ngIf="mfg.stillBirth.errors.required">
-    <p class="error_msg">Select No. of Still Birth</p>
-  </div>
-</div>  
-
-
-</div>
-
-<div class="col-md-4 float-left">
-<div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label  class="text-label"> Fresh : <span> *</span> </label>  </div>
-<div class="col-sm-6 float-left"><select class="form-control">
-  <option>Select </option>
-  <option>1</option>
-  <option>2</option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-  <option>6</option>
-</select> </div>
-</div>
-
-<div class="col-md-4 float-left">
-<div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label  class="text-label"> Macerated  : <span> *</span> </label>  </div>
-<div class="col-sm-6 float-left"><select class="form-control">
-  <option>Select </option>
-  <option>1</option>
-  <option>2</option>
-  <option>3</option>
-  <option>4</option>
-  <option>5</option>
-  <option>6</option>
-</select> </div>
-</div>
-
-
-
-
-</div> -->
-
+  
           <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> No. of Still
@@ -651,7 +613,7 @@ disabled : Enable or disable the select component.
         <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Date of Discharge :
             <span> *</span></label> </div>
         <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 bg-white text-right"
-            formControlName="dischargeDate" type="text"
+            formControlName="dischargeDate" type="text"  
             [ngClass]="{'is-invalid': submitted && mfg.dischargeDate.errors}" [readonly]="true" ngbDatepicker
             #m="ngbDatepicker" [maxDate]="maxDate" [minDate]="minDate" />
 
@@ -664,7 +626,7 @@ disabled : Enable or disable the select component.
               <p class="error_msg">Discharge Date should be greater than or equal to Delivery Date</p>
             </div>
             <div class="error_msg1" *ngIf="mfg.dischargeDate.errors.valiDischargeMaxDateFlag">
-              <p class="error_msg">Discharge Date should be greater than or equal to Delivery Date</p>
+              <p class="error_msg">Discharge Date should be less than or equal to 42 Days to Delivery Date</p>
             </div>
           </div>
 
@@ -674,16 +636,11 @@ disabled : Enable or disable the select component.
       <div class="col-md-4 float-left">
         <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Discharge Time HH/MM
             : </label> </div>
-
-
-        <div class="col-sm-6 float-left">
-
-
-          <input class="form-control bg-white text-right pr-4" formControlName="dischargeTime"
+     <div class="col-sm-6 float-left">
+      <input class="form-control bg-white text-right pr-4" formControlName="dischargeTime"
             [ngxTimepicker]="dischargeTimepicker" [disableClick]="true" [disabled]="false" readonly>
 
-
-        </div>
+          </div>
         <div class="icon-time pl-1 pr-0 mr-0 ml-0 ">
           <ngx-material-timepicker-toggle [for]="dischargeTimepicker"></ngx-material-timepicker-toggle>
           <ngx-material-timepicker #dischargeTimepicker></ngx-material-timepicker>

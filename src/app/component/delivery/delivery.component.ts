@@ -21,13 +21,13 @@ export class DeliveryComponent implements OnInit {
 
   submitted: boolean = false;
   deliveryForm: FormGroup;
-  selectedVillage;
-  selectedSubCentre;
-  selectedFacilityCode;
-  selectedHealthBlock;
-  selectedDistrict;
-  selectedState;
-  selectedFacilityType;
+  selectedVillage: string | number;
+  selectedSubCentre: string | number;
+  selectedFacilityCode: string | number;
+  selectedHealthBlock: string | number;
+  selectedDistrict: string | number;
+  selectedState: string | number;
+  selectedFacilityType: string | number;
   fill_hierarchy: boolean = false;
   RuralUrban: string;
   talukacode: string;
@@ -72,9 +72,29 @@ export class DeliveryComponent implements OnInit {
   currentdate = new Date(); 
   deathPlaceAvailable: Boolean = false;
   deathLoc: Array<any>;
+  deliveryDateSelected: any ;
+
+
+parentState: any;
+parentDistrict: any;
+parentTaluka: any; 
+parentBlock: any;
+parentFacility: any; 
+parentSubcenter: any; 
+parentVillage: any; 
+parentFacilityType: any;
+parentStateName: string;
+parentDistrictName: any; 
+parentTalukaName: any; 
+parentBlockName: any; 
+parentFacilityName: any;
+parentSubcenterName: any;
+parentVillageName: any;
+
+   
 
   // multiOther : Number =3
-  settingsComplication = {
+    settingsComplication = {
     text: "Select",
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
@@ -90,7 +110,7 @@ export class DeliveryComponent implements OnInit {
 
   minDate = { year: 2005, month: 1, day: 1 };
   //maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
-  maxDate = { year: 2030, month: 4, day: 1 }
+  maxDate = { year: 2021, month: 4, day: 1 }
 
 
   // required :String = this.errorMessageService.;
@@ -100,12 +120,13 @@ ngOnInit(): void {
 
 //window.localStorage.setItem("HomeSearch", String(response.registrationNo))
 const NEWRCHID: string = this.route.snapshot.queryParamMap.get('RCHID');
-const CASENO: string = "1";//this.route.snapshot.queryParamMap.get('CASENO');
+const CASENO: string = "2";//this.route.snapshot.queryParamMap.get('CASENO');
 const RCHID: String =window.localStorage.getItem("HomeSearch") || window.localStorage.getItem("RCH_ID") ;
 
 
 if (RCHID!==null && CASENO!==null)
 {
+
     this.DeliveryForm();
     //this.InfantForm();
     this.getBeneficiaryDetails(RCHID, CASENO);
@@ -126,7 +147,7 @@ else
 { 
     this.DeliveryForm();
     //this.InfantForm();
-    this.getBeneficiaryDetails(NEWRCHID, 1);
+    this.getBeneficiaryDetails(NEWRCHID, 2);
     this.getHealthFacility();
     this.deliveryComplications();
     this.typeDelivery();
@@ -157,7 +178,6 @@ else
         lastAncVisitDate: new FormControl(''),
         // healthProviderID: new FormControl('',Validators.required),
         // ashaID          : new FormControl('',Validators.required),
-        sno: new FormControl(''),
         stateCode: new FormControl(''),
         districtCode: new FormControl(''),
         ruralUrban: new FormControl(''),
@@ -297,7 +317,7 @@ else
         else {
           deliveryNgbdate.setErrors(null);
   
-        }    }   } }
+        }  }   } }
 
 
 
@@ -312,15 +332,12 @@ else
             const delvdate = deliveryNgbdate.value ? new Date(deliveryNgbdate.value.year, deliveryNgbdate.value.month - 1, deliveryNgbdate.value.day) : new Date();
     
 
-            if (!dischargeNgbdate || !deliveryNgbdate ) {
+           if (!dischargeNgbdate || !deliveryNgbdate ) {
               return null;
             }
-    /*    if (dischargeNgbdate.errors && !deliveryNgbdate.errors) {
+  /*      if (dischargeNgbdate.errors && !deliveryNgbdate.errors) {
               return null;
-            }
-            if (dischargeNgbdate.errors && !dischargeNgbdate.errors.valiDischargeMinDateFlag) {
-              return null;
-            }
+            }  */
             if (dischargeNgbdate.errors && !dischargeNgbdate.errors.valiDischargeMinDateFlag) {
               return null;
             }
@@ -328,21 +345,21 @@ else
               return null;
             }  
             
-            */        
+         if ((dischargeNgbdate.value != isEmpty && dischargeNgbdate.value != '' && dischargeNgbdate.value != null)&&
+            (deliveryNgbdate.value != isEmpty && deliveryNgbdate.value != '' && deliveryNgbdate.value != null)) {
             
-            if (dischargeNgbdate.value != isEmpty && dischargeNgbdate.value != '' && dischargeNgbdate.value != null) {
-            
-              if (((dischdate.getTime() - delvdate.getTime()) / (1000 * 60 * 60 * 24)) < 42) {
+               if ((((delvdate.getTime() - dischdate.getTime()) / (1000 * 60 * 60 * 24)) >= 1)) {
+
+                dischargeNgbdate.setErrors({ valiDischargeMinDateFlag: true });
+     
+             }
+           else  if (((dischdate.getTime() - delvdate.getTime()) / (1000 * 60 * 60 * 24)) > 42) {
           
                 dischargeNgbdate.setErrors({ valiDischargeMaxDateFlag: true });
        
                }
 
-             else if ((((delvdate.getTime() - dischdate.getTime()) / (1000 * 60 * 60 * 24)) >= 1)) {
-
-                dischargeNgbdate.setErrors({ valiDischargeMinDateFlag: true });
-     
-             }
+           
            
              else
              {
@@ -419,6 +436,27 @@ this.clearFormArray(infantArray);
       this.deliveryForm.controls['caseNo'].setValue(response.caseNo);
       this.deliveryForm.controls['lmpDate'].setValue(response.lmpDate);
       this.deliveryForm.controls['lastAncVisitDate'].setValue(this.datepipe.transform(response.lastANCVisitDate, 'yyyy-MM-dd'));
+  
+   
+  this.parentState 
+  this.parentDistrict=response.districtCode
+  // parentTaluka; 
+   this.parentBlock =response.healthBlockCode
+    this.parentFacility=response.healthBlockCode
+   // parentSubcenter; 
+    this.parentVillage=response.villageCode
+    this.parentFacilityType=response.healthFacilityType
+this.parentStateName="Chadigarh"
+this.parentDistrictName=response.Chandigarh
+//parentTalukaName; 
+this.parentBlockName=response.healthBlockName
+ this.parentFacilityName=response.healthFacilityName
+this.parentSubcenterName;
+this.parentVillageName=response.villageName
+
+
+
+
      })
   }
 
@@ -537,6 +575,8 @@ this.clearFormArray(infantArray);
     this.deliveryForm.controls['deliveryLocationId'].updateValueAndValidity()
     this.deliveryForm.controls['tabMisoprostol'].clearValidators()
     this.deliveryForm.controls['tabMisoprostol'].updateValueAndValidity()
+    this.deliveryForm.controls['deliveryLocation'].setValue('')
+   
     this.deliveryForm.controls['deliveryLocation'].clearValidators()
     this.deliveryForm.controls['deliveryLocation'].updateValueAndValidity()
     this.typeId = this.deliveryForm.get('deliveryPlace').value
@@ -568,6 +608,7 @@ this.clearFormArray(infantArray);
 
   deliveryConductChange() {
     this.deliveryConductDiv = false;
+    this.deliveryForm.controls['deliveryConductedOther'].setValue('')
     this.deliveryForm.controls['deliveryConductedOther'].clearValidators()
     this.deliveryForm.controls['deliveryConductedOther'].updateValueAndValidity()
 
@@ -592,6 +633,7 @@ this.clearFormArray(infantArray);
     }
     else if (e.id == "J") {
       this.deliveryComplicationDiv = false;
+      this.deliveryForm.controls['otherComp'].setValue('')
       this.deliveryForm.controls['otherComp'].clearValidators()
        this.deliveryForm.controls['otherComp'].updateValueAndValidity()
    
@@ -639,7 +681,7 @@ this.clearFormArray(infantArray);
 
       this.deliveryComplicationDiv = false;
       //this.deliveryForm.controls['deliveryComplication'].setValue('Z');
-
+      this.deliveryForm.controls['otherComp'].setValue('')
       this.deliveryForm.controls['otherComp'].clearValidators();
       this.deliveryForm.controls['otherComp'].updateValueAndValidity()
 
@@ -652,7 +694,7 @@ this.clearFormArray(infantArray);
     this.deliveryForm.controls['jsybenificiaryPayment'].updateValueAndValidity()
 
 
-    if (this.deliveryForm.controls['jsyBenificiary'].value == "Y") {
+    if (this.deliveryForm.controls['jsyBenificiary'].value == 1) {
       this.jsyBeneficiaryDiv = true;
       this.deliveryForm.controls['jsybenificiaryPayment'].setValidators([Validators.required])
       this.deliveryForm.controls['jsybenificiaryPayment'].updateValueAndValidity()
@@ -745,7 +787,7 @@ else
 
     this.deliveryForm.controls['nonObstetricComplications'].clearValidators()
     this.deliveryForm.controls['nonObstetricComplications'].updateValueAndValidity()
-
+    this.deliveryForm.controls['deathOther'].setValue('')
     this.deliveryForm.controls['deathOther'].clearValidators()
     this.deliveryForm.controls['deathOther'].updateValueAndValidity()
 
@@ -818,7 +860,7 @@ else
 
 
     this.deliveryForm.patchValue({
-      sno: 0,
+
       stateCode: this.selectedState,
       districtCode: this.selectedDistrict,
       healthBlockCode: this.selectedHealthBlock,
@@ -847,10 +889,10 @@ else
       fbirByAnm: Number(this.deliveryForm.get('fbirByAnm').value),
       jsyPaidDate : null,
       deliveryComplication : complicationID,
-    //  createdBy: 1,
-     // createdOn: this.currentdate,
-      updatedBy: 1,
-      updatedOn: this.currentdate,
+    // createdBy: 1,
+    // createdOn: this.currentdate,
+      updatedBy: null,
+      updatedOn: null,
       mobileId: 78,
       sourceId : 0,
       tabMisoprostol : this.deliveryForm.get('tabMisoprostol').value ? Number(this.deliveryForm.get('tabMisoprostol').value) : null,
@@ -861,8 +903,8 @@ else
     
     })
 
-
-if(this.editFlag=false)
+debugger
+if(this.editFlag==false)
 {
     //################ SAVE PW DELIVERY ##############//
     this.deliveryForm.controls['createdOn'].setValue(this.currentdate)
@@ -875,8 +917,6 @@ if(this.editFlag=false)
       alert(response.title)
     
      // this.clearEct();
- 
-  
       },
         error => {
         console.log(error);
@@ -894,20 +934,19 @@ if(this.editFlag=false)
         }); 
       }
 
+    
 
-
-      if(this.editFlag=true)
+      if(this.editFlag==true)
       {
         const RCHID = this.deliveryForm.get('registrationNo').value;
         const CASENO = this.deliveryForm.get('caseNo').value;
-      
         this.deliveryForm.controls['updatedOn'].setValue(this.currentdate)
         this.deliveryForm.controls['updatedBy'].setValue(this.tokenservice.getUserId())
         console.log(JSON.stringify(this.deliveryForm.value))
-         this.backendApiService.editPWDeliveryDetails(RCHID,CASENO,deliveryForm.value).subscribe((res: Response) => {
-          let response = JSON.parse(JSON.stringify(res));
-          console.log("Response When PW Delivery updated ---" + response);
-          alert(response.title)
+        this.backendApiService.editPWDeliveryDetails(RCHID,CASENO,deliveryForm.value).subscribe((res: Response) => {
+        let response = JSON.parse(JSON.stringify(res));
+        console.log("Response When PW Delivery updated ---" + response);
+        alert(response.title)
         
          // this.clearEct();
      
@@ -929,9 +968,11 @@ if(this.editFlag=false)
             }); 
        
       }
+
+    }
       
 
-  }
+  
 
    
   editPWDeliveryForm(RCHID : any ,CASEID : any)
@@ -1232,6 +1273,7 @@ case  2 :
   deathFacilityChange() {
     this.MdeathPlaceOtherDiv = false;
     this.MdeathPlaceDiv = false;
+    this.deliveryForm.controls['maternalDeathLocation'].setValue('')
     this.deliveryForm.controls['maternalDeathLocationId'].clearValidators()
     this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
     this.deliveryForm.controls['maternalDeathLocation'].clearValidators()
@@ -1246,9 +1288,9 @@ case  2 :
       this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
 
     }
-    else {
+    if (this.typeId != 99)
+    {
       this.MdeathPlaceDiv = true;
-
       this.deliveryForm.controls['maternalDeathLocationId'].setValidators([Validators.required])
       this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
 
