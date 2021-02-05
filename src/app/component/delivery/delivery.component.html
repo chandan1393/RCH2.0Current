@@ -240,6 +240,7 @@
             <div class="error_msg1" *ngIf="mfg.deliveryPlace.errors.required">
               <p class="error_msg">{{required}}</p>
             </div>
+         
           </div>
 
 
@@ -281,6 +282,9 @@
             <div class="error_msg1" *ngIf="mfg.deliveryLocation.errors.required">
               <p class="error_msg">{{required}}</p>
             </div>
+            <div class="error_msg1" *ngIf="mfg.deliveryLocation.errors.maxlength">
+              <p class="error_msg">Length should not be greater than 50 character</p>
+            </div>
           </div>
 
         </div>
@@ -293,8 +297,8 @@
     <div class="col-md-12 pr-0 pl-0  mt-2 float-left text-12">
       <div *ngIf="tabMisoDiv">
         <div class="col-md-4 float-left">
-          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">If Home delivery
-              then tab. Misoprostol given : </label> </div>
+          <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">
+            Tab. Misoprostol : </label> </div>
           <div class="col-sm-6 float-left"> <select class="form-control" formControlName="tabMisoprostol"
               [ngClass]="{'is-invalid': submitted && mfg.tabMisoprostol.errors}">
               <option value="" selected>Select</option>
@@ -342,6 +346,9 @@
             <div *ngIf="submitted && mfg.deliveryConductedOther.errors" class="invalid-feedback">
               <div class="error_msg1" *ngIf="mfg.deliveryConductedOther.errors.required">
                 <p class="error_msg">{{required}}</p>
+              </div>
+              <div class="error_msg1" *ngIf="mfg.deliveryConductedOther.errors.maxlength">
+                <p class="error_msg">Length should not be greater than 50 character</p>
               </div>
             </div>
 
@@ -513,7 +520,6 @@ disabled : Enable or disable the select component.
               (change)="deliveryOutcomeChange()" [ngClass]="{'is-invalid': submitted && mfg.deliveryOutcomes.errors}">
               <option value="" selected>Select </option>
               <option value=1>Live birth</option>
-            <!--   <option value=2>Abortion</option> -->
               <option value=2>Still birth</option>
 
             </select>
@@ -569,33 +575,64 @@ disabled : Enable or disable the select component.
                   <option>5</option>
                   <option>6</option>
                 </select>
+                <div *ngIf="submitted && mfg.stillBirth.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.stillBirth.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+  
+
+
+
               </div>
             </div>
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Fresh : <span>
                     *</span> </label> </div>
-              <div class="col-sm-6 float-left"><select class="form-control"  formControlName="fresh">
+              <div class="col-sm-6 float-left"><select class="form-control"  formControlName="fresh"      [ngClass]="{'is-invalid': submitted && mfg.fresh.errors}">
                   <option value="" selected> Select </option>
+                  <option>0</option>
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
                   <option>6</option>
-                </select> </div>
+                </select> 
+                <div *ngIf="submitted && mfg.fresh.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.fresh.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+  
+              
+              
+              </div>
             </div>
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Macerated :
                   <span> *</span> </label> </div>
-              <div class="col-sm-6 float-left"><select class="form-control"  formControlName="macerated" >
+              <div class="col-sm-6 float-left"><select class="form-control"  formControlName="macerated"  [ngClass]="{'is-invalid': submitted && mfg.macerated.errors}">
                   <option value="" selected> Select </option>
+                  <option>0</option>
                   <option>1</option>
                   <option>2</option>
                   <option>3</option>
                   <option>4</option>
                   <option>5</option>
                   <option>6</option>
-                </select> </div>
+                </select>
+                <div *ngIf="submitted && mfg.macerated.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.macerated.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                  <div class="error_msg1" *ngIf="mfg.macerated.errors.validStillBirthFlag">
+                    <p class="error_msg">Still birth must be equal to sum of Fresh and Macerated Infants</p>
+                  </div>
+                </div>
+              
+              
+              </div>
             </div>
           </div>
 
@@ -783,15 +820,31 @@ disabled : Enable or disable the select component.
                   :<span> *</span> </label> </div>
               <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 bg-white text-right"
                   type="text" formControlName="maternalDeathDate" [readonly]="true" (ngModelChange)="pragnancyWeekCal()" ngbDatepicker #md="ngbDatepicker"
-                  [maxDate]="maxDate" [minDate]="minDate" /> </div>
-              <div class="font-icon pl-3" (click)="md.toggle()" id="mDeathIcon"> <i class="fa fa-calendar"></i> </div>
-
+                  [maxDate]="maxDate" [minDate]="minDate"    [ngClass]="{'is-invalid': submitted && mfg.maternalDeathDate.errors}"  /> 
+                
+                  <div class="font-icon pl-3" (click)="md.toggle()" id="mDeathIcon"> <i class="fa fa-calendar"></i> </div>
+                  <div *ngIf="submitted && mfg.maternalDeathDate.errors" class="invalid-feedback">
+                    <div class="error_msg1" *ngIf="mfg.maternalDeathDate.errors.required">
+                      <p class="error_msg">{{required}}</p>
+                    </div>
+                  </div>
+                
+                </div>
+           
             </div>
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Weeks of
                   Pregnancy : <span> *</span> </label> </div>
               <div class="col-sm-3 float-left"> <input class="form-control input-new ml-0"
-                  formControlName="pregnancyWeek" type="text" /> </div>
+                  formControlName="pregnancyWeek" readonly type="text"   [ngClass]="{'is-invalid': submitted && mfg.pregnancyWeek.errors}" /> 
+                
+                  <div *ngIf="submitted && mfg.pregnancyWeek.errors" class="invalid-feedback">
+                    <div class="error_msg1" *ngIf="mfg.pregnancyWeek.errors.required">
+                      <p class="error_msg">{{required}}</p>
+                    </div>
+                  </div>
+                
+                </div>
             </div>
           </div>
         </div>
@@ -801,12 +854,20 @@ disabled : Enable or disable the select component.
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Facility Type
                   :<span> *</span> </label> </div>
-              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="maternalDeathPlace"
+              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="maternalDeathPlace" [ngClass]="{'is-invalid': submitted && mfg.maternalDeathPlace.errors}"
                   (change)="deathFacilityChange()">
                   <option value="" selected>Select</option>
                   <option *ngFor="let h of deliveryPlace" [ngValue]="h.id">{{h.name}}</option>
 
-                </select> </div>
+                </select>
+              
+                <div *ngIf="submitted && mfg.maternalDeathPlace.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.maternalDeathPlace.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+              
+              </div>
             </div>
             <div *ngIf="MdeathPlaceDiv">
               <div class="col-md-4 float-left">
@@ -835,7 +896,16 @@ disabled : Enable or disable the select component.
                 <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Other :
                   </label> </div>
                 <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0" type="text"
-                    formControlName="maternalDeathLocation" /> </div>
+                    formControlName="maternalDeathLocation"  [ngClass]="{'is-invalid': submitted && mfg.maternalDeathLocation.errors}" />
+                   <div *ngIf="submitted && mfg.maternalDeathLocation.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.maternalDeathLocation.errors.required">
+                  <p class="error_msg">{{required}}</p>
+                    </div>
+                    <div class="error_msg1" *ngIf="mfg.maternalDeathLocation.errors.maxlength">
+                         <p class="error_msg">Length should not be greater than 50 character</p>
+  </div>
+</div>
+                         </div>
               </div>
             </div>
 
@@ -845,13 +915,20 @@ disabled : Enable or disable the select component.
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Reason:<span>
                     *</span> </label> </div>
-              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="deathCause"
+              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="deathCause" [ngClass]="{'is-invalid': submitted && mfg.deathCause.errors}"
                   (change)="mDeathReasonChange()">
                   <option value="" selected>Select </option>
 
                   <option *ngFor="let p of maternalDeathCause" [ngValue]="p.id">{{p.name}}</option>
 
-                </select> </div>
+                </select> 
+                <div *ngIf="submitted && mfg.deathCause.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.deathCause.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+              
+              </div>
             </div>
 
             <div class="col-md-4 float-left" *ngIf="nonObstericComplicationDiv">
@@ -893,25 +970,35 @@ disabled : Enable or disable the select component.
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Notification
                   sent within 24 hrs by ASHA :<span> *</span> </label> </div>
-              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="notificationByAsha">
+              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="notificationByAsha"     [ngClass]="{'is-invalid': submitted && mfg.notificationByAsha.errors}">
                   <option value="" selected> Select </option>
                   <option value=1>Yes</option>
                   <option value=0>No</option>
-                </select> </div>
+                </select>
+                <div *ngIf="submitted && mfg.notificationByAsha.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.notificationByAsha.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+              
+              </div>
             </div>
 
             <div class="col-md-4 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> FBIR completed
                   by ANM :<span> *</span> </label> </div>
-              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="fbirByAnm">
+              <div class="col-sm-6 float-left"> <select class="form-control" formControlName="fbirByAnm"   [ngClass]="{'is-invalid': submitted && mfg.fbirByAnm.errors}" >
                   <option value="" selected>Select </option>
                   <option value=1>Yes</option>
                   <option value=0>No</option>
-                </select> </div>
+                </select>
+                <div *ngIf="submitted && mfg.fbirByAnm.errors" class="invalid-feedback">
+                  <div class="error_msg1" *ngIf="mfg.fbirByAnm.errors.required">
+                    <p class="error_msg">{{required}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
-
-
-
           </div>
         </div>
 

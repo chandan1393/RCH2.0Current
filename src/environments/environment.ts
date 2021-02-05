@@ -86,6 +86,7 @@ GetANCplace:"http://164.100.61.93/GetANCplace",
 GetANCDone:"http://164.100.61.93/GetANCDone",
 GetMDeliveryplace:"http://164.100.61.93/GetMDeliveryplace",
 
+GetHierarchy:"http://164.100.61.93/GetHierarchy?SateId=",
 
 
 //bunty ji

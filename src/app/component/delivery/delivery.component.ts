@@ -109,27 +109,27 @@ parentVillageName: any;
 
 
   minDate = { year: 2005, month: 1, day: 1 };
-  //maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
-  maxDate = { year: 2021, month: 4, day: 1 }
+  maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
+ // maxDate = { year: 2021, month: 4, day: 1 }
 
 
-  // required :String = this.errorMessageService.;
 
 
 ngOnInit(): void {
 
-//window.localStorage.setItem("HomeSearch", String(response.registrationNo))
 const NEWRCHID: string = this.route.snapshot.queryParamMap.get('RCHID');
-const CASENO: string = "2";//this.route.snapshot.queryParamMap.get('CASENO');
-const RCHID: String =window.localStorage.getItem("HomeSearch") || window.localStorage.getItem("RCH_ID") ;
+const CASENO: Number = 1;
+const RCHHOMEID: string =window.localStorage.getItem("HomeSearch") 
+const RCHID :string = window.localStorage.getItem("RCH_ID") ;
 
 
-if (RCHID!==null && CASENO!==null)
+if (RCHHOMEID!==null && RCHHOMEID!==""  )
 {
 
+ // alert("IN EDIT MODE HOME SEARCH ID =:"+RCHHOMEID)
     this.DeliveryForm();
     //this.InfantForm();
-    this.getBeneficiaryDetails(RCHID, CASENO);
+    this.getBeneficiaryDetails(RCHHOMEID, CASENO);
     this.getHealthFacility();
     this.deliveryComplications();
     this.typeDelivery();
@@ -138,16 +138,38 @@ if (RCHID!==null && CASENO!==null)
     this.motherDeathCause();
     this.getnonObstericComplications();
     this.InfantFormArray();
-    this.editPWDeliveryForm(RCHID,CASENO);
+    this.editPWDeliveryForm(RCHHOMEID,CASENO);
     this.editFlag=true;
+    window.localStorage.removeItem("HomeSearch") 
+ 
+
+}
+else if (RCHID!==null && RCHID!=="")
+{
+
+  //alert("IN EDIT MODE ANC CONTINUE=:"+RCHID)
+  this.DeliveryForm();
+  //this.InfantForm();
+  this.getBeneficiaryDetails(RCHID, CASENO);
+  this.getHealthFacility();
+  this.deliveryComplications();
+  this.typeDelivery();
+  this.placeDelivery();
+  this.deliveryConducted();
+  this.motherDeathCause();
+  this.getnonObstericComplications();
+  this.InfantFormArray();
+  this.editPWDeliveryForm(RCHID,CASENO);
+  this.editFlag=true;
+  window.localStorage.removeItem("RCH_ID") ;
 
 }
 else
-
 { 
+  //alert("IN ADD MODE NEW BENEFICIARY =:"+NEWRCHID)
     this.DeliveryForm();
     //this.InfantForm();
-    this.getBeneficiaryDetails(NEWRCHID, 2);
+    this.getBeneficiaryDetails(NEWRCHID, CASENO);
     this.getHealthFacility();
     this.deliveryComplications();
     this.typeDelivery();
@@ -262,7 +284,10 @@ else
       },
       {
         validator: [this.validDeliveryDate('lmpDate', 'lastAncVisitDate', 'deliveryDate'),
-        this.validDischargeDate('dischargeDate','deliveryDate')]
+        this.validDischargeDate('dischargeDate','deliveryDate'), this.validStillBirth('stillBirth','fresh','macerated')
+      
+      
+      ]
       }
 
 
@@ -358,9 +383,7 @@ else
                 dischargeNgbdate.setErrors({ valiDischargeMaxDateFlag: true });
        
                }
-
-           
-           
+      
              else
              {
               dischargeNgbdate.setErrors(null);
@@ -374,9 +397,6 @@ else
 
   pragnancyWeekCal( )
   {
-
-
-
     const mDeathNgbDate= this.deliveryForm.controls["maternalDeathDate"].value;
     const lmpdate =  this.deliveryForm.controls["lmpDate"].value;
     const matDeathdate = mDeathNgbDate ? new Date(mDeathNgbDate.year, mDeathNgbDate.month - 1, mDeathNgbDate.day) : new Date();
@@ -392,7 +412,39 @@ else
     }
   }
 
+  validStillBirth(stillBirth : any ,fresh : any , macerated: any )
+  {
+  return (formGroup: FormGroup) => {
 
+    const stillInfant = formGroup.controls[stillBirth];
+    const freshInfant = formGroup.controls[fresh];
+    const maceratedInfant = formGroup.controls[macerated];
+
+    if (!stillInfant || !freshInfant || !maceratedInfant ) {
+      return null;
+    }
+
+    if (maceratedInfant.errors && !maceratedInfant.errors.validStillBirthFlag) {
+      return null;
+    }
+
+    if ((stillInfant.value !='' && freshInfant.value !='' && maceratedInfant.value !=''))
+{
+
+if(Number(stillInfant.value)!==(Number(freshInfant.value)+Number(maceratedInfant.value)))  
+{
+  maceratedInfant.setErrors({ validStillBirthFlag: true });
+       
+}
+else
+{
+  maceratedInfant.setErrors(null);
+ 
+}
+
+  }
+  }
+}
 
   liveBirthChange()
   {
@@ -438,19 +490,19 @@ this.clearFormArray(infantArray);
       this.deliveryForm.controls['lastAncVisitDate'].setValue(this.datepipe.transform(response.lastANCVisitDate, 'yyyy-MM-dd'));
   
    
-  this.parentState 
-  this.parentDistrict=response.districtCode
+this.parentState 
+this.parentDistrict=response.districtCode
   // parentTaluka; 
-   this.parentBlock =response.healthBlockCode
-    this.parentFacility=response.healthBlockCode
+this.parentBlock =response.healthBlockCode
+this.parentFacility=response.healthBlockCode
    // parentSubcenter; 
-    this.parentVillage=response.villageCode
-    this.parentFacilityType=response.healthFacilityType
+this.parentVillage=response.villageCode
+this.parentFacilityType=response.healthFacilityType
 this.parentStateName="Chadigarh"
 this.parentDistrictName=response.Chandigarh
 //parentTalukaName; 
 this.parentBlockName=response.healthBlockName
- this.parentFacilityName=response.healthFacilityName
+this.parentFacilityName=response.healthFacilityName
 this.parentSubcenterName;
 this.parentVillageName=response.villageName
 
@@ -570,13 +622,15 @@ this.parentVillageName=response.villageName
   deliveryFacilityChange() {
     this.tabMisoDiv = false;
     this.deliveryPlaceDiv = false;
-    this.otherdeliveryLocationDiv = false;``
+    this.otherdeliveryLocationDiv = false;
+
+    this.deliveryForm.controls['deliveryLocationId'].setValue(null)
     this.deliveryForm.controls['deliveryLocationId'].clearValidators()
     this.deliveryForm.controls['deliveryLocationId'].updateValueAndValidity()
+    this.deliveryForm.controls['tabMisoprostol'].setValue('')
     this.deliveryForm.controls['tabMisoprostol'].clearValidators()
     this.deliveryForm.controls['tabMisoprostol'].updateValueAndValidity()
     this.deliveryForm.controls['deliveryLocation'].setValue('')
-   
     this.deliveryForm.controls['deliveryLocation'].clearValidators()
     this.deliveryForm.controls['deliveryLocation'].updateValueAndValidity()
     this.typeId = this.deliveryForm.get('deliveryPlace').value
@@ -589,7 +643,7 @@ this.parentVillageName=response.villageName
     }
     if (this.typeId == 99) {
       this.otherdeliveryLocationDiv = true;
-      this.deliveryForm.controls['deliveryLocation'].setValidators([Validators.required])
+      this.deliveryForm.controls['deliveryLocation'].setValidators([Validators.required,Validators.maxLength(50)])
       this.deliveryForm.controls['deliveryLocation'].updateValueAndValidity()
     }
 
@@ -611,11 +665,10 @@ this.parentVillageName=response.villageName
     this.deliveryForm.controls['deliveryConductedOther'].setValue('')
     this.deliveryForm.controls['deliveryConductedOther'].clearValidators()
     this.deliveryForm.controls['deliveryConductedOther'].updateValueAndValidity()
-
-
+   
     if (this.deliveryForm.controls['deliveryConductedBy'].value == 99) {
       this.deliveryConductDiv = true;
-      this.deliveryForm.controls['deliveryConductedOther'].setValidators([Validators.required])
+      this.deliveryForm.controls['deliveryConductedOther'].setValidators([Validators.required,Validators.maxLength(50)])
       this.deliveryForm.controls['deliveryConductedOther'].updateValueAndValidity()
 
     }
@@ -623,7 +676,6 @@ this.parentVillageName=response.villageName
 
 
   deliveryComplicationSelect(e: any) {
-
 
     if (e.id == "H") {
       this.deliveryComplicationDiv = true;
@@ -705,11 +757,20 @@ this.parentVillageName=response.villageName
   deliveryOutcomeChange() {
     this.liveBirthDiv = false;
     this.stillBirthDiv = false;
+    let infantArray : FormArray= this.infantForm.get('infantFormArray') as FormArray
+    this.clearFormArray(infantArray);
+    this.deliveryForm.controls['liveBirth'].setValue('')
+    this.deliveryForm.controls['stillBirth'].setValue('')
+    this.deliveryForm.controls['fresh'].setValue('')
+    this.deliveryForm.controls['macerated'].setValue('')
     this.deliveryForm.controls['liveBirth'].clearValidators()
     this.deliveryForm.controls['liveBirth'].updateValueAndValidity()
     this.deliveryForm.controls['stillBirth'].clearValidators()
     this.deliveryForm.controls['stillBirth'].updateValueAndValidity()
-
+    this.deliveryForm.controls['fresh'].clearValidators()
+    this.deliveryForm.controls['fresh'].updateValueAndValidity()
+    this.deliveryForm.controls['macerated'].clearValidators()
+    this.deliveryForm.controls['macerated'].updateValueAndValidity()
 
     if (this.deliveryForm.controls['deliveryOutcomes'].value == 1) {
       this.liveBirthDiv = true;
@@ -718,12 +779,40 @@ this.parentVillageName=response.villageName
 
     }
 
-    if (this.deliveryForm.controls['deliveryOutcomes'].value == 3) {
+    if (this.deliveryForm.controls['deliveryOutcomes'].value == 2) {
       this.stillBirthDiv = true;
+
+
       this.deliveryForm.controls['stillBirth'].setValidators([Validators.required])
       this.deliveryForm.controls['stillBirth'].updateValueAndValidity()
 
+      this.deliveryForm.controls['fresh'].setValidators([Validators.required])
+      this.deliveryForm.controls['fresh'].updateValueAndValidity()
+
+      this.deliveryForm.controls['macerated'].setValidators([Validators.required])
+      this.deliveryForm.controls['macerated'].updateValueAndValidity()
+
+      
+
     }
+  }
+
+  stillBirthCalculation()
+  {
+const stillBirth =  Number(this.deliveryForm.controls['stillBirth'].value)
+const fresh = Number(this.deliveryForm.controls['fresh'].value)
+const macerated=  Number(this.deliveryForm.controls['macerated'].value)
+
+if ((stillBirth>0 && fresh>0  && macerated>0))
+{
+if (stillBirth!==(fresh+macerated))
+{
+alert("Sum of fresh and mascerated must be Still Birth")
+}
+
+
+}
+
   }
 
 
@@ -732,38 +821,48 @@ this.parentVillageName=response.villageName
     this.maternalDeathDiv=false;
     this.nonObstericComplicationDiv = false
     this.otherMdeathCauseDiv = false;
+
+    this.MdeathPlaceOtherDiv = false;
+    this.MdeathPlaceDiv = false;
+  
+    this.deliveryForm.controls['maternalDeathDate'].setValue('')
     this.deliveryForm.controls['maternalDeathDate'].clearValidators()
     this.deliveryForm.controls['maternalDeathDate'].updateValueAndValidity()
-
-    this.deliveryForm.controls['pregnancyWeek'].clearValidators()
+ 
+    this.deliveryForm.controls['pregnancyWeek'].setValue('')
+     this.deliveryForm.controls['pregnancyWeek'].clearValidators()
     this.deliveryForm.controls['pregnancyWeek'].updateValueAndValidity()
 
-    this.deliveryForm.controls['maternalDeathPlace'].clearValidators()
+    this.deliveryForm.controls['maternalDeathPlace'].setValue('')
+   this.deliveryForm.controls['maternalDeathPlace'].clearValidators()
     this.deliveryForm.controls['maternalDeathPlace'].updateValueAndValidity()
 
+    this.deliveryForm.controls['maternalDeathLocationId'].setValue('')
     this.deliveryForm.controls['maternalDeathLocationId'].clearValidators()
     this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
 
+    this.deliveryForm.controls['maternalDeathLocation'].setValue('')
     this.deliveryForm.controls['maternalDeathLocation'].clearValidators()
     this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
 
+    this.deliveryForm.controls['deathCause'].setValue('')
     this.deliveryForm.controls['deathCause'].clearValidators()
     this.deliveryForm.controls['deathCause'].updateValueAndValidity()
 
+    this.deliveryForm.controls['nonObstetricComplications'].setValue('')
     this.deliveryForm.controls['nonObstetricComplications'].clearValidators()
     this.deliveryForm.controls['nonObstetricComplications'].updateValueAndValidity()
 
+    this.deliveryForm.controls['notificationByAsha'].setValue('')
     this.deliveryForm.controls['notificationByAsha'].clearValidators()
     this.deliveryForm.controls['notificationByAsha'].updateValueAndValidity()
 
+    this.deliveryForm.controls['fbirByAnm'].setValue('')
     this.deliveryForm.controls['fbirByAnm'].clearValidators()
     this.deliveryForm.controls['fbirByAnm'].updateValueAndValidity()
 
-
-    this.deliveryForm.controls['nonObstetricComplications'].clearValidators()
-    this.deliveryForm.controls['nonObstetricComplications'].updateValueAndValidity()
-
-
+    
+    this.deliveryForm.controls['deathOther'].setValue('')
     this.deliveryForm.controls['deathOther'].clearValidators()
     this.deliveryForm.controls['deathOther'].updateValueAndValidity()
 
@@ -771,6 +870,26 @@ this.parentVillageName=response.villageName
 if (this.deliveryForm.get("maternalDeath").value==1)
 {
   this.maternalDeathDiv=true;
+  this.deliveryForm.controls['maternalDeathDate'].setValidators([Validators.required])
+  this.deliveryForm.controls['maternalDeathDate'].updateValueAndValidity()
+
+
+  this.deliveryForm.controls['pregnancyWeek'].setValidators([Validators.required])
+  this.deliveryForm.controls['pregnancyWeek'].updateValueAndValidity()
+
+  this.deliveryForm.controls['maternalDeathPlace'].setValidators([Validators.required])
+  this.deliveryForm.controls['maternalDeathPlace'].updateValueAndValidity()
+
+  this.deliveryForm.controls['deathCause'].setValidators([Validators.required])
+  this.deliveryForm.controls['deathCause'].updateValueAndValidity()
+
+  this.deliveryForm.controls['notificationByAsha'].setValidators([Validators.required])
+  this.deliveryForm.controls['notificationByAsha'].updateValueAndValidity()
+
+  this.deliveryForm.controls['fbirByAnm'].setValidators([Validators.required])
+  this.deliveryForm.controls['fbirByAnm'].updateValueAndValidity()
+
+
 }
     
 else
@@ -780,6 +899,48 @@ else
     
 
   }
+
+
+
+  deathFacilityChange() {
+    this.MdeathPlaceOtherDiv = false;
+    this.MdeathPlaceDiv = false;
+    this.deliveryForm.controls['maternalDeathLocation'].setValue('')
+    this.deliveryForm.controls['maternalDeathLocationId'].setValue('')
+    this.deliveryForm.controls['maternalDeathLocationId'].clearValidators()
+    this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
+    this.deliveryForm.controls['maternalDeathLocation'].clearValidators()
+    this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
+
+
+    this.typeId = this.deliveryForm.get('maternalDeathPlace').value
+    this.deathLoc = [];
+    if (this.typeId == 99) {
+      this.MdeathPlaceOtherDiv = true;
+    
+      this.deliveryForm.controls['maternalDeathLocation'].setValidators([Validators.required,Validators.maxLength(50)])
+      this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
+
+    }
+    else if (this.typeId != 99)
+    {
+      this.MdeathPlaceDiv = true;
+      this.deliveryForm.controls['maternalDeathLocationId'].setValidators([Validators.required])
+      this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
+
+      this.mDeathHealthFaclityType(this.typeId)
+
+    }
+
+
+
+  }
+
+
+
+
+
+
 
   mDeathReasonChange() {
     this.nonObstericComplicationDiv = false
@@ -822,10 +983,24 @@ else
     return invalid;
   }
 
+
+  clearDelivery()
+  {
+    this.deliveryForm.reset();
+    this.deliveryForm.clearValidators();
+    this.deliveryForm.updateValueAndValidity();
+    this.DeliveryForm();
+    
+  }
+
+
+
   submitDelivery(deliveryForm: FormGroup) {
     this.submitted = true;
     let complicationID: String = "";
     console.log(this.findInvalidControls())
+
+    console.log("DELIVERY DATE NG MODEL"+this.deliveryDateSelected)
 
     for (let i = 0; i < this.deliveryComplicationSelected.length; i++) {
       complicationID = complicationID + String(this.deliveryComplicationSelected[i].id)
@@ -903,7 +1078,7 @@ else
     
     })
 
-debugger
+//debugger
 if(this.editFlag==false)
 {
     //################ SAVE PW DELIVERY ##############//
@@ -915,7 +1090,8 @@ if(this.editFlag==false)
       let response = JSON.parse(JSON.stringify(res));
       console.log("Response When PW Delivery Save Posted ---" + response);
       alert(response.title)
-    
+
+     this.clearDelivery()
      // this.clearEct();
       },
         error => {
@@ -923,11 +1099,13 @@ if(this.editFlag==false)
         if (error.status==409)
         {
           alert("Pragnant Women Delivery has already been Saved ");
+          this.clearDelivery()
   
         }
         else
         {
           alert("Problem with PW Delivery Save  Please contact Administrator " +error.status );
+          this.clearDelivery()
      
         }
    
@@ -949,6 +1127,11 @@ if(this.editFlag==false)
         alert(response.title)
         
          // this.clearEct();
+
+         this.deliveryForm.get('deliveryDate').setValue(deliveryDate);
+         this.deliveryForm.get('dischargeDate').setValue(dischargeDate);
+         this.deliveryForm.get('dischargeDate').setValue(mdeathDate);
+     
      
       
           },
@@ -1098,8 +1281,6 @@ break
          this.deliveryForm.controls['deliveryLocationId'].setValue( response[0].deliveryLocationId);
          this.deliveryForm.controls['deliveryLocationId'].setValidators([Validators.required])
          this.deliveryForm.controls['deliveryLocationId'].updateValueAndValidity()
-         
-       
         }
     
  
@@ -1129,7 +1310,6 @@ for (var i=0;i< deliveryComplication.length;i++)
   deliveryCompArray[index] = { id: this.deliveryComplication[index].id, itemName: this.deliveryComplication[index].itemName, namedId: this.deliveryComplication[index].namedId };
  }
 
-
  this.deliveryForm.controls['deliveryComplication'].setValue(deliveryCompArray) ;
  this.deliveryForm.controls['maternalDeath'].setValue(response[0].maternalDeath); 
 
@@ -1138,6 +1318,12 @@ for (var i=0;i< deliveryComplication.length;i++)
  {
 case  1 :
 this. maternalDeathDiv=true;
+this.deliveryForm.controls['maternalDeathDate'].setValidators([Validators.required])
+this.deliveryForm.controls['maternalDeathPlace'].setValidators([Validators.required])
+this.deliveryForm.controls['deathCause'].setValidators([Validators.required])
+this.deliveryForm.controls['notificationByAsha'].setValidators([Validators.required])
+this.deliveryForm.controls['fbirByAnm'].setValidators([Validators.required])
+
 this.deliveryForm.controls['deathCause'].setValue(response[0].maternalDeathPlace);
 this.deliveryForm.controls['notificationByAsha'].setValue(response[0].notificationByAsha);
 this.deliveryForm.controls['fbirByAnm'].setValue(response[0].fbirByAnm); 
@@ -1177,23 +1363,12 @@ case  2 :
 
 
 }
-
-
-
-
   })
 }
 
  
 
-  
-
-
-  
-
-
-
-  getHealthProviderAnm(subcentrecode: number, typeid: number) {
+    getHealthProviderAnm(subcentrecode: number, typeid: number) {
     this.backendApiService.getHealthProvideratSubcentre(subcentrecode, typeid).subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
       this.healthProvider = response;
@@ -1212,7 +1387,6 @@ case  2 :
       let response = JSON.parse(JSON.stringify(res));
       this.healthProviderAsha = response;
 
-
       if (this.healthProviderAsha.length < 1) {
         this.healthProviderAsha = [{ id: 0, name: "Not Available", contact_No: "" }]
       }
@@ -1226,7 +1400,6 @@ case  2 :
   usehierarchyHandler(hierarchyMobj: HierarchyModel) {
 
     this.hierarchyMobj = hierarchyMobj;
-
     this.selectedVillage = this.hierarchyMobj.villageid
     this.selectedSubCentre = this.hierarchyMobj.subfacilityid
     this.selectedFacilityCode = this.hierarchyMobj.facilityid
@@ -1267,39 +1440,6 @@ case  2 :
       }
 
     }
-  }
-
-
-  deathFacilityChange() {
-    this.MdeathPlaceOtherDiv = false;
-    this.MdeathPlaceDiv = false;
-    this.deliveryForm.controls['maternalDeathLocation'].setValue('')
-    this.deliveryForm.controls['maternalDeathLocationId'].clearValidators()
-    this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
-    this.deliveryForm.controls['maternalDeathLocation'].clearValidators()
-    this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
-
-
-    this.typeId = this.deliveryForm.get('maternalDeathPlace').value
-    this.deathLoc = [];
-    if (this.typeId == 99) {
-      this.MdeathPlaceOtherDiv = true;
-      this.deliveryForm.controls['maternalDeathLocation'].setValidators([Validators.required])
-      this.deliveryForm.controls['maternalDeathLocation'].updateValueAndValidity()
-
-    }
-    if (this.typeId != 99)
-    {
-      this.MdeathPlaceDiv = true;
-      this.deliveryForm.controls['maternalDeathLocationId'].setValidators([Validators.required])
-      this.deliveryForm.controls['maternalDeathLocationId'].updateValueAndValidity()
-
-      this.mDeathHealthFaclityType(this.typeId)
-
-    }
-
-
-
   }
 
 //############################################## INFANT FORM ##########################################//
@@ -1372,23 +1512,8 @@ getControls() {
   return (this.infantForm.get('infantFormArray') as FormArray).controls;
 }
 
-
-
 submitInfants(infantForm : FormGroup)
-{
+{}
 
 }
-
-
-
-
-}
-
-
-
-
-
-
-
-
 

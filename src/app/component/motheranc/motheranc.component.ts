@@ -12,6 +12,7 @@ import { PGModel } from 'src/app/Core/Model/PG-Model';
 import { IfStmt } from '@angular/compiler';
 import { HttpClient } from '@angular/common/http';
 import { decimalDigest } from '@angular/compiler/src/i18n/digest';
+import { forEachChild } from 'typescript';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class MotherancComponent implements OnInit {
   MTtArray: Array<any>;
   MFoetalMovementsArray: Array<any>;
   MSymptomshighriskArray: Array<any>;
-  MDeathcauseArray: Array<any>;
+ 
 
   hierarchyMobj = new HierarchyModel();
   selectedVillage;
@@ -81,8 +82,11 @@ export class MotherancComponent implements OnInit {
 
   submitted = false;
 
-  MMethodsPpmcPpcArray: Array<any>; selectedPAC = []; showOtherPAC: boolean = false;
-  settingsPAC = {
+  MMethodsPpmcPpcArray: Array<any>;showOtherPAC: boolean = false;
+  
+  selectedDeathCause = [];  MDeathcauseArray: Array<any>=[];
+
+  settingsDeathCause = {
     text: "Select",
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
@@ -150,15 +154,20 @@ export class MotherancComponent implements OnInit {
     })
   }
 
-  GetMMethodsPpmcPpc(): void {
-    this.backendApiService.GetMMethodsPpmcPpc().subscribe((res: Response) => {
+  GetMDeathcause(): void {
+    debugger
+    this.backendApiService.GetMDeathcause().subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
-      this.MMethodsPpmcPpcArray = response;
-      /*  let count = 0;
-      for (var val of response) {
-        this.MMethodsPpmcPpcArray[count] = { id: val.method, itemName: val.name };
-        count++;
-      } */
+      console.log(response)
+     // this.MDeathcauseArray = response;
+     debugger
+     let count = 0;
+     for (var val of response) {
+
+       this.MDeathcauseArray[count] = { id: val.id, itemName: val.name };
+       count++;
+     }
+
     })
   }
   ///////////////////PAC event here\\\\\\\\\\\
@@ -200,15 +209,35 @@ export class MotherancComponent implements OnInit {
 
   }
 
-  OnItemDeSelectPAC(item: any) {
+  ///////////////////Death Cause event here\\\\\\\\\\\
+  onItemSelectDeathCause(item: any) {
+    debugger
+    // alert(item.id);
+    console.log(item.target.value);
+    // console.log(this.selectedPAC);
+    if (item.target.value == 'Z') {
+
+      this.Show_DeathCause = true;
+
+      this.motherancForm.get('OtherDeath').setValidators(Validators.required);
+      this.motherancForm.get('OtherDeath').updateValueAndValidity();
+
+
+
+    }
+   
+
+  }
+
+  OnItemDeSelectDeathCause(item: any) {
     console.log(item);
-    console.log(this.selectedPAC);
+    console.log(this.selectedDeathCause);
 
-    if (item.id == "I") {
-      this.motherancForm.get('otherPAC').setValidators([]); // or clearValidators()
-      this.motherancForm.get('otherPAC').updateValueAndValidity();
-      this.showOtherPAC = false;
-      this.settingsPAC = {
+    if (item.id == "Z") {
+      this.motherancForm.get('OtherDeath').setValidators([]); // or clearValidators()
+      this.motherancForm.get('OtherDeath').updateValueAndValidity();
+      this.Show_DeathCause = false;
+      this.settingsDeathCause = {
         text: "Select",
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
@@ -220,19 +249,7 @@ export class MotherancComponent implements OnInit {
       };
 
     }
-    else if (item.id == 'H') {
-      this.settingsPAC = {
-        text: "Select",
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
-        classes: "myclass custom-class",
-        enableCheckAll: false,
-        clearAll: false,
-        autoUnselect: true,
-        limitSelection: 100,
-      };
-
-    }
+ 
 
 
   }
@@ -429,10 +446,10 @@ debugger
       otherPAC: (''),
       Weight: ['', [Validators.required, Validators.min(30), Validators.max(200)]],
       Midarm: ['', [Validators.required, Validators.min(10), Validators.max(99)]],
-      BPSystolic: ['', [Validators.min(40), Validators.max(400)]],
-      BPDiastolic: ['', [Validators.min(30), Validators.max(300)]],
+      BPSystolic: [{ value: '', disabled: true }, [Validators.min(40), Validators.max(400)]],
+      BPDiastolic: [{ value: '', disabled: true }, [Validators.min(30), Validators.max(300)]],
       BPNotdone: (true),
-      HB: ['', [Validators.min(2.0), Validators.max(18.0)]],
+      HB: [{ value: '', disabled: true }, [Validators.min(2.0), Validators.max(18.0)]],
       HBNotdone: (true),
       UrineTest: (''),
       UrineAlbumin: (''),
@@ -517,7 +534,7 @@ public findInvalidControls() {
       return
       }
 
-      if (bpSystolic.errors && !bpDistolic.errors.validBp) {
+      /* if (bpSystolic.errors && !bpDistolic.errors.validBp) {
      //   bpDistolic.setErrors(null);
      return
       }
@@ -525,12 +542,12 @@ public findInvalidControls() {
      //   bpDistolic.setErrors(null);
         return
       }
-
+ */
     
      
       if (bpSystolic.value != '' && bpSystolic.value != null && bpDistolic.value != '' && bpDistolic.value != null) {
         if (Number(bpSystolic.value) < Number(bpDistolic.value)) {
-          bpDistolic.setErrors({ validBPDiastolic: true });
+          bpDistolic.setErrors({ validBp: true });
 
         } else {
           bpDistolic.setErrors(null);
@@ -551,6 +568,12 @@ public findInvalidControls() {
     let modified_HighRisk = ""
     for (var val of this.selectedhighrisk) {
       modified_HighRisk = modified_HighRisk + val.id;
+
+
+    }
+    let modified_DeathCause = ""
+    for (var val of this.selectedDeathCause) {
+      modified_DeathCause = modified_DeathCause + val.id;
 
 
     }
@@ -585,7 +608,7 @@ public findInvalidControls() {
     
     data.registrationNo = Number(this.motherancForm.controls['RCHID'].value)
     // data.ancNo = 1
-    data.ancType = Number((this.motherancForm.controls['ANCPeriod'].value).substr(0, 1))
+   
     //nisha
     data.facilityPlaceAncdone = this.motherancForm.controls['FacilityType'].value
     let f_type = this.motherancForm.controls['FacilityType'].value
@@ -616,6 +639,7 @@ public findInvalidControls() {
         if (this.motherancForm.controls['DateANC'].value != "") {
           try {
             data.ancDate = this.parseDate(this.motherancForm.controls['DateANC'].value);
+            data.ancType = Number((this.motherancForm.controls['ANCPeriod'].value).substr(0, 1))
           }
           catch { data.ancDate = new Date(); }
           data.abortionType = 0;
@@ -818,12 +842,14 @@ public findInvalidControls() {
           //data.other=this.motherancForm.controls['PregnancyWeek'].value 
 
         }
-        else //////////////////if abortion no and Death Yes
+        
+      }
+      else //////////////////if abortion no and Death Yes
         {
           data.ancDate = new Date("1990-01-01");
           data.abortionType = 0; data.abortionPregWeeks = 0; data.inducedIndicateFacility = 0;
           data.abortionDate = null
-          data.weight = 0; data.abortionMethod = 0; data.abortionPac = ""
+          data.weight = 0; data.abortionMethod = null; data.abortionPac = ""
           data.otherAbortionPac = ""; data.pmsmaVisit = 0
           data.midArm = 0; data.ogtttest1 = 0; data.ogtttest2 = 0; data.calVitGiven = 0
           data.albeGiven = 0; data.ultraSoundTest = 0; data.ultraSoundWeek = 0; data.ultraSoundJssk = 0
@@ -856,17 +882,18 @@ public findInvalidControls() {
               data.deathDate = null;
 
             if (this.motherancForm.controls['CausebyMDR'].value != "") {
-              data.deathReason = this.motherancForm.controls['CausebyMDR'].value
+              data.deathReason = modified_DeathCause.toString()
               data.otherDeathReason = this.motherancForm.controls['OtherDeath'].value
-
+              data.deathReasonLength = modified_DeathCause.length
+              
 
             }
             else {
               data.deathReason = ""
               data.otherDeathReason = "";
-
+              data.deathReasonLength = 0
             }
-            data.deathReasonLength = 0
+           
             //data.Death_PregnancyWeek=Number(this.motherancForm.controls['DeathWeeks'].value)
           }
           else {
@@ -877,11 +904,11 @@ public findInvalidControls() {
 
           }
         }
-      }
     }
     else /////////if abortion is Yes
     {
-      data.ancDate = new Date();
+      data.ancDate = new Date("1990-01-01");
+      data.ancType = 99;
       data.abortionType = Number(this.motherancForm.controls['AbortionType'].value)
       if (this.motherancForm.controls['AbortionType'].value != "6")
         data.inducedIndicateFacility = Number(this.motherancForm.controls['InducedFacilityType'].value)
@@ -1183,7 +1210,7 @@ public findInvalidControls() {
     this.maxDate_Abortion = { year: Maxdate.getFullYear(), month: Maxdate.getMonth() + 1, day: Maxdate.getDate() }
 
     //********************* */
-    this.parentState = pg.stateCode;
+     this.parentState = 4;
     this.parentDistrict = pg.districtCode;
     // parentTaluka=pg.; 
     this.parentBlock = pg.healthBlockCode;
@@ -1197,10 +1224,35 @@ public findInvalidControls() {
     this.parentBlockName = pg.healthBlockName;
     this.parentFacilityName = pg.healthFacilityName;
     this.parentSubcenterName = pg.healthSubFacilityName;
-    this.parentVillageName = pg.villageName;
+    this.parentVillageName = pg.villageName; 
+//this.GetHierarchy(4,pg.districtCode,pg.healthBlockCode, pg.healthFacilityType,pg.healthFacilityCode,pg.healthSubFacilityCode, pg.villageCode,'R')
 
   }
   //--------------------------------------Get Master from API---------------------------
+
+  //fill Hierarchy
+  GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string){
+    debugger
+    this.backendApiService.GetHierarchy(state_code,district_code,healthBlockCode, healthFacilityType, healthFacilityCode,healthSubFacilityCode,villageCode,RU ).subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      this.parentState = state_code;
+      this.parentDistrict = response.districtCode;
+      // parentTaluka=pg.; 
+      this.parentBlock = response.healthBlockCode;
+      this.parentFacility = response.healthFacilityCode;
+      this.parentSubcenter = response.healthSubFacilityCode;
+      this.parentVillage = response.villageCode;
+      this.parentFacilityType = response.healthFacilityType;
+      this.parentStateName = response.stateName;
+      this.parentDistrictName = response.districtName;
+      //parentTalukaName; 
+      this.parentBlockName = response.healthBlockName;
+      this.parentFacilityName = response.healthFacilityName;
+      this.parentSubcenterName = response.healthSubFacilityName;
+      this.parentVillageName = response.villageName;
+    })
+  }
+
   getFacilityType(): void { // fill ANC Facility type
     this.backendApiService.GetANCDone().subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
@@ -1239,7 +1291,17 @@ public findInvalidControls() {
       this.MMethodUsed = response;
     })
   }
-
+  GetMMethodsPpmcPpc(): void {
+    this.backendApiService.GetMMethodsPpmcPpc().subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      this.MMethodsPpmcPpcArray = response;
+      /*  let count = 0;
+      for (var val of response) {
+        this.MMethodsPpmcPpcArray[count] = { id: val.method, itemName: val.name };
+        count++;
+      } */
+    })
+  }
 
   GetMTt(): void {
     this.backendApiService.GetMTt().subscribe((res: Response) => {
@@ -1259,12 +1321,7 @@ public findInvalidControls() {
       this.MSymptomshighriskArray = response;
     })
   } */
-  GetMDeathcause(): void {
-    this.backendApiService.GetMDeathcause().subscribe((res: Response) => {
-      let response = JSON.parse(JSON.stringify(res));
-      this.MDeathcauseArray = response;
-    })
-  }
+  
 
   //-------------------------------------------
   setshowANCDone() {
@@ -1373,6 +1430,7 @@ public findInvalidControls() {
   Deathchange(event) {
     if (event.target.value == 1) {
       this.Show_DeathDetails = true
+      this.GetMDeathcause();
     }
     else {
       this.Show_DeathDetails = false
@@ -1380,7 +1438,7 @@ public findInvalidControls() {
   }
   //////Post API Call//////////
   postANCData(data: any): void {
-    ////debugger
+    debugger
     console.log("inside post ec data")
     this.backendApiService.postANCData(data).subscribe(res => {
       let response = JSON.parse(JSON.stringify(res))
@@ -1633,7 +1691,7 @@ debugger
       }
     })
   }
-  onItemSelectDeathCause(event) {
+  onChangeDeathCause(event) {
     console.log(event.target.value)
     if (event.target.value == 'Z') {
 
@@ -1719,6 +1777,7 @@ debugger
       }
     }
     else { }
+    this.SetHighRisk();
   }
   calANCVisit() {
     debugger
@@ -1770,33 +1829,126 @@ debugger
       this.motherancForm.get('HB').setValidators([]);
       this.motherancForm.get('HB').updateValueAndValidity();
       this.motherancForm.controls['HB'].setValue('')
+      this.motherancForm.get('HB').disable();
     }
     else {
+      this.motherancForm.get('HB').enable();
       this.motherancForm.get('HB').setValidators(Validators.required);
       this.motherancForm.get('HB').updateValueAndValidity();
     }
   }
   SetBPNotdone(e) {
+    debugger
     if (e.target.checked == true) {
+      this.motherancForm.controls['BPDiastolic'].disable();
+     this.motherancForm.controls['BPSystolic'].disable();
       this.motherancForm.get('BPSystolic').setValidators([]);
       this.motherancForm.get('BPSystolic').updateValueAndValidity();
       this.motherancForm.get('BPDiastolic').setValidators([]);
       this.motherancForm.get('BPDiastolic').updateValueAndValidity();
       this.motherancForm.controls['BPDiastolic'].setValue('')
       this.motherancForm.controls['BPSystolic'].setValue('')
+
+      
     }
     else {
+      this.motherancForm.controls['BPDiastolic'].enable();
+     this.motherancForm.controls['BPSystolic'].enable();
+
       this.motherancForm.get('BPSystolic').setValidators(Validators.required);
       this.motherancForm.get('BPSystolic').updateValueAndValidity();
       this.motherancForm.get('BPDiastolic').setValidators(Validators.required);
       this.motherancForm.get('BPDiastolic').updateValueAndValidity();
     }
   }
-  SetHighRisk() {
-    if (this.motherancForm.controls['BPSystolic'].value >=140 && this.motherancForm.controls['HB'].value != '') {
+  SetHighRisk(){
+    debugger
+    let count = 1;  
+    count=this.selectedhighrisk.length;
+   // alert(count);
+    if (this.motherancForm.controls['BPSystolic'].value >=140) {
+
+      let valueis=0;
+ 
+      for (var val of this.selectedhighrisk) 
+      {
+        if(val.id=='A') {valueis=1;}
+      }
+      
+      if(valueis==0)
+      {
+        if(count==0)
+        {
+          this.selectedhighrisk =[{ "id": "A", "itemName": "High BP (Systolic >= 140 and or Diastolic >= 90 mmHg)" }];
+        }
+        else{
+          this.selectedhighrisk[count] ={ "id": "A", "itemName": "High BP (Systolic >= 140 and or Diastolic >= 90 mmHg)" };
+        }
+        
+
+       
+      }
+      }
+     
+     if (this.motherancForm.controls['HB'].value >=7) {
+
+      let valueis=0;
+ 
+      for (var val of this.selectedhighrisk) 
+      {
+        if(val.id=='E') {valueis=1;}
+      }
+      
+      if(valueis==0)
+      {
+     
+        if(count==0)
+        {
+          this.selectedhighrisk =[{ "id": "E", "itemName": "Severe Anaemia (Hb level < 7 gms%)" }];
+        }
+        else{
+         
+          this.selectedhighrisk[count] =[{ "id": "E", "itemName": "Severe Anaemia (Hb level < 7 gms%)" }];
+        }
+       
+
+      }
+        
+      
+    }
+     if(this.motherancForm.controls['BPDiastolic'].value >=90){
+      let valueis=0;
+      for (var val of this.selectedhighrisk) 
+      {
+        if(val.id=='A') {valueis=1;}
+      }
+      
+      if(valueis==0)
+      {
+      
+        this.selectedhighrisk[count] = { "id": "A", "itemName": "High BP (Systolic >= 140 and or Diastolic >= 90 mmHg)" };
+      }
+    }
+     if((this.motherancForm.controls['OGTT1'].value  >= 140 ) || (this.motherancForm.controls['OGTT2'].value  >= 140 )){
+     
+      let valueis=0;
+      for (var val of this.selectedhighrisk) 
+      {
+        if(val.id=='F') {valueis=1;}
+      }
+      
+      if(valueis==0)
+      {
+        this.selectedhighrisk[count] = { "id": "F", "itemName": "Diabetic" };
+      }
+    }
+    
+  }
+  SetHighRisk1() {
+   if (this.motherancForm.controls['BPSystolic'].value >=140 && this.motherancForm.controls['HB'].value != '') {
       this.selectedhighrisk = [{ "id": "A", "itemName": "High BP (Systolic >= 140 and or Diastolic >= 90 mmHg)" },
       { "id": "E", "itemName": "Severe Anaemia (Hb level < 7 gms%)" }];
-    }
+    } 
     else if (this.motherancForm.controls['BPSystolic'].value >=140) {
       this.selectedhighrisk = [{ "id": "A", "itemName": "High BP (Systolic >= 140 and or Diastolic >= 90 mmHg)" }];
 
