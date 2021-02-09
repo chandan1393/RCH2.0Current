@@ -119,7 +119,7 @@
                 <select class="form-control" id="healthproviderName" formControlName="healthproviderName"
                   [ngClass]="{ 'is-invalid': submitted && f.healthproviderName.errors }">
 
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of healthProviderANM" [value]="a.id">{{a.name}}</option>
                 </select>
                 <div *ngIf="submitted && f.healthproviderName.errors" class="invalid-feedback error_msg">
@@ -133,7 +133,7 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="ASHAid" formControlName="ASHA"
                 [ngClass]="{ 'is-invalid': submitted && f.ASHA.errors }">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of healthProviderASHA" [value]="a.id">{{a.name}} </option>
                 </select>
                 <div *ngIf="submitted && f.ASHA.errors" class="invalid-feedback error_msg">
@@ -180,10 +180,16 @@
               <div class="col-sm-6 mt-2 text-right float-left "> <label class="text-label"> Type of
                   Facility/Place/Site of ANC : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"><select class="form-control" id="FacilityTypeid"
-                   formControlName="FacilityType" (change)="setshowANCDone()">
+                   formControlName="FacilityType" (change)="setshowANCDone()" [ngClass]="{ 'is-invalid': submitted && f.FacilityType.errors }">
                   <option> select </option>
                   <option *ngFor="let b of FacilityType" [ngValue]="b.id">{{b.name}} ({{b.id}})</option>
-                </select> </div>
+                </select> 
+                <div *ngIf="submitted && f.FacilityType.errors" class="invalid-feedback error_msg">
+                  <div class="error_msg1" *ngIf="f.FacilityType.errors.required">Required
+                  </div>
+                </div>
+
+              </div>
             </div>
             <div class="col-md-4 float-left " *ngIf="Show_FacilityList">
               <div class="col-sm-6 mt-2 text-right float-left"> <label class="text-label"> Name of
@@ -222,7 +228,7 @@
                   any) : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left">
                 <select class="form-control" id="Abortionid"  formControlName="Abortion" (change)="Abortionchange($event)">
-                  <!-- <option value="">select</option> -->
+                  <!-- <option value="">Select</option> -->
                   <option [value]="0">No</option>
                   <option [value]="1">Yes</option>
                 </select>
@@ -234,7 +240,7 @@
                   :<span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> 
                 <select class="form-control" id="AbortionTypeid"    [ngClass]="{ 'is-invalid': submitted && f.AbortionType.errors }"   formControlName="AbortionType" (change)="onItemSelectAbortionType($event)">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of AbortionTypeArray" [value]="a.id">{{a.name}}</option>
                 </select>
                 <div *ngIf="submitted && f.AbortionType.errors" class="invalid-feedback error_msg">
@@ -265,11 +271,11 @@
                   Type of Facility : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="InducedFacilityTypeid" [ngClass]="{ 'is-invalid': submitted && f.InducedFacilityType.errors }"
                    formControlName="InducedFacilityType">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of AbortionInducedTypeArray" [value]="a.id">{{a.name}}</option>
                 </select> 
                 <div *ngIf="submitted && f.InducedFacilityType.errors" class="invalid-feedback error_msg">
-                  <div class="error_msg1" *ngIf="f.InducedFacilityType.errors.required">Induced Type of Facility is required</div>
+                  <div class="error_msg1" *ngIf="f.InducedFacilityType.errors.required">Required</div>
               </div></div>
             </div>
             <div class="col-md-4 float-left pl-0 pr-0">
@@ -277,7 +283,7 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"><select class="form-control" id="MethodUsedid" [ngClass]="{ 'is-invalid': submitted && f.MethodUsed.errors }" 
                    formControlName="MethodUsed">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of MMethodUsed" [value]="a.id">{{a.nameDesc}}</option>
                 </select>
               
@@ -295,13 +301,13 @@
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Post Abortion
                   Contraceptive details :<span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> 
-                <select class="form-control" (change)="onItemSelectPAC($event)" id="PACid"  formControlName="PAC" [ngClass]="{ 'is-invalid': submitted && f.PAC.errors }">
+                <select class="form-control" (change)="onItemSelectPAC($event)" id="PACid"  formControlName="PAC" >
                   <option value="">Select </option>
                 <option *ngFor="let a of MMethodsPpmcPpcArray" [value]="a.method">{{a.name}}</option>
                 </select> 
-                <div *ngIf="submitted && f.PAC.errors" class="invalid-feedback error_msg">
+               <!--  <div *ngIf="submitted && f.PAC.errors" class="invalid-feedback error_msg">
                   <div class="error_msg1" *ngIf="f.PAC.errors.required">Required</div>
-              </div>
+              </div> -->
             <!--  <angular2-multiselect [data]="MMethodsPpmcPpcArray" [(ngModel)]="selectedPAC" 
                 [settings]="settingsPAC"  (onSelect)="onItemSelectPAC($event)"
                 (onDeSelect)="OnItemDeSelectPAC($event)" id="PACid"  formControlName="PAC">                            
@@ -404,10 +410,7 @@
                   (HB) (gm%) : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-7" type="text"
                   id="HBid"  formControlName="HB" [ngClass]="{ 'is-invalid': submitted && f.HB.errors }" (change)="SetHighRisk()"/> 
-                  <div class="col-sm-11 float-left ml-1">
-                    <input type="checkbox" class="form-check-input  mt-2 float-left " id="HBNotdoneid"  formControlName="HBNotdone" (change)="SetHBNotdone($event)">  
-                    <label class="text-label mt-1  float-left">Not Done </label>
-                  </div>
+                  
                   <div *ngIf="submitted && f.HB.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
                   <div class="error_msg1" *ngIf="f.HB.errors.required">Required
@@ -415,7 +418,10 @@
 									<div class="error_msg1" *ngIf="f.HB.errors.min"> HB Value should lie between 02.0 and 18.0	</div>
                   <div class="error_msg1" *ngIf="f.HB.errors.max"> HB Value should lie between 02.0 and 18.0	</div>
                 </div>
-                
+                <div class="col-sm-11 float-left ml-1">
+                  <input type="checkbox" class="form-check-input  mt-2 float-left " id="HBNotdoneid"  formControlName="HBNotdone" (change)="SetHBNotdone($event)">  
+                  <label class="text-label mt-1  float-left">Not Done </label>
+                </div>
                 </div>
             </div>
           </div>
@@ -425,7 +431,7 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="UrineTestid" (change)="SetUrineTest()"
                    formControlName="UrineTest">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="2">Not Done</option>
                   <option [value]="1">Done</option>
                 </select>
@@ -435,7 +441,7 @@
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> Albumin :
                   <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="UrineAlbuminid"
-                   formControlName="UrineAlbumin"> <option value="">select</option>
+                   formControlName="UrineAlbumin"> <option value="">Select</option>
                   <option value="N">Absent</option>
                   <option value="P">Present</option>
                 </select> </div>
@@ -445,7 +451,7 @@
                   </span> </label> </div>
               <div class="col-sm-6 float-left"><select class="form-control" id="UrineSugarid"
                    formControlName="UrineSugar">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option value="N">Absent</option>
                   <option value="P">Present</option>
                 </select> </div>
@@ -458,7 +464,7 @@
                   Test :<span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="BloodTestid" (change)="SetBloodTest()"
                    formControlName="BloodTest">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="2">Not Done</option>
                   <option [value]="1">Done</option>
                 </select>
@@ -467,7 +473,7 @@
             <div class="col-md-4 pl-0 pr-0 float-left"  *ngIf="Show_BloodTestdiv">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> OGTT Test 1st
                   : </label> </div>
-              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text" (change)="changeOGTT1Test()"
+              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text" (change)="SetHighRisk()"
                   id="OGTT1id"  formControlName="OGTT1" [ngClass]="{ 'is-invalid': submitted && f.OGTT1.errors }"/>
                   <div *ngIf="submitted && f.OGTT1.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
@@ -535,7 +541,8 @@
             <div class="col-md-4 float-left pl-0 pr-0">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> No. of Folic
                   Acid Tablets <p class="text-under2 "> (within 12 weeks)</p>:<span> * </span> </label> </div>
-              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text"
+              <div class="col-sm-6 float-left">
+                 <input class="form-control input-new ml-0 col-md-12" type="text" (change)="changeFolicTablets()"
                   id="FolicTabletsid"  formControlName="FolicTablets" [ngClass]="{ 'is-invalid': submitted && f.FolicTablets.errors }"/>
                   <div *ngIf="submitted && f.FolicTablets.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
@@ -548,7 +555,7 @@
             <div class="col-md-4 pl-0 pr-0 float-left">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label"> No. of IFA
                   Tablets <p class="text-under2"> (After 12 Weeks) </p> : <span> * </span></label> </div>
-              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text"
+              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text" (change)="changeIFATablets()"
                   id="IFATabletsid"  formControlName="IFATablets" [ngClass]="{ 'is-invalid': submitted && f.IFATablets.errors }"/> 
                   <div *ngIf="submitted && f.IFATablets.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
@@ -563,7 +570,7 @@
                   +Vitamin D3 Tablets : <span> * </span>
                   <p class="text-under2">(after 14 weeks) </p>
                 </label> </div>
-              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text"
+              <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text" (change)="changeCalVitTablets()"
                   id="CalVitTabletsid"  formControlName="CalVitTablets" [ngClass]="{ 'is-invalid': submitted && f.CalVitTablets.errors }"/>
                   <div *ngIf="submitted && f.CalVitTablets.errors"
 									class="invalid-feedback error_msg col-md-12 float-left pl-0 pr-0">
@@ -581,7 +588,7 @@
                   <p class="text-under2">(after 14 weeks) </p>: <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="AlbendazoleTabletsid"
                    formControlName="AlbendazoleTablets">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="0">Not Given</option>
                   <option [value]="1">Given</option>
                 </select>
@@ -592,7 +599,7 @@
                   Screening <p class="text-under2"> (between 18-19 weeks) </p> : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="UltrasoundTestid"
                    formControlName="UltrasoundTest" (change)="UltrasoundTestChange($event)">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="2">Not Done</option>
                   <option [value]="1">Done</option>
                   <option [value]="3">NAP</option>
@@ -620,7 +627,7 @@
                   Scheme : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <select class="form-control" id="JSSKSchemeid"
                    formControlName="JSSKScheme" [ngClass]="{ 'is-invalid': submitted && f.JSSKScheme.errors }">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="1">Yes</option>
                   <option [value]="2">No</option>
                   <option [value]="3">Don’t Know</option>
@@ -637,7 +644,7 @@
               <div class="col-sm-6 float-left"> 
                 <select class="form-control" id="Birthcompanionid"
                    formControlName="Birthcompanion">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="1">Yes</option>
                   <option [value]="2">No</option>
                 </select> </div>
@@ -648,7 +655,7 @@
               <div class="col-sm-6 float-left">
                 <!-- <input class="form-control input-new ml-0 col-md-12" type="text"  /> -->
                   <select class="form-control" id="FundalHeightid" formControlName="FundalHeight">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="14">14weeks</option>
                   <option [value]="16">16weeks</option>
                   <option [value]="18">18weeks</option>
@@ -686,7 +693,7 @@
               <div class="col-sm-6 float-left"><select class="form-control" id="FoetalPositionid"
                    formControlName="FoetalPosition" (change)="FoetalPositionChange($event)">
 
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option [value]="1">Normal (Cephalic)</option>
                   <option [value]="2">Abnormal (Malpresentation)</option>
 
@@ -697,7 +704,7 @@
                   movements : <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"><select class="form-control" id="Foetalmovementsid"
                    formControlName="Foetalmovements">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of MFoetalMovementsArray" [value]="a.id">{{a.name}}</option>
                 </select> </div>
             </div>
@@ -804,7 +811,7 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-3 float-left mt-2"> 
                 <select class="form-control" id="PWILIid"  formControlName="PWILI" [ngClass]="{ 'is-invalid': submitted && f.PWILI.errors }">
-                <option value="">select</option>
+                <option value="">Select</option>
                 <option value="0">No</option>
                 <option value="1">Yes</option>
                
@@ -822,7 +829,7 @@
               </div>
               <div class="col-sm-3 float-left mt-1"> <select class="form-control" id="PWCovidpatientsid"
                    formControlName="isContactCovid" [ngClass]="{ 'is-invalid': submitted && f.isContactCovid.errors }">
-                  <option value="">select</option> <option value="0">No</option>
+                  <option value="">Select</option> <option value="0">No</option>
                   <option value="1">Yes</option>
                  
                 </select>
@@ -840,7 +847,7 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-3 float-left"> <select class="form-control" id="COVIDTestid"
                    formControlName="COVIDTest" [ngClass]="{ 'is-invalid': submitted && f.COVIDTest.errors }">
-                  <option value="">select</option> <option value="0">No</option>
+                  <option value="">Select</option> <option value="0">No</option>
                   <option value="1">Yes</option>
                  
                 </select>
@@ -856,7 +863,7 @@
                   : <span> * </span> </label> </div>
               <div class="col-sm-3 float-left"> 
                 <select class="form-control" id="id"  formControlName="covidTestResult" [ngClass]="{ 'is-invalid': submitted && f.covidTestResult.errors }">
-                <option value="">select</option> <option value="0">Negative</option>
+                <option value="">Select</option> <option value="0">Negative</option>
                 <option value="1">Positive</option>
                            
                 </select> 
@@ -891,10 +898,14 @@
                   <span> * </span> </label> </div>
               <div class="col-sm-6 float-left"> <input class="form-control input-new ml-0 col-md-12" type="text"
                   id="DeathDateid"  formControlName="DeathDate" ngbDatepicker #death="ngbDatepicker" [readonly]="true" [max]="maxDate" [minDate]="minDate"
-                  [maxDate]="maxDate" (ngModelChange)="calDeathweek($event)"/>
+                  [maxDate]="maxDate" (ngModelChange)="calDeathweek($event)" [ngClass]="{ 'is-invalid': submitted && f.DeathDate.errors }" />
                   <div class="font-icon pl-4" (click)="death.toggle()"> <i class="fa fa-calendar"
                     id='Deathcalenderid'></i> </div>
-                
+                    <div *ngIf="submitted && f.DeathDate.errors" class="invalid-feedback error_msg">
+                      <div class="error_msg1" *ngIf="f.DeathDate.errors.required">Required
+                      </div>
+                    </div>
+    
                 </div>
             </div>
             <div class="col-md-4 float-left pl-0 pr-0" *ngIf="Show_DeathDetails">
@@ -944,17 +955,22 @@
             <div class="col-md-4 float-left pl-0 pr-0">
               <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label class="text-label">Cause
                   identified by MDR committee : <span> * </span> </label> </div>
-              <div class="col-sm-8 float-left">
+              <div class="col-sm-6 float-left">
              <!--    <select class="form-control" id="CausebyMDRid" (change)="onItemSelectDeathCause($event)"
                    formControlName="CausebyMDR">
-                  <option value="">select</option>
+                  <option value="">Select</option>
                   <option *ngFor="let a of MDeathcauseArray" [value]="a.id">{{a.name}}</option>
                 </select>  -->
                 <angular2-multiselect [data]="MDeathcauseArray" [(ngModel)]="selectedDeathCause"  (ngModelChange)="onChangeDeathCause($event)"
                               [settings]="settingsDeathCause"  (onSelect)="onItemSelectDeathCause($event)" 
-                              (onDeSelect)="OnItemDeSelectDeathCause($event)" id="CausebyMDRid"  formControlName="CausebyMDR">                            
-                               
+                              (onDeSelect)="OnItemDeSelectDeathCause($event)" id="CausebyMDRid"  formControlName="CausebyMDR" [ngClass]="{ 'is-invalid': submitted && f.CausebyMDR.errors }"   >                             
+                              
         </angular2-multiselect>  
+        <div *ngIf="submitted && f.CausebyMDR.errors" class="invalid-feedback error_msg">
+          <div class="error_msg1" *ngIf="f.CausebyMDR.errors.required">Required
+          </div>
+        </div>
+
               </div>
             </div>
             <div class="col-md-4 float-left pl-0 pr-0" *ngIf="Show_DeathCause">
@@ -1003,6 +1019,7 @@
         <th scope="col">TT Date</th>
         <th scope="col">FA Given</th>
         <th scope="col">IFA</th>
+        <th scope="col">Calcium + Vitamin D3</th>
         <th scope="col">Abortion</th>
         <th scope="col" width="8%">Abortion Date</th>
         <th scope="col">Death</th>
@@ -1023,6 +1040,7 @@
         <td class="left">{{TTDate_Grid}}</td>
         <td class="left">{{ANC.faGiven}}</td>
         <td class="left">{{ANC.ifaGiven}}</td>
+        <td class="left">{{ANC.calVitGiven}}</td>
         <td class="left">{{ANC.abortionIfAny === 0 ? 'No':'Yes'}}</td>
         <td class="right">{{ANC.abortionDate|slice:0:10|date:'dd-MM-yyyy'}}</td>
         <td class="left"> {{ANC.maternalDeath === 0 ? 'No':'Yes'}} </td>

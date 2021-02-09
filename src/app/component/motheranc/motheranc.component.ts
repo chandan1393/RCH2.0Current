@@ -70,11 +70,14 @@ export class MotherancComponent implements OnInit {
 
   Anc_1_start_date: Date; Anc_1_end_date: Date; Anc_2_start_date: any; Anc_2_end_date: any; Anc_3_start_date: any; Anc_3_end_date: any; Anc_4_start_date: any; Anc_4_end_date: any;
   bsLMPDate; bsdate: Date; caseid;
-  minDate; minDate_Abortion;
-  maxDate; maxDate_Abortion;
-  ipAddress: string
-  selectedFinencialYear;
-  TT_Grid; TTDate_Grid;
+  minDate; minDate_Abortion; minDate_TT;
+  maxDate; maxDate_Abortion; maxDate_TT;
+
+
+  ipAddress: string;   selectedFinencialYear;
+
+  ANC_Details_Exit: boolean = true;Last_Visit_PMSMA: boolean = false;
+  TT_Grid; TTDate_Grid;given_IFA:number =0; given_CalVitTablets:number =0;bloodgroup;
 
   constructor(private fb: FormBuilder, private backendApiService: BackendAPIService,
     private tokenservice: TokenStorageService, private route: ActivatedRoute, public router: Router, private http: HttpClient) { }
@@ -213,9 +216,9 @@ export class MotherancComponent implements OnInit {
   onItemSelectDeathCause(item: any) {
     debugger
     // alert(item.id);
-    console.log(item.target.value);
+    console.log(item.id);
     // console.log(this.selectedPAC);
-    if (item.target.value == 'Z') {
+    if (item.id == 'Z') {
 
       this.Show_DeathCause = true;
 
@@ -433,7 +436,7 @@ debugger
       DateANC: ['', [Validators.required]],
       ANCPeriod: (''),
       PMSMA: (''),
-      FacilityType: (''),
+      FacilityType: ['', [Validators.required]],
       FacilityName: (''),
       FacilityPlace: (''),
       PregnancyWeek: (''),
@@ -446,11 +449,11 @@ debugger
       otherPAC: (''),
       Weight: ['', [Validators.required, Validators.min(30), Validators.max(200)]],
       Midarm: ['', [Validators.required, Validators.min(10), Validators.max(99)]],
-      BPSystolic: [{ value: '', disabled: true }, [Validators.min(40), Validators.max(400)]],
-      BPDiastolic: [{ value: '', disabled: true }, [Validators.min(30), Validators.max(300)]],
-      BPNotdone: (true),
-      HB: [{ value: '', disabled: true }, [Validators.min(2.0), Validators.max(18.0)]],
-      HBNotdone: (true),
+      BPSystolic: [{ value: '', disabled: false }, [Validators.required,Validators.min(40), Validators.max(400)]],
+      BPDiastolic: [{ value: '', disabled: false }, [Validators.required,Validators.min(30), Validators.max(300)]],
+      BPNotdone: (false),
+      HB: [{ value: '', disabled: false }, [Validators.required,Validators.min(2.0), Validators.max(18.0)]],
+      HBNotdone: (false),
       UrineTest: (''),
       UrineAlbumin: (''),
       UrineSugar: (''),
@@ -461,8 +464,8 @@ debugger
       TTDose: (''),
       TTDate: (''),
       FolicTablets: ['', [Validators.min(0), Validators.max(100)]],
-      IFATablets: ['', [Validators.min(0), Validators.max(400)]],
-      CalVitTablets: ['', [Validators.min(0), Validators.max(360)]],
+      IFATablets: ['', [Validators.min(0), Validators.max(120)]],
+      CalVitTablets: ['', [Validators.min(0), Validators.max(180)]],
       AlbendazoleTablets: (''),
       UltrasoundTest: (''),
       UltrasoundWeeks: (''),
@@ -572,13 +575,13 @@ public findInvalidControls() {
 
     }
     let modified_DeathCause = ""
-    for (var val of this.selectedDeathCause) {
-      modified_DeathCause = modified_DeathCause + val.id;
+    for (var val1 of this.selectedDeathCause) {
+      modified_DeathCause = modified_DeathCause + val1.id;
 
 
     }
     this.submitted = true;
-    alert('yes form submitted');
+    //alert('yes form submitted');
     this.findInvalidControls()  ;
      if (this.motherancForm.invalid) {
       return;
@@ -598,12 +601,17 @@ public findInvalidControls() {
     data.healthFacilityCode = this.selectedFacilityCode
     data.healthSubFacilityCode = this.selectedSubCentre
     data.villageCode = this.selectedVillage
+   
     if(this.motherancForm.controls['DateANC'].value !=""){
     data.financialYear = (this.motherancForm.controls['DateANC'].value).year
     data.financialYr= String(this.selectedFinencialYear)}
-    else{
+    else if (this.motherancForm.controls['AbortionDate'].value !=""){
       data.financialYear = (this.motherancForm.controls['AbortionDate'].value).year
     data.financialYr= String(this.selectedFinencialYear)
+    }
+    else{
+      data.financialYear = (this.motherancForm.controls['DeathDate'].value).year
+      data.financialYr= String(this.selectedFinencialYear)
     }
     
     data.registrationNo = Number(this.motherancForm.controls['RCHID'].value)
@@ -846,7 +854,7 @@ public findInvalidControls() {
       }
       else //////////////////if abortion no and Death Yes
         {
-          data.ancDate = new Date("1990-01-01");
+          data.ancDate = new Date("1990-01-01");  data.ancType = 99;
           data.abortionType = 0; data.abortionPregWeeks = 0; data.inducedIndicateFacility = 0;
           data.abortionDate = null
           data.weight = 0; data.abortionMethod = null; data.abortionPac = ""
@@ -862,7 +870,7 @@ public findInvalidControls() {
           data.foetalMovements = 0; data.symptomsHighRisk = "0"
           data.otherSymptomsHighRisk = ""; data.referralDate = null; data.referralFacility = "0"
           data.referralLocation = "";
-          data.deathDate = null; data.deathReason = "0"; data.otherDeathReason = ""
+         // data.deathDate = null; data.deathReason = "0"; data.otherDeathReason = ""
           //data.ppmc="0";data.other=""
           data.maternalDeath = Number(this.motherancForm.controls['MaternalDeath'].value)
 
@@ -871,15 +879,12 @@ public findInvalidControls() {
             if (this.motherancForm.controls['DeathDate'].value != "") {
               try {
                 data.deathDate = this.parseDate(this.motherancForm.controls['DeathDate'].value)
-
               }
               catch
-              {
-                data.deathDate = null;
-              }
+              {                data.deathDate = null;              }
             }
-            else
-              data.deathDate = null;
+            else{
+              data.deathDate = null;}
 
             if (this.motherancForm.controls['CausebyMDR'].value != "") {
               data.deathReason = modified_DeathCause.toString()
@@ -904,7 +909,7 @@ public findInvalidControls() {
 
           }
         }
-    }
+        }
     else /////////if abortion is Yes
     {
       data.ancDate = new Date("1990-01-01");
@@ -1039,9 +1044,16 @@ public findInvalidControls() {
       else if(( this.comparetwodates(this.motherancForm.controls['DateANC'].value,this.ANCGridArray[i-1].ancDate))< 0){
         alert('ANC Date should be greater than Previous ANC Date')
         return false }
-      else if(( this.comparetwodates(this.motherancForm.controls['DateANC'].value,this.ANCGridArray[i-1].ancDate)) < 21 && (this.ANCGridArray[i-1].pmsmaVisit == null || this.ANCGridArray[i-1].pmsmaVisit == 0)  ){
+      else if(( this.comparetwodates(this.motherancForm.controls['DateANC'].value,this.ANCGridArray[i-1].ancDate)) < 21 && (this.ANCGridArray[i-1].pmsmaVisit == null || this.ANCGridArray[i-1].pmsmaVisit == 0) ){
         alert('There should be 21 days gap between two ANCs')
         return false
+      }
+      else if(this.ANCGridArray[i-1].tt1Date != null){
+        let tt1date: Date = new Date(this.ANCGridArray[i-1].tt1Date);
+        tt1date.setDate(tt1date.getDate() + 21);
+        if(( this.comparetwodates(this.motherancForm.controls['TTDate'].value,tt1date))< 0 && (this.motherancForm.controls['TTDose'].value ==14)){
+          alert('There should be atleast 21 days gap between TT1 & TT2')
+          return false }
       }
       else 
       {
@@ -1132,29 +1144,37 @@ public findInvalidControls() {
       let response = JSON.parse(JSON.stringify(res));
       if (response.length > 0) {
         this.btncontinue=true
-        
+        this.ANC_Details_Exit =true
         this.ANCGridArray = response;
         this.gen_rchid = this.ANCGridArray[0].registrationNo
+
         console.log(this.ANCGridArray.length)
-        if (this.ANCGridArray[0].tt1Date != null) {
+        for (let i = 0; i < this.ANCGridArray.length; i++) {
+        if (this.ANCGridArray[i].tt1Date != null) {
           this.TT_Grid = 'TT1'
-          this.TTDate_Grid = this.ANCGridArray[0].tt1Date
+          this.TTDate_Grid = this.ANCGridArray[i].tt1Date
         }
-        else if (this.ANCGridArray[0].tt2Date != null) {
+        else if (this.ANCGridArray[i].tt2Date != null) {
           this.TT_Grid = 'TT2'
-          this.TTDate_Grid = this.ANCGridArray[0].tt2Date
+          this.TTDate_Grid = this.ANCGridArray[i].tt2Date
         }
-        else if (this.ANCGridArray[0].ttbDate != null) {
+        else if (this.ANCGridArray[i].ttbDate != null) {
           this.TT_Grid = 'TTB'
-          this.TTDate_Grid = this.ANCGridArray[0].ttbDate
+          this.TTDate_Grid = this.ANCGridArray[i].ttbDate
         }
         else {
           this.TT_Grid = ''
           this.TTDate_Grid = ''
         }
+      this.given_CalVitTablets=this.given_CalVitTablets+this.ANCGridArray[i].calVitGiven;
+      this.given_IFA=this.given_IFA+this.ANCGridArray[i].ifaGiven;
+      if(this.ANCGridArray[i].pmsmaVisit==1) {
+      this.Last_Visit_PMSMA= true}
+      }
       }
       else{
         this.btncontinue=false
+        this.ANC_Details_Exit =false
       }
 
     })
@@ -1186,7 +1206,9 @@ public findInvalidControls() {
     this.motherancForm.controls['mobilenumber'].setValue(pg.mobileNumber)
     this.motherancForm.controls['LMP'].setValue(pg.lmpDate)
     this.motherancForm.controls['LastANC'].setValue((pg.lastANCVisitDate).substr(0, 10))
-
+this.bloodgroup=pg.motherBloodGroup; 
+if(this.bloodgroup >5 && this.bloodgroup <=8)
+{this.SetHighRisk();}
     this.caseid = pg.caseNo
     debugger
 
@@ -1197,8 +1219,13 @@ public findInvalidControls() {
 
     let Vdate = (this.motherancForm.controls['LastANC'].value).substr(0, 4) + '-' + (this.motherancForm.controls['LastANC'].value).substr(5, 2) + '-' + (this.motherancForm.controls['LastANC'].value).substr(8, 2) + ' 12:00:00';
     let setVdate: Date = new Date(Vdate);
-    // this.minDate = { year: Mindate.getFullYear(), month : Mindate.getMonth() + 1, day :Mindate.getDate() };  Set after 35 days from  LMP date
-    this.minDate = { year: setVdate.getFullYear(), month: setVdate.getMonth() + 1, day: setVdate.getDate() };
+    
+    if( this.ANC_Details_Exit ===true){
+  
+    this.minDate = { year: setVdate.getFullYear(), month: setVdate.getMonth() + 1, day: setVdate.getDate() +1};}
+    else{
+   this.minDate = { year: Mindate.getFullYear(), month : Mindate.getMonth() + 1, day :Mindate.getDate() };  //Set after 35 days from  LMP date
+    }
     this.maxDate = { year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate() };
 
 
@@ -1210,7 +1237,7 @@ public findInvalidControls() {
     this.maxDate_Abortion = { year: Maxdate.getFullYear(), month: Maxdate.getMonth() + 1, day: Maxdate.getDate() }
 
     //********************* */
-     this.parentState = 4;
+   /*  this.parentState = 4;
     this.parentDistrict = pg.districtCode;
     // parentTaluka=pg.; 
     this.parentBlock = pg.healthBlockCode;
@@ -1224,28 +1251,29 @@ public findInvalidControls() {
     this.parentBlockName = pg.healthBlockName;
     this.parentFacilityName = pg.healthFacilityName;
     this.parentSubcenterName = pg.healthSubFacilityName;
-    this.parentVillageName = pg.villageName; 
-//this.GetHierarchy(4,pg.districtCode,pg.healthBlockCode, pg.healthFacilityType,pg.healthFacilityCode,pg.healthSubFacilityCode, pg.villageCode,'R')
+    this.parentVillageName = pg.villageName; */
+this.GetHierarchy(4,pg.districtCode,pg.healthBlockCode, pg.healthFacilityType,pg.healthFacilityCode,pg.healthSubFacilityCode, pg.villageCode,'R','0001')
 
   }
   //--------------------------------------Get Master from API---------------------------
 
   //fill Hierarchy
-  GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string){
+  GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string, Tcode:string){
     debugger
-    this.backendApiService.GetHierarchy(state_code,district_code,healthBlockCode, healthFacilityType, healthFacilityCode,healthSubFacilityCode,villageCode,RU ).subscribe((res: Response) => {
+    this.backendApiService.GetHierarchy(state_code,district_code,healthBlockCode, healthFacilityType, healthFacilityCode,healthSubFacilityCode,villageCode,RU,Tcode ).subscribe((res: Response) => {
       let response = JSON.parse(JSON.stringify(res));
+      console.log(response)
       this.parentState = state_code;
       this.parentDistrict = response.districtCode;
-      // parentTaluka=pg.; 
+      this.parentTaluka=response.tcode; 
       this.parentBlock = response.healthBlockCode;
       this.parentFacility = response.healthFacilityCode;
-      this.parentSubcenter = response.healthSubFacilityCode;
+      this.parentSubcenter = response.healthFacilityCode;
       this.parentVillage = response.villageCode;
       this.parentFacilityType = response.healthFacilityType;
       this.parentStateName = response.stateName;
       this.parentDistrictName = response.districtName;
-      //parentTalukaName; 
+      this.parentTalukaName=response.talukaName; 
       this.parentBlockName = response.healthBlockName;
       this.parentFacilityName = response.healthFacilityName;
       this.parentSubcenterName = response.healthSubFacilityName;
@@ -1394,8 +1422,8 @@ public findInvalidControls() {
       this.motherancForm.get('AbortionType').updateValueAndValidity();
       this.motherancForm.get('AbortionDate').setValidators(Validators.required);
       this.motherancForm.get('AbortionDate').updateValueAndValidity();
-      this.motherancForm.get('PAC').setValidators(Validators.required);
-      this.motherancForm.get('PAC').updateValueAndValidity();
+     // this.motherancForm.get('PAC').setValidators(Validators.required);
+     // this.motherancForm.get('PAC').updateValueAndValidity();
 
       this.motherancForm.get('Midarm').setValidators([]); // or clearValidators()
       this.motherancForm.get('Midarm').updateValueAndValidity();
@@ -1423,17 +1451,54 @@ public findInvalidControls() {
       this.motherancForm.get('AbortionType').updateValueAndValidity();
       this.motherancForm.get('AbortionDate').setValidators([]); // or clearValidators()
       this.motherancForm.get('AbortionDate').updateValueAndValidity();
-      this.motherancForm.get('PAC').setValidators([]); // or clearValidators()
-      this.motherancForm.get('PAC').updateValueAndValidity();
+     // this.motherancForm.get('PAC').setValidators([]); // or clearValidators()
+     // this.motherancForm.get('PAC').updateValueAndValidity();
     }
   }
   Deathchange(event) {
     if (event.target.value == 1) {
       this.Show_DeathDetails = true
       this.GetMDeathcause();
+      this.Show_anc = false
+      this.Show_HighRish = false
+      this.Show_PCM = false
+
+      this.motherancForm.get('Midarm').setValidators([]); // or clearValidators()
+      this.motherancForm.get('Midarm').updateValueAndValidity();
+      this.motherancForm.get('Weight').setValidators([]); // or clearValidators()
+      this.motherancForm.get('Weight').updateValueAndValidity();
+      this.motherancForm.get('DateANC').setValidators([]); // or clearValidators()
+      this.motherancForm.get('DateANC').updateValueAndValidity();
+      this.motherancForm.get('BPSystolic').setValidators([]); // or clearValidators()
+      this.motherancForm.get('BPSystolic').updateValueAndValidity();
+      this.motherancForm.get('HB').setValidators([]); // or clearValidators()
+      this.motherancForm.get('HB').updateValueAndValidity();
+
+      this.motherancForm.get('DeathDate').setValidators(Validators.required);
+      this.motherancForm.get('DeathDate').updateValueAndValidity();
+      this.motherancForm.get('CausebyMDR').setValidators(Validators.required);
+      this.motherancForm.get('CausebyMDR').updateValueAndValidity();
     }
     else {
       this.Show_DeathDetails = false
+      this.Show_anc = true
+      this.Show_HighRish = true
+      this.Show_PCM = true
+      this.motherancForm.get('Midarm').setValidators(Validators.required);
+      this.motherancForm.get('Midarm').updateValueAndValidity();
+      this.motherancForm.get('Weight').setValidators(Validators.required);
+      this.motherancForm.get('Weight').updateValueAndValidity();
+      this.motherancForm.get('DateANC').setValidators(Validators.required);
+      this.motherancForm.get('DateANC').updateValueAndValidity();
+      this.motherancForm.get('HB').setValidators(Validators.required);
+      this.motherancForm.get('HB').updateValueAndValidity();
+      this.motherancForm.get('BPSystolic').setValidators(Validators.required);
+      this.motherancForm.get('BPSystolic').updateValueAndValidity();
+
+      this.motherancForm.get('DeathDate').setValidators([]); // or clearValidators()
+      this.motherancForm.get('DeathDate').updateValueAndValidity();
+      this.motherancForm.get('CausebyMDR').setValidators([]); // or clearValidators()
+      this.motherancForm.get('CausebyMDR').updateValueAndValidity();
     }
   }
   //////Post API Call//////////
@@ -1468,28 +1533,58 @@ public findInvalidControls() {
     debugger
 
     if (this.motherancForm.controls['DeathDate'].value != '') {
-
+      this.covidenable(this.motherancForm.controls['DeathDate'].value);
       // Here are the two dates to compare
       var daysDiff = this.comparetwodates(this.motherancForm.controls['DeathDate'].value,this.bsLMPDate)
       var no_of_week = Math.floor(daysDiff / 7);
      
       this.motherancForm.controls['DeathWeeks'].setValue(no_of_week);
+      this.motherancForm.controls['PregnancyWeek'].setValue(no_of_week);
 
+      let yr = String((this.motherancForm.controls['DeathDate'].value).year)
+      if ((this.motherancForm.controls['DeathDate'].value).month > 3) {
+        this.selectedFinencialYear = (this.motherancForm.controls['DeathDate'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
+      }
+      else {
+        this.selectedFinencialYear = (Number(yr) - 1) + "-" + Number(yr.substr(2, 2))
+      }
     }
   }
   dateDiffInDays(date1, date2) {
     // round to the nearest whole number
     return Math.round((date2 - date1) / (1000 * 60 * 60 * 24));
   }
+  covidenable(validdate){
+    if(this.comparetwodates(validdate,'2020-01-01') >0){
+      this.motherancForm.get('PWILI').setValidators(Validators.required);
+        this.motherancForm.get('PWILI').updateValueAndValidity();
+        this.motherancForm.get('isContactCovid').setValidators(Validators.required);
+        this.motherancForm.get('isContactCovid').updateValueAndValidity();
+        this.motherancForm.get('COVIDTest').setValidators(Validators.required);
+        this.motherancForm.get('COVIDTest').updateValueAndValidity();
+        this.motherancForm.get('covidTestResult').setValidators(Validators.required);
+        this.motherancForm.get('covidTestResult').updateValueAndValidity();
+    }
+    else{
+      this.motherancForm.get('PWILI').setValidators([]);
+      this.motherancForm.get('PWILI').updateValueAndValidity();
+      this.motherancForm.get('isContactCovid').setValidators([]);
+      this.motherancForm.get('isContactCovid').updateValueAndValidity();
+      this.motherancForm.get('COVIDTest').setValidators([]);
+      this.motherancForm.get('COVIDTest').updateValueAndValidity();
+      this.motherancForm.get('covidTestResult').setValidators([]);
+      this.motherancForm.get('covidTestResult').updateValueAndValidity();
+    }
+  }
   calWeek() {
 debugger
-    
+
 
     this.bsLMPDate = (this.motherancForm.controls['LMP'].value).substr(0, 4) + '-' + (this.motherancForm.controls['LMP'].value).substr(5, 2) + '-' + (this.motherancForm.controls['LMP'].value).substr(8, 2) + ' 12:00:00';
 
     if (this.motherancForm.controls['Abortion'].value == 0) {
       if (this.motherancForm.controls['DateANC'].value != '') {
-
+        this.covidenable(this.motherancForm.controls['DateANC'].value);
         let yr = String((this.motherancForm.controls['DateANC'].value).year)
         if ((this.motherancForm.controls['DateANC'].value).month > 3) {
           this.selectedFinencialYear = (this.motherancForm.controls['DateANC'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
@@ -1514,7 +1609,7 @@ debugger
 
         // Make Enabled true/false on txtFundalFH 
 
-        if (no_of_week >= 12) {
+        if (no_of_week > 12) {
           this.motherancForm.controls['FundalHeight'].enable();
           this.motherancForm.controls['FolicTablets'].disable();
           this.motherancForm.controls['IFATablets'].enable();
@@ -1527,7 +1622,7 @@ debugger
           // document.getElementById("ContentPlaceHolder1_DoubleMainContent_txtFundalFH").style.backgroundColor = "#D8D8D8";
         }
 
-        if (no_of_week >= 14) {
+        if (no_of_week >14) {
           this.motherancForm.controls['CalVitTablets'].enable();
           this.motherancForm.controls['AlbendazoleTablets'].enable();
           //document.getElementById("ContentPlaceHolder1_DoubleMainContent_txtFundalFhs").style.backgroundColor = "#ffffff";
@@ -1543,7 +1638,7 @@ debugger
         else{
           this.motherancForm.controls['UltrasoundTest'].setValue("");
         }
-        if (no_of_week >= 24) {
+        if (no_of_week > 24) {
           this.motherancForm.controls['FoetalHeartRate'].enable();
           //document.getElementById("ContentPlaceHolder1_DoubleMainContent_txtFundalFhs").style.backgroundColor = "#ffffff";
         }
@@ -1552,7 +1647,7 @@ debugger
           // document.getElementById("ContentPlaceHolder1_DoubleMainContent_txtFundalFhs").style.backgroundColor = "#D8D8D8";
         }
 
-        if (no_of_week >= 32) {
+        if (no_of_week > 32) {
           this.motherancForm.controls['FoetalPosition'].enable();
           // document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFundalFP").style.backgroundColor = "#ffffff";
         }
@@ -1561,23 +1656,32 @@ debugger
           // document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFundalFP").style.backgroundColor = "#D8D8D8";
         }
 
-        if (no_of_week >= 18) {
+        if (no_of_week > 18) {
           this.motherancForm.controls['Foetalmovements'].enable();
           // document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFundalFP").style.backgroundColor = "#ffffff";
+        }
+        else {
+          this.motherancForm.controls['Foetalmovements'].disable();
+          // document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFoetalMovement").style.backgroundColor = "#D8D8D8";
+        }
+
+        if (no_of_week > 24 && no_of_week < 28 && this.motherancForm.controls['BloodTest'].value==1) {
+          this.Show_OGTT2 = true
+        }
+        else {
+          this.Show_OGTT2 = false
         }
         //document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFoetalMovement").style.backgroundColor = "#ffffff";
 
         this.calANCVisit();
       }
-      else {
-        this.motherancForm.controls['Foetalmovements'].disable();
-        // document.getElementById("ContentPlaceHolder1_DoubleMainContent_ddlFoetalMovement").style.backgroundColor = "#D8D8D8";
-      }
+     
       if (no_of_week > 3 && no_of_week < 40) {
         this.motherancForm.controls['PregnancyWeek'].setValue(no_of_week);
       }
       else {
         this.motherancForm.controls['PregnancyWeek'].setValue('');
+        alert('Check ANC Date,Pregnancy Week more than 40')
       }
       //this.setFAIFAtruefalse();
       //nisha
@@ -1618,6 +1722,7 @@ debugger
     else {
       if (this.motherancForm.controls['AbortionDate'].value != '') {
         debugger
+        this.covidenable(this.motherancForm.controls['AbortionDate'].value);
         let yr = String((this.motherancForm.controls['AbortionDate'].value).year)
         if ((this.motherancForm.controls['AbortionDate'].value).month > 3) {
           this.selectedFinencialYear = (this.motherancForm.controls['AbortionDate'].value).year + "-" + (Number(yr.substr(2, 2)) + 1)
@@ -1692,8 +1797,8 @@ debugger
     })
   }
   onChangeDeathCause(event) {
-    console.log(event.target.value)
-    if (event.target.value == 'Z') {
+    console.log(event.id)
+    if (event.id == 'Z') {
 
       this.Show_DeathCause = true;
 
@@ -1705,6 +1810,8 @@ debugger
     }
     else {
       this.Show_DeathCause = false
+      this.motherancForm.get('OtherDeath').setValidators([]); // or clearValidators()
+      this.motherancForm.get('OtherDeath').updateValueAndValidity();
     }
 
   }
@@ -1942,7 +2049,9 @@ debugger
         this.selectedhighrisk[count] = { "id": "F", "itemName": "Diabetic" };
       }
     }
-    
+    if(this.bloodgroup >5 && this.bloodgroup>=8){
+      this.selectedhighrisk[count] = { "id": "F", "itemName": "Diabetic" };
+    }
   }
   SetHighRisk1() {
    if (this.motherancForm.controls['BPSystolic'].value >=140 && this.motherancForm.controls['HB'].value != '') {
@@ -2000,7 +2109,16 @@ debugger
       this.Show_TTDatediv = true
       this.motherancForm.get('TTDate').setValidators(Validators.required);
       this.motherancForm.get('TTDate').updateValueAndValidity();
-    }
+
+      let Maxdate: Date = new Date(this.bsLMPDate);
+        Maxdate.setDate(Maxdate.getDate() + 322);
+        this.maxDate_TT = { year: Maxdate.getFullYear(), month : Maxdate.getMonth() + 1, day :Maxdate.getDate() };  //Set after 322 days days from  LMP date  
+        let Mindate: Date = new Date(this.bsLMPDate);
+        Mindate.setDate(Mindate.getDate() + 35);
+      
+         this.minDate_TT = { year: Mindate.getFullYear(), month : Mindate.getMonth() + 1, day :Mindate.getDate() };  //Set after 35 days from  LMP date
+     
+           }
     else {
       this.Show_TTDatediv = false
       this.motherancForm.get('TTDate').setValidators([]);
@@ -2051,5 +2169,24 @@ this.motherancForm.get('highriskDate').updateValueAndValidity();
     return daysDiff;
   }
 
- 
+  changeIFATablets(){
+    if(this.given_IFA + this.motherancForm.controls['IFATablets'].value >400)
+    {
+      alert('Total IFA tabs given should add up to maximum 400 tablets')
+      this.motherancForm.controls['IFATablets'].setValue('');
+    }
+    else{
+
+    }
+  
+  }
+  changeCalVitTablets(){
+    debugger
+    if(this.given_IFA + this.motherancForm.controls['CalVitTablets'].value >360)
+    {
+      alert('Total Calcium +Vitamin D3 Tabsgiven should add up to maximum 360 tablets')
+      this.motherancForm.controls['CalVitTablets'].setValue('');
+    }
+    else{    }
+  }
 }

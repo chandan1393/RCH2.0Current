@@ -309,8 +309,8 @@ postANCData(data: any): Observable<any> {
   return this.httpClient.post(environment.PostANC, data);
 }
 
-GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string){
-  return this.httpClient.get(environment.ecCoutReport+state_code+"&DCode="+district_code+"&BlockId="+healthBlockCode+"&FacilityType="+healthFacilityType+"&FacilityCode="+healthFacilityCode+"&SubCentre="+healthSubFacilityCode+"&Vcode="+villageCode+"&IsRuralUrban="+RU).pipe(catchError(this.errorHandler));
+GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string, Tcode:string){
+  return this.httpClient.get(environment.GetHierarchy+state_code+"&DCode="+district_code+"&BlockId="+healthBlockCode+"&FacilityType="+healthFacilityType+"&FacilityCode="+healthFacilityCode+"&SubCentre="+healthSubFacilityCode+"&Vcode="+villageCode+"&IsRuralUrban="+RU+"&Tcode="+Tcode).pipe(catchError(this.errorHandler));
 }
 
   /* Bunty ji */

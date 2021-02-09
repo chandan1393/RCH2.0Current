@@ -106,6 +106,32 @@ export class ChildPncComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
+//*************************************************************Parent Hierarchy******************************************* */
+  GetHierarchy(state_code:number, district_code:number,healthBlockCode:number,healthFacilityType: number,healthFacilityCode: number, healthSubFacilityCode: number , villageCode: number, RU: string, Tcode:string){
+    debugger
+    this.backendApiService.GetHierarchy(state_code,district_code,healthBlockCode, healthFacilityType, healthFacilityCode,healthSubFacilityCode,villageCode,RU,Tcode ).subscribe((res: Response) => {
+      let response = JSON.parse(JSON.stringify(res));
+      console.log(response)
+      this.parentState = state_code;
+      this.parentDistrict = response.districtCode;
+      this.parentTaluka=response.tcode; 
+      this.parentBlock = response.healthBlockCode;
+      this.parentFacility = response.healthFacilityCode;
+      this.parentSubcenter = response.healthFacilityCode;
+      this.parentVillage = response.villageCode;
+      this.parentFacilityType = response.healthFacilityType;
+      this.parentStateName = response.stateName;
+      this.parentDistrictName = response.districtName;
+      this.parentTalukaName=response.talukaName; 
+      this.parentBlockName = response.healthBlockName;
+      this.parentFacilityName = response.healthFacilityName;
+      this.parentSubcenterName = response.healthSubFacilityName;
+      this.parentVillageName = response.villageName;
+    })
+  }
+
+
+
   //***************************************************Display mother Details Hidden***************************************** */
   setMotherDisplay() {
     console.log('nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn');
@@ -649,33 +675,7 @@ export class ChildPncComponent implements OnInit {
         console.log(this.beneficiaryDetails);
         console.log(this.beneficiaryDetails.age);
         this.setMotherDisplay();
-        //Parenty Hierrchy
-        this.parentState 
-
-        this.parentDistrict=response.districtCode
-        this.parentDistrictName=response.districtName
-          // parentTaluka; 
-        this.parentBlock =response.healthBlockCode
-        this.parentBlockName=response.healthBlockName
-
-        this.parentFacility=response.healthBlockCode
-        this.parentFacilityName=response.healthFacilityName
-           // parentSubcenter; 
-        
-        this.parentFacilityType=response.healthFacilityType
-        this.parentStateName="Chadigarh"
-        //this.parentDistrictName=response.Chandigarh
-        //parentTalukaName; 
-        
-       
-
-        this.parentSubcenter=response.healthSubFacilityCode
-        this.parentSubcenterName=response.healthSubFacilityName
-
-        this.parentVillage=response.villageCode
-        this.parentVillageName=response.villageName
-
-
+        this.GetHierarchy(4,response.districtCode,response.healthBlockCode, response.healthFacilityType,response.healthFacilityCode,response.healthSubFacilityCode, response.villageCode,'R','0001')
 
       });
   }
