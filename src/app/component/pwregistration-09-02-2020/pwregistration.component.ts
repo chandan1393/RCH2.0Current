@@ -114,8 +114,6 @@ export class PwregistrationComponent implements OnInit {
    
    BloodGroupList:Array<any>;
    
-   PlaceDeliveryList:Array<any>;
-   
    PWregistrationData;
    
    PWregistrationSavedData;
@@ -343,7 +341,6 @@ this.fetchHealthProviderOnSubcentreAndVillage()
 		 this.getBloodGroupList();
          this.getpastIllnessList();
 		 this.getlastPregnancyList();
-		 this.getPlaceDeliveryList();
 		 
 		 
 		 
@@ -474,8 +471,6 @@ VDRLTestValidator(controlName: any, controlName2: any, controlName3: any){
 				VRDLTestcontrol.setErrors(null);
 				return;
 			}
-			
-			
 		
 		 if(VRDLTest_validation.month<10)
   {
@@ -1091,38 +1086,7 @@ dateDiffInDays(date1, date2) {
 		
 				
 		this.minDateExam = { year: changeDateLMP.year, month: changeDateLMP.month, day: changeDateLMP.day };
-		
-		 //let change_val =value.year+','+value.month+','+value.day+' 12:00:00';
-		 
-		 let bsyear=value.year;
-	   let bsmonth=this.pad(value.month,2);
-	   
-	   let bsday=this.pad(value.day,2);
-		
-		 let change_val =bsyear+','+bsmonth+','+bsday+' 12:00:00';
-		 
-				
-		 this.bsdate = new Date(change_val);
-		 
-		
-		if( this.bsdate.getTime() > new Date(this.todayDate).getTime() ) //// chk if greater thank today
-		{
-			
-		this.maxDateExam = { year: new Date().getFullYear(), month: (new Date().getMonth() + 1), day: (new Date().getUTCDate()) };
-		}
-		else
-		{
-			
 		this.maxDateExam = { year: value.year, month: value.month, day: value.day };
-		
-		
-		
-		}
-		
-		
-		
-		
-		
 		}
 		
 		 });
@@ -1265,7 +1229,7 @@ dateDiffInDays(date1, date2) {
 		
 		//////////lmpDate////////////
 		
-		let	LMPDate_modified_date=null;
+		let	LMPDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['LMPDate'].value)
 		{
@@ -1293,7 +1257,7 @@ dateDiffInDays(date1, date2) {
 		
 		///////////////dobDate ///////////////////
 		
-		let	dobDate_modified_date=null;
+		let	dobDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['dobDate'].value)
 		{
@@ -1320,7 +1284,7 @@ dateDiffInDays(date1, date2) {
 		
 		/////////////////// ancDate //////////////
 		
-		let	ancDate_modifiedfinal_date=null;
+		let	ancDate_modifiedfinal_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['ancDate'].value)
 		{
@@ -1347,7 +1311,8 @@ dateDiffInDays(date1, date2) {
 		
 		/////////////////// eddDate //////////
 		
-		let	eddDate_modified_date=null;
+		let	eddDate_modified_date="2020-12-24T08:42:15.826Z"
+		
 		if(this.pwregistrationForm.controls['eddDate'].value)
 		{
 			
@@ -1372,7 +1337,7 @@ dateDiffInDays(date1, date2) {
 		
 		//////////VRDLTestDate////////
 		
-		let	VRDLTestDate_modified_date=null;
+		let	VRDLTestDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['VRDLTestDate'].value)
 		{
@@ -1398,7 +1363,7 @@ dateDiffInDays(date1, date2) {
 		
 	///////////// HIVScreeningDate /////////////
 	
-	let	HIVScreeningDate_modified_date=null;
+	let	HIVScreeningDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['HIVScreeningDate'].value)
 		{
@@ -1424,7 +1389,7 @@ dateDiffInDays(date1, date2) {
 
     /////////// HBaAgTestDate ////////////////	
 
-     let HBaAgTestDate_modified_date=null;
+     let HBaAgTestDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['HBaAgTestDate'].value)
 		{
@@ -1451,7 +1416,7 @@ dateDiffInDays(date1, date2) {
 		
 		////////// ANC Date ////////////////	
 
-     let ANCDate_modified_date=null;
+     let ANCDate_modified_date="2020-12-24T08:42:15.826Z"
 		
 		if(this.pwregistrationForm.controls['ancDate'].value)
 		{
@@ -1538,12 +1503,12 @@ let  data  = {
     "registrationNo": Number(pwregistrationForm.value.RCHID),
     "idNo": "",
     "registerSrno": 0,
-    "namePw": (pwregistrationForm.value.WomanName),
-    "nameH": (pwregistrationForm.value.HusbandName),
+    "namePw": (pwregistrationForm.value.WomanName).toString(),
+    "nameH": (pwregistrationForm.value.HusbandName).toString(),
     "address": "",
-    "registrationDate": (ancDate_modifiedfinal_date),
-    "mobileNo": (pwregistrationForm.value.mobileNo),
-    "mobileRelatesTo": (pwregistrationForm.value.whosemobileNo),
+    "registrationDate": (ancDate_modifiedfinal_date).toString(),
+    "mobileNo": (pwregistrationForm.value.mobileNo).toString(),
+    "mobileRelatesTo": (pwregistrationForm.value.whosemobileNo).toString(),
     "religionCode": 0,
     "caste": 0,
     "bplApl": 0,
@@ -1552,7 +1517,7 @@ let  data  = {
     "pwWeight": Number(pwregistrationForm.value.pwWeight),
     "anmId": Number(pwregistrationForm.value.healthproviderName),
     "ashaId": Number(pwregistrationForm.value.ashaName),
-    "caseNo": this.PWregistrationData.caseNo,
+    "caseNo": 1,
     "ipAddress": "127.0.0.1",
     "flag": 0,
     "createdBy": Number(userId),
@@ -1594,50 +1559,48 @@ let  data  = {
         "financialYear": 0,
         "registrationNo": Number(pwregistrationForm.value.RCHID),
         "idNo": "",
-        "lmpDate": (LMPDate_modified_date),
+        "lmpDate": (LMPDate_modified_date).toString(),
         "reg12weeks": 0,
-        "eddDate": (eddDate_modified_date),
+        "eddDate": (eddDate_modified_date).toString(),
         "bloodGroup": Number(pwregistrationForm.value.pwBloodGroup),
-        "pastIllness": (modified_PastIllness),
-        "otherPastIllness": (pwregistrationForm.value.PastIllnessOther),
+        "pastIllness": (modified_PastIllness).toString(),
+        "otherPastIllness": null,
         "noOfPregnancy": Number(pwregistrationForm.value.totalPregnancy),
-        "lastPregComplication": (modified_LastPregnancy),
-		"otherLastComplication": (pwregistrationForm.value.LastPregnancyOther),
+        "lastPregComplication": (modified_LastPregnancy).toString(),
         "outcomeLastPreg": Number(pwregistrationForm.value.LPTotalOutcome),
-        "l2lPregComplication": (modified_LasttoLastPregnancy),
-		"otherL2lComplication": (pwregistrationForm.value.LasttoLastPregnancyOther),
+        "l2lPregComplication": (modified_LasttoLastPregnancy).toString(),
         "outcomeL2lPreg": Number(pwregistrationForm.value.LLPTotalOutcome),
-        "expectedDeliveryPlace": Number(pwregistrationForm.value.DeliveryPlaceName),
-        "placeName": pwregistrationForm.value.DeliveryPlaceNameOther,
-        "vdrlTest": Number(pwregistrationForm.value.VDRLTestDone),
+        "expectedDeliveryPlace": 0,
+        "placeName": "",
+        "vdrlTest": Number(pwregistrationForm.value.HIVScreeningDone),
     "vdrlDate": (VRDLTestDate_modified_date),
     "vdrlResult": (pwregistrationForm.value.VDRLTestResult),
-    "hivTest": Number(pwregistrationForm.value.HIVScreeningDone),
-    "hivDate": (HIVScreeningDate_modified_date),
+    "hivTest": Number(pwregistrationForm.value.VDRLTestDone),
+    "hivDate": (HIVScreeningDate_modified_date).toString(),
 	"anmId": Number(pwregistrationForm.value.healthproviderName),
     "ashaId": Number(pwregistrationForm.value.ashaName),
-        "caseNo": this.PWregistrationData.caseNo,
-        "ipAddress": "127.0.0.1",
+        "caseNo": 1,
+        "ipAddress": "string",
         "createdBy": Number(userId),
         "createdOn": "2020-12-30",
         "lastPregComplicationLength": 0,
         "l2lPregComplicationLength": 0,
         "pastIllnessLength": 0,
-        "hivResult": (pwregistrationForm.value.HIVScreeningResult),
+        "hivResult": null,
         "deliveryLocationId": Number(pwregistrationForm.value.DeliveryPlace),
         "mobileId": 0,
         "updatedBy": Number(userId),
-        "updatedOn": "2020-12-30",
+        "updatedOn": null,
         "sourceId": 0,
         "bloodGroupTest": "",
-        "lmpUpdatedOn": "2020-12-30",
+        "lmpUpdatedOn": null,
         "lmpUpdatedBy": 0,
         "wardNo": 0,
         "rurUrbHierarchy": "",
         "mpwId": 0,
-        "hbTest": Number(pwregistrationForm.value.HBaAgTestDone),
-        "hbDate": (HBaAgTestDate_modified_date),
-        "hbResult": (pwregistrationForm.value.HBaAgTestResult),
+        "hbTest": 0,
+        "hbDate": null,
+        "hbResult": null,
         "lastPregLiveBirth": Number(pwregistrationForm.value.LPlive),
     "lastPregStillBirth": Number(pwregistrationForm.value.LPstill),
     "lastPregAbortion": Number(pwregistrationForm.value.LPabortion),
@@ -1646,14 +1609,8 @@ let  data  = {
     "l2lpregAbortion": Number(pwregistrationForm.value.LLPabortion),
     }
 }		
-		if(this.PWregistrationData.pageCode=='MR') // for update
-	   {
-		this.updatepwUser(data,Number(pwregistrationForm.value.RCHID));   
-	   }
-	   else{
-		   
+		
 		this.savepwUser(data);
-	   }
 	  
 	  }
 	  
@@ -1718,32 +1675,6 @@ if(Object.keys(res).length>0){
 	 }
 	 console.log(error);
 	 // alert('Something went wrong. Please try again later ');
-	// this.showServerresponseMsgWrong= false;
-	 }
-	 )
-
-}
-
-updatepwUser(data: any,RCHID:Number){
-	
-  this.backendApiService.updatepwUserAPI(data,RCHID).subscribe((res:Response)=> {
-
-if(Object.keys(res).length>0){
-	
-	 this.continueFlag = true;
-  alert('Data updated successfully ');
-  this.toastr.success('Data successfully update');
-
-}else{
-
-	 alert('Something went wrong. Please try again later ');
-
-}
-
-     },(error) => { 
-	
-	 console.log(error);
-	  alert('Something went wrong. Please try again later ');
 	// this.showServerresponseMsgWrong= false;
 	 }
 	 )
@@ -2228,16 +2159,6 @@ if(Object.keys(res).length>0){
     })
   }
   
-  getPlaceDeliveryList(): void { 
-    this.backendApiService.getPlaceDeliveryListAPI().subscribe((res: Response) => {
-      let response = JSON.parse(JSON.stringify(res));
-      //console.log(response);
-      this.PlaceDeliveryList = response;
-	  
-
-    })
-  }
-  
    GetPWregistrationData(id:string,caseno:string): void { 
    
 	 
@@ -2337,338 +2258,24 @@ if(Object.keys(res).length>0){
 	   if(this.PWregistrationData.pageCode=='MR')
 	   {
 		   
-		   //alert(this.PWregistrationData.pageCode);
-		  
-		   
 		    this.continueFlag = true;
 		   //alert('yes this is mr');
 		    this.backendApiService.getGetMotherRegistrationsAPI(id,caseno).subscribe((res:Response)=> {
            let response=JSON.parse(JSON.stringify(res));
-		   
-		   console.log("PWregistrationSavedData===");
-		   
            console.log(response);
            this.PWregistrationSavedData=response;
 		   
-		  
-		   
-		   this.pwregistrationForm.controls['whosemobileNo'].setValue(this.PWregistrationSavedData.tMotherRegistration.mobileRelatesTo);
+		   this.pwregistrationForm.controls['whosemobileNo'].setValue(this.PWregistrationSavedData.mobileRelatesTo);
 		 //this.pwregistrationForm.controls['healthproviderName'].setValue(this.PWregistrationSavedData.anmId);
 		 //this.pwregistrationForm.controls['healthproviderName'].setValue('210');
-		 this.selectedhealthproviderName=this.PWregistrationSavedData.tMotherRegistration.anmId;
+		 this.selectedhealthproviderName=this.PWregistrationSavedData.anmId;
 		
-		 this.selectedashaName=this.PWregistrationSavedData.tMotherRegistration.ashaId;
+		 this.selectedashaName=this.PWregistrationSavedData.ashaId;
 		 
-		 this.pwregistrationForm.controls['pwWeight'].setValue(this.PWregistrationSavedData.tMotherRegistration.pwWeight);
-		 this.pwregistrationForm.controls['pwHeight'].setValue(this.PWregistrationSavedData.tMotherRegistration.pwHeight);
+		 this.pwregistrationForm.controls['pwWeight'].setValue(this.PWregistrationSavedData.pwWeight);
+		 this.pwregistrationForm.controls['pwHeight'].setValue(this.PWregistrationSavedData.pwHeight);
 		 
-	 	  
-		  
-         this.pwregistrationForm.controls['ancDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherRegistration.registrationDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherRegistration.registrationDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherRegistration.registrationDate).getDate()),
-        });
-		
-		
-		
-		this.pwregistrationForm.controls['PWAge'].setValue(this.PWregistrationSavedData.tMotherRegistration.age);
-		
-		this.pwregistrationForm.controls['dobDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherRegistration.birthDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherRegistration.birthDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherRegistration.birthDate).getDate()),
-        });
-		 
-		this.pwregistrationForm.controls['eddDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherMedical.eddDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherMedical.eddDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherMedical.eddDate).getDate()),
-        });
-		
-		this.pwregistrationForm.controls['LMPDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherMedical.lmpDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherMedical.lmpDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherMedical.lmpDate).getDate()),
-        });
-		
-		this.pwregistrationForm.controls['pwBloodGroup'].setValue(this.PWregistrationSavedData.tMotherMedical.bloodGroup);
-		
-		let savepastIllness= this.PWregistrationSavedData.tMotherMedical.pastIllness;
-		
-				
-		if(savepastIllness)
-		{
-			let bscount=0;
-			
-			let bsArray: Array<any> = [];
-			for (var masterval of this.pastIllnessList) {
-				
-				for (let i = 0; i < savepastIllness.length; i++) {
-					
-					if(savepastIllness[i]==masterval.id)
-					{
-										
-					let obj = {id:"",itemName:""};
-										
-					obj.id=masterval.id;
-					obj.itemName=masterval.itemName;
-					
-					if(masterval.id=='Z')
-		{
-			
-		this.showPastIllnessOther= true;
-		
-		this.pwregistrationForm.get('PastIllnessOther').setValidators(Validators.required); 
-        this.pwregistrationForm.get('PastIllnessOther').updateValueAndValidity();
-		
-		}
-		
-		
-				 bsArray[bscount] = (obj);
-				 
-				 if(masterval.id=='J')
-		{
-			
-		this.settingsPastIllness = {
-            text: "Select",
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            classes: "myclass custom-class",
-			enableCheckAll:false,
-			clearAll:false,
-			autoUnselect:true,
-			limitSelection:1,
-			        };
-					
-					
-		break;
-		}
-					bscount++;
-					}
-                      
-                        }
-				
-				//alert(masterval.id);
-			}
-			
-			this.selectedPastIllness = (bsArray);
-			
-		}
-		
-		 this.pwregistrationForm.controls['PastIllnessOther'].setValue(this.PWregistrationSavedData.tMotherMedical.otherPastIllness);
-		 this.pwregistrationForm.controls['totalPregnancy'].setValue(this.PWregistrationSavedData.tMotherMedical.noOfPregnancy);
-		 
-		 let savelastPregComplication= this.PWregistrationSavedData.tMotherMedical.lastPregComplication;
-		
-				
-		if(savelastPregComplication)
-		{
-			let bscount=0;
-			
-			let bsArray: Array<any> = [];
-			for (var masterval of this.lastPregnancyList) {
-				
-				for (let i = 0; i < savelastPregComplication.length; i++) {
-					
-					if(savelastPregComplication[i]==masterval.id)
-					{
-										
-					let obj = {id:"",itemName:""};
-										
-					obj.id=masterval.id;
-					obj.itemName=masterval.itemName;
-					
-					if(masterval.id=='H')
-		{
-			
-		this.showLastPregnancyOther= true;
-		
-		this.pwregistrationForm.get('LastPregnancyOther').setValidators(Validators.required); 
-        this.pwregistrationForm.get('LastPregnancyOther').updateValueAndValidity();
-		}
-					
-										 
-					 bsArray[bscount] = (obj);
-					 
-					 if(masterval.id=='J' || masterval.id=='I')
-		{
-			
-		this.settingsLastPregnancy = {
-            text: "Select",
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            classes: "myclass custom-class",
-			enableCheckAll:false,
-			clearAll:false,
-			autoUnselect:true,
-			limitSelection:1,
-			        };
-					
-					
-		break;
-		}
-					 
-					 
-					bscount++;
-					}
-                      
-                        }
-				
-				//alert(masterval.id);
-			}
-			
-			this.selectedLastPregnancy = (bsArray);
-			
-		}
-		
-		 this.pwregistrationForm.controls['LastPregnancyOther'].setValue(this.PWregistrationSavedData.tMotherMedical.otherLastComplication);
-		
-		 this.pwregistrationForm.controls['LPlive'].setValue(this.PWregistrationSavedData.tMotherMedical.lastPregLiveBirth);
-		 this.pwregistrationForm.controls['LPstill'].setValue(this.PWregistrationSavedData.tMotherMedical.lastPregStillBirth);
-		 this.pwregistrationForm.controls['LPabortion'].setValue(this.PWregistrationSavedData.tMotherMedical.lastPregAbortion);
-		 
-		 this.pwregistrationForm.controls['LPTotalOutcome'].setValue(Number(this.PWregistrationSavedData.tMotherMedical.lastPregLiveBirth)+Number(this.PWregistrationSavedData.tMotherMedical.lastPregStillBirth)+Number(this.PWregistrationSavedData.tMotherMedical.lastPregAbortion));
-		
-		 let savel2lPregComplication= this.PWregistrationSavedData.tMotherMedical.l2lPregComplication;
-		
-				
-		if(savel2lPregComplication)
-		{
-			let bscount=0;
-			
-			let bsArray: Array<any> = [];
-			for (var masterval of this.lastPregnancyList) {
-				
-				for (let i = 0; i < savel2lPregComplication.length; i++) {
-					
-					if(savel2lPregComplication[i]==masterval.id)
-					{
-										
-					let obj = {id:"",itemName:""};
-										
-					obj.id=masterval.id;
-					obj.itemName=masterval.itemName;
-					
-					if(masterval.id=='H')
-		{
-			
-		this.showLasttoLastPregnancyOther= true;
-		
-		this.pwregistrationForm.get('LasttoLastPregnancyOther').setValidators(Validators.required); 
-        this.pwregistrationForm.get('LasttoLastPregnancyOther').updateValueAndValidity();
-		}
-					
-										 
-					 bsArray[bscount] = (obj);
-					 
-					 if(masterval.id=='J' || masterval.id=='I')
-		{
-			
-		this.settingsLasttoLastPregnancy = {
-            text: "Select",
-            selectAllText: 'Select All',
-            unSelectAllText: 'UnSelect All',
-            classes: "myclass custom-class",
-			enableCheckAll:false,
-			clearAll:false,
-			autoUnselect:true,
-			limitSelection:1,
-			        };
-					
-					
-		break;
-		}
-		
-					bscount++;
-					}
-                      
-                        }
-				
-				//alert(masterval.id);
-			}
-			
-			this.selectedLasttoLastPregnancy = (bsArray);
-			
-		}
-		
-		  this.pwregistrationForm.controls['LasttoLastPregnancyOther'].setValue(this.PWregistrationSavedData.tMotherMedical.otherL2lComplication);
-		  
-		 this.pwregistrationForm.controls['LLPlive'].setValue(this.PWregistrationSavedData.tMotherMedical.l2lpregLiveBirth);
-		 this.pwregistrationForm.controls['LLPstill'].setValue(this.PWregistrationSavedData.tMotherMedical.l2lpregStillBirth);
-		 this.pwregistrationForm.controls['LLPabortion'].setValue(this.PWregistrationSavedData.tMotherMedical.l2lpregAbortion);
-		 
-		 this.pwregistrationForm.controls['LLPTotalOutcome'].setValue(Number(this.PWregistrationSavedData.tMotherMedical.l2lpregLiveBirth)+Number(this.PWregistrationSavedData.tMotherMedical.l2lpregStillBirth)+Number(this.PWregistrationSavedData.tMotherMedical.l2lpregAbortion));
-		 
-		 this.pwregistrationForm.controls['DeliveryPlace'].setValue(this.PWregistrationSavedData.tMotherMedical.deliveryLocationId);
-		 
-		 this.changeDeliveryPlace();  // change delivery and subdilever and name 
-		 
-		  this.pwregistrationForm.controls['DeliveryPlaceName'].setValue(this.PWregistrationSavedData.tMotherMedical.expectedDeliveryPlace);
-		  this.pwregistrationForm.controls['DeliveryPlaceNameOther'].setValue(this.PWregistrationSavedData.tMotherMedical.placeName);
-		 
-		 this.pwregistrationForm.controls['VDRLTestDone'].setValue(this.PWregistrationSavedData.tMotherMedical.vdrlTest);
-		 
-		 if(this.PWregistrationSavedData.tMotherMedical.vdrlTest==1)
-		 {
-		 this.pwregistrationForm.controls['VRDLTestDate'].enable();
-         this.pwregistrationForm.controls['VDRLTestResult'].enable();
-		 this.pwregistrationForm.controls['VDRLTestResult'].setValue(this.PWregistrationSavedData.tMotherMedical.vdrlResult);
-				 
-		 this.pwregistrationForm.controls['VRDLTestDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherMedical.vdrlDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherMedical.vdrlDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherMedical.vdrlDate).getDate()),
-        });
-		
-		 }
-		 
-		 this.pwregistrationForm.controls['HIVScreeningDone'].setValue(this.PWregistrationSavedData.tMotherMedical.hivTest);
-		 
-		 if(this.PWregistrationSavedData.tMotherMedical.hivTest==1)
-		 {
-		 this.pwregistrationForm.controls['HIVScreeningDate'].enable();
-         this.pwregistrationForm.controls['HIVScreeningResult'].enable();
-		 
-		 
-		 this.pwregistrationForm.controls['HIVScreeningResult'].setValue(this.PWregistrationSavedData.tMotherMedical.hivResult);
-				 
-		 this.pwregistrationForm.controls['HIVScreeningDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherMedical.hivDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherMedical.hivDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherMedical.hivDate).getDate()),
-        });
-		
-		 }
-		 
-		 this.pwregistrationForm.controls['HBaAgTestDone'].setValue(this.PWregistrationSavedData.tMotherMedical.hbTest);
-		 
-		 if(this.PWregistrationSavedData.tMotherMedical.hbTest==1)
-		 {
-		 
-		 this.pwregistrationForm.controls['HBaAgTestDate'].enable();
-         this.pwregistrationForm.controls['HBaAgTestResult'].enable();
-		 
-		 this.pwregistrationForm.controls['HBaAgTestResult'].setValue(this.PWregistrationSavedData.tMotherMedical.hbResult);
-		
-		 
-		 this.pwregistrationForm.controls['HBaAgTestDate'].setValue(
-        {
-          year: new Date(this.PWregistrationSavedData.tMotherMedical.hbDate).getFullYear(),
-          month: ((new Date(this.PWregistrationSavedData.tMotherMedical.hbDate).getMonth()+1)),
-          day: (new Date(this.PWregistrationSavedData.tMotherMedical.hbDate).getDate()),
-        });
-		
-		 }
-		 
-		
-	  
+		   
 		   
         },(error) => { 
 		
@@ -2700,7 +2307,7 @@ if(Object.keys(res).length>0){
   changeDeliveryPlace() {
   
     
-  if(this.selectedDeliveryPlace==21 || this.selectedDeliveryPlace==26 || this.selectedDeliveryPlace==28 || this.selectedDeliveryPlace==29 || this.selectedDeliveryPlace==99)
+  if(this.selectedDeliveryPlace==7 || this.selectedDeliveryPlace==5)
   {
 	this.showFacilityDelivery= false; 
 this.showOtherFacilityDelivery= true;	
@@ -2955,7 +2562,6 @@ pad(num:number, size:number): string {
 		  
 		   alert('Age Should be between 10 to 60 years');
 		   this.pwregistrationForm.controls['dobDate'].setValue("");
-		   this.pwregistrationForm.controls['PWAge'].setValue("");
 		
       }
       else {

@@ -127,6 +127,8 @@ SearchUsersUrl:  "http://164.100.61.93/GetECRegistration",
 
 savepwUserUrl:"http://164.100.61.93/SavePWReg",
 
+updatepwUserUrl:"http://164.100.61.93/UpdatePWReg",
+
 DeliveryPlaceNameUrl: "http://164.100.61.93/HealthPhcs/GetHealthPhcbyTypeBlock",
 
 pastIllnessListUrl: "http://164.100.61.93/GetPastillness",
@@ -142,6 +144,7 @@ PWregistrationDataUrl: "http://164.100.61.93/GetBeneficiary",
 SendLoginDetailsEmailUrl:  "http://164.100.61.93/SendUserDetailsByEmail",
 
 GetMotherRegistrationsUrl:"http://164.100.61.93/GetMotherRegistrations",
+PlaceDeliveryListUrl:"http://164.100.61.93/GetMDeliveryplace",
 
 //brijesh sir
 ecreportdata:"http://164.100.61.93/getECHierarchy?phc=",

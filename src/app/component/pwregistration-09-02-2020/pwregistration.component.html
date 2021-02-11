@@ -239,6 +239,7 @@
 								id='whosemobileNo' [ngClass]="{ 'is-invalid': submitted && f.whosemobileNo.errors }">
 					
                                    <option [ngValue]="" >Select</option>
+								     <option [ngValue]="" >Select</option>
 								<option *ngFor="let s of whosemobile" [ngValue]="s.id">{{s.whosemobile}} </option>
                                   </select> 
 				<div *ngIf="submitted && f.whosemobileNo.errors" class="invalid-feedback error_msg">
@@ -287,7 +288,7 @@
                   <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label  class="text-label"> Any other (Specify) : <span> * </span> </label>  </div>
                   <div class="col-sm-6 float-left"> 
 				  
-				  <input class="form-control " type="text" id="PastIllnessOther" formControlName="PastIllnessOther" [ngClass]="{ 'is-invalid': submitted && f.PastIllnessOther.errors }" maxlength="20"/> 
+				  <input class="form-control " type="text" id="PastIllnessOther" formControlName="PastIllnessOther" [ngClass]="{ 'is-invalid': submitted && f.PastIllnessOther.errors }" /> 
 				  
 				  <div *ngIf="submitted && f.PastIllnessOther.errors" class="invalid-feedback error_msg">
                                 <div class="error_msg1" *ngIf="f.PastIllnessOther.errors.required">Any other is required</div>
@@ -327,7 +328,6 @@
                     <div class="col-sm-12 mt-2 pl-2 float-left  mr-0 pr-0"> <label  class="text-label"> Details of Last Two Pregnancy                 </label>  </div>
                     
                 </div>
-				
                 <div class="col-md-4 float-left pl-0 pr-0">
                     <div class="col-sm-12 mt-2 text-left float-left pl-3 mr-0 pr-0"> <label  class="text-label"> Complications During Last Two pregnancy </label>  </div>
     
@@ -362,7 +362,7 @@
                     </div>
                     <div class="col-sm-5 float-left pl-0 pr-0">  
                      <span *ngIf="showLastPregnancyOther">					
-					<input class="form-control" type="text" id="LastPregnancyOther" formControlName="LastPregnancyOther" [ngClass]="{ 'is-invalid': submitted && f.LastPregnancyOther.errors }" maxlength="20"/>
+					<input class="form-control" type="text" id="LastPregnancyOther" formControlName="LastPregnancyOther" [ngClass]="{ 'is-invalid': submitted && f.LastPregnancyOther.errors }" />
 					
 					<div *ngIf="submitted && f.LastPregnancyOther.errors" class="invalid-feedback error_msg">
                                 <div class="error_msg1" *ngIf="f.LastPregnancyOther.errors.required">Any other is required</div>
@@ -450,7 +450,7 @@
                   <div class="col-sm-5 float-left pl-0 pr-0"> 
 
 				   <span *ngIf="showLasttoLastPregnancyOther">					
-					<input class="form-control" type="text" id="LasttoLastPregnancyOther" formControlName="LasttoLastPregnancyOther" [ngClass]="{ 'is-invalid': submitted && f.LasttoLastPregnancyOther.errors }" maxlength="20"/>
+					<input class="form-control" type="text" id="LasttoLastPregnancyOther" formControlName="LasttoLastPregnancyOther" [ngClass]="{ 'is-invalid': submitted && f.LasttoLastPregnancyOther.errors }" />
 					 <div *ngIf="submitted && f.LasttoLastPregnancyOther.errors" class="invalid-feedback error_msg">
                                 <div class="error_msg1" *ngIf="f.LasttoLastPregnancyOther.errors.required">Any other is required</div>
                             </div>
@@ -511,8 +511,6 @@
           </div> 
 		  
 		  </div> <!-- showLastTwoPregnancy -->
-		  
-		  
             
 		  </fieldset>
           </div>   
@@ -523,7 +521,18 @@
                     <div class="col-sm-4 float-left"> 
 					<select class="form-control" id="DeliveryPlace" [(ngModel)]="selectedDeliveryPlace" (change)="changeDeliveryPlace()" formControlName="DeliveryPlace" [ngClass]="{ 'is-invalid': submitted && f.DeliveryPlace.errors }">
                                     <option value="" selected> Select </option>
-                                        <option *ngFor ="let place of PlaceDeliveryList" value="{{place.id}}">{{place.name}} </option>
+                                    <option value="1"> District Hospital</option>
+									 <option value="2">Community Health Centre</option>
+									 <option value="3">Primary Health Centre</option>
+									 <option value="4">SubCentre</option>
+									 <option value="5">Other Public Facility</option>
+									 <option value="6">Accredited Private Hospital</option>
+									 <option value="7">Other Private Hospital</option>
+									 <option value="8">Home</option>
+									 <option value="9">SubDistrict Hospital</option>
+									 <option value="10">Medical College Hospital</option>
+									 <option value="11">Urban Health Centre</option>
+									 <option value="12">Referral Hospital</option>
                                   </select>
                                <div *ngIf="submitted && f.DeliveryPlace.errors" class="invalid-feedback error_msg">
                                 <div class="error_msg1" *ngIf="f.DeliveryPlace.errors.required">Place of Delivery is required</div>
@@ -552,7 +561,7 @@
                     <div class="col-sm-6 mt-2 text-right float-left pl-0 mr-0 pr-0"> <label  class="text-label"> Name of the Facility  for delivery :  <span> * </span>  </label>  </div>
                     <div class="col-sm-4 float-left">  
 					
-					<input class="form-control input-new ml-0" type="text" id="DeliveryPlaceNameOther"  formControlName="DeliveryPlaceNameOther" [ngClass]="{ 'is-invalid': submitted && f.DeliveryPlaceNameOther.errors }" maxlength="20" />  
+					<input class="form-control input-new ml-0" type="text" id="DeliveryPlaceNameOther"  formControlName="DeliveryPlaceNameOther" [ngClass]="{ 'is-invalid': submitted && f.DeliveryPlaceNameOther.errors }" maxlength="50" />  
                      
                      <div *ngIf="submitted && f.DeliveryPlaceNameOther.errors" class="invalid-feedback error_msg">
                                 <div class="error_msg1" *ngIf="f.DeliveryPlaceNameOther.errors.required">Name of the Facility is required</div>

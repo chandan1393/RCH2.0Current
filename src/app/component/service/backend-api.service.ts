@@ -564,6 +564,13 @@ chkUserNotExistAPI(username:string,emailid:string,mobno:string,dob:string,gender
            return this.httpClient.post(environment.savepwUserUrl,JSON.stringify(data),{headers:headers}).pipe(catchError(this.errorHandler));
         }
         
+        updatepwUserAPI(data,RCHID): Observable<any> {
+  
+          let headers = new HttpHeaders().set("Accept", "application/json")
+       .set('Content-Type', 'application/json')
+       
+          return this.httpClient.put(environment.updatepwUserUrl+"?id="+RCHID,JSON.stringify(data),{headers:headers}).pipe(catchError(this.errorHandler));
+       }
         
         getDeliveryPlaceNameAPI(DeliveryPlace:string,HealthBlock:string): Observable<any> {
           
@@ -581,6 +588,10 @@ chkUserNotExistAPI(username:string,emailid:string,mobno:string,dob:string,gender
         
         getBloodGroupListAPI(): Observable<any> {
           return this.httpClient.get(environment.BloodGroupListUrl).pipe(catchError(this.errorHandler));
+        }
+
+        getPlaceDeliveryListAPI(): Observable<any> {
+          return this.httpClient.get(environment.PlaceDeliveryListUrl).pipe(catchError(this.errorHandler));
         }
         
         /*
